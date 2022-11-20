@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 19, 2022 at 05:10 PM
+-- Generation Time: Nov 20, 2022 at 06:33 AM
 -- Server version: 8.0.28
 -- PHP Version: 8.1.9
 
@@ -70,7 +70,10 @@ INSERT INTO `guest` (`id`, `firstname`, `middlename`, `lastname`, `address`, `co
 (2, 'sad', 'asdas', 'das', 'asdasd', 'asdas', NULL, NULL),
 (3, 'asda', 'dsa', 'asds', 'adas', 'dasd', NULL, NULL),
 (4, 'asd', 'asdasd', 'asd', 'adas', 'asd', NULL, NULL),
-(5, 'asd', 'asdasd', 'asd', 'adas', 'asd', NULL, NULL);
+(5, 'asd', 'asdasd', 'asd', 'adas', 'asd', NULL, NULL),
+(6, 'wqeqwe', 'qeqweq', 'weqwe', 'qweqw', 'eqwewqeq', NULL, NULL),
+(7, 'wqeqwe', 'qeqweq', 'weqwe', 'qweqw', 'eqwewqeq', NULL, NULL),
+(8, 'asd', 'adasd', 'asdas', 'asdasd', 'asdasd', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -137,6 +140,7 @@ CREATE TABLE `transactions` (
   `checkout_time` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `bill` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `valid_until` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `is_unread` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -145,10 +149,12 @@ CREATE TABLE `transactions` (
 -- Dumping data for table `transactions`
 --
 
-INSERT INTO `transactions` (`id`, `guest_id`, `room_id`, `room_no`, `extra_bed`, `status`, `days`, `checkin`, `checkin_time`, `checkout`, `checkout_time`, `bill`, `valid_until`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 2, 3, 'Check Out', 2, '2022-11-16', '00:29:47', '2022-11-18', '16:29:52', '6400', '2022-11-15 17:22:32', NULL, NULL),
-(2, 3, 2, NULL, 0, 'Pending', NULL, '2022-11-19', NULL, '2022-11-21', NULL, NULL, '2022-11-15 17:22:42', NULL, NULL),
-(3, 4, 2, NULL, 0, 'Pending', NULL, '2022-11-24', NULL, '2022-11-26', NULL, NULL, '2022-11-15 15:22:03', NULL, NULL);
+INSERT INTO `transactions` (`id`, `guest_id`, `room_id`, `room_no`, `extra_bed`, `status`, `days`, `checkin`, `checkin_time`, `checkout`, `checkout_time`, `bill`, `valid_until`, `is_unread`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 2, 3, 'Check Out', 2, '2022-11-16', '00:29:47', '2022-11-18', '16:29:52', '6400', '2022-11-15 17:22:32', 0, '2022-11-10 10:58:51', NULL),
+(2, 3, 2, NULL, 0, 'Pending', NULL, '2022-11-19', NULL, '2022-11-21', NULL, NULL, '2022-11-15 17:22:42', 0, '2022-11-16 00:00:00', NULL),
+(3, 4, 2, NULL, 0, 'Expired', NULL, '2022-11-24', NULL, '2022-11-26', NULL, NULL, '2022-11-15 15:22:03', 0, '2022-11-09 11:45:59', NULL),
+(4, 4, 2, NULL, 0, 'Expired', NULL, '2022-11-24', NULL, '2022-11-26', NULL, NULL, '2022-11-15 15:22:03', 0, '2022-11-09 11:45:59', NULL),
+(5, 1, 1, 2, 3, 'Check Out', 2, '2022-11-16', '00:29:47', '2022-11-18', '16:29:52', '6400', '2022-11-15 17:22:32', 0, '2022-11-10 10:58:51', NULL);
 
 --
 -- Indexes for dumped tables
@@ -198,7 +204,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `guest`
 --
 ALTER TABLE `guest`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `room`
@@ -216,7 +222,7 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
