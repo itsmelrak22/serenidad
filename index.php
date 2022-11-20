@@ -4,7 +4,26 @@ spl_autoload_register(function ($class) {
 });
 
 $connection = new Transaction();
-$pending = $connection->setQuery("SELECT * FROM `transactions` NATURAL JOIN `guest` NATURAL JOIN `room` WHERE `status` = 'Pending'")->getAll();
+$pending = $connection->setQuery("SELECT
+                                    A.*,
+                                    B.firstname,
+                                    B.middlename,
+                                    B.lastname,
+                                    B.address,
+                                    B.contactno,
+                                    C.room_type,
+                                    C.price,
+                                    C.photo
+                                    FROM `transactions` as A
+                                    LEFT JOIN `guest` as B
+                                    ON A.guest_id = B.id
+                                    LEFT JOIN `room` as C
+                                    ON A.room_id = C.id
+                                    WHERE A.status = 'Pending'
+                                ")
+                                ->getAll();
+
+// print_r($pending);
 
 ?>
 

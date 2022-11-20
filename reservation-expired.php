@@ -4,8 +4,7 @@ spl_autoload_register(function ($class) {
 });
 
 $connection = new Transaction();
-$CHECKIN = $connection->getCheckInTransactions();
-
+$EXPIRED = $connection->getExpiredTransactions();
 ?>
 
 <?php include('includes/header.php') ?>
@@ -42,7 +41,7 @@ $CHECKIN = $connection->getCheckInTransactions();
                     <!-- DataTales -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-success">CHECKIN </h6>
+                            <h6 class="m-0 font-weight-bold text-warning">EXPIRED </h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -51,45 +50,29 @@ $CHECKIN = $connection->getCheckInTransactions();
                                     <tr>
                                         <th>Name</th>
                                         <th>Room Type</th>
-                                        <th>Room no</th>
-                                        <th>Check In</th>
                                         <th>Days</th>
-                                        <th>Check Out</th>
+                                        <th>Validity</th>
+                                        <th>Created</th>
                                         <th>Status</th>
-                                        <th>Extra Bed</th>
-                                        <th>Bill</th>
-                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                        foreach ($CHECKIN as $key => $value) {
+                                        foreach ($EXPIRED as $key => $value) {
                                     ?>
-
                                     <tr>
                                         <td><?= $value['firstname']." ".$value['lastname']?></td>
                                         <td><?= $value['room_type']?></td>
-                                        <td><?= $value['room_no']?></td>
-                                        <td><?= "<label style = 'color:#00ff00;'>".date("M d, Y", strtotime($value['checkin']))."</label>"." @ "."<label>".date("h:i a", strtotime($value['checkin_time']))."</label>"?></td>
                                         <td><?= $value['days']?></td>
-                                        <td><?= "<label style = 'color:#ff0000;'>".date("M d, Y", strtotime($value['checkin']."+".$value['days']."DAYS"))."</label>"?></td>
+                                        <td><?= $value['valid_until']?></td>
+                                        <td><?= $value['created_at']?></td>
                                         <td><?= $value['status']?></td>
-                                        <td><?php if($value['extra_bed'] == "0"){ echo "None";}else{echo $value['extra_bed'];}?></td>
-                                        <td><?= "Php. ".$value['bill'].".00"?></td>
-                                        <td>
-                                            <center>
-                                                <?=
-                                                '<a class = "btn btn-warning" onclick="confirmationCheckin('. "'checkout_query.php?transaction_id=". $value['id'] ."')".'">
-                                                    <i class = "glyphicon glyphicon-check"></i> Check Out
-                                                </a>';
-                                                ?>
-                                            </center>
-                                        </td>
                                     </tr>
                                     <?php
                                         }
                                     ?>
                                 </tbody>
+                            </table>
                                 </table>
                             </div>
                         </div>

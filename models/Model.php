@@ -30,18 +30,17 @@ class Model
 
     public function setTable($table){
         $this->table = $table;
-
         return $this ; //> for method chaining.
     }
 
     public function setQuery($qry){
         $this->qry = $qry;
+        $this->stmt = $this->pdo->query($this->qry);
         return $this;
     }
 
     public function getAll(){
         try {
-            $this->stmt = $this->pdo->query($this->qry);
             return $this->stmt->fetchAll();
         } catch (PDOException $e) {
             return $e->getMessage();
@@ -50,7 +49,6 @@ class Model
 
     public function getFirst(){
         try {
-            $this->stmt = $this->pdo->query($this->qry);
             $data =  $this->stmt->fetch();
             return (object) $data; // convert to object
         } catch (PDOException $e) {

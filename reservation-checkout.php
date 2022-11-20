@@ -4,7 +4,7 @@ spl_autoload_register(function ($class) {
 });
 
 $connection = new Transaction();
-$CHECKOUT = $connection->setQuery("SELECT * FROM `transactions` NATURAL JOIN `guest` NATURAL JOIN `room` WHERE `status` = 'Check Out'")->getAll();
+$CHECKOUT = $connection->getCheckOutTransactions();
 
 ?>
 

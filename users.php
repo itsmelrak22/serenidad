@@ -54,7 +54,16 @@ $users = $connection->all();
                                     <tr>
                                         <td><?= $value['name']?></td>
                                         <td><?= $value['username']?></td>
-                                        <td><center><a class = "btn btn-warning" href = "edit_account.php?admin_id=<?= $value['id']?>"><i class = "glyphicon glyphicon-edit"></i> Edit</a> <a class = "btn btn-danger" onclick = "confirmationDelete(this); return false;" href = "delete_account.php?admin_id=<?php echo $fetch['admin_id']?>"><i class = "glyphicon glyphicon-remove"></i> Delete</a></center></td>
+                                        <td>
+                                            <center>
+                                                <a class = "btn btn-warning" href = "edit_account.php?admin_id=<?= $value['id']?>">
+                                                    <i class = "glyphicon glyphicon-edit"></i> Edit
+                                                </a> 
+                                                <a class = "btn btn-danger" onclick = "confirmationDelete(this); return false;" href = "delete_account.php?admin_id=<?=$value['id']?>">
+                                                    <i class = "glyphicon glyphicon-remove"></i> Delete
+                                                </a>
+                                            </center>
+                                        </td>
                                     </tr>
                                     <?php
                                         }

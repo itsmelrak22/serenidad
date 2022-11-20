@@ -55,8 +55,17 @@ $rooms = $connection->all();
                                     <tr>
                                         <td><?= $value['room_type']?></td>
                                         <td><?= $value['price']?></td>
-                                        <td><center><img src = "../images/<?= $value['photo']?>" height = "150" width = "150"/></center></td>
-                                        <td><center><a class = "btn btn-warning" href = "edit_room.php?room_id=<?= $value['room_id']?>"><i class = "glyphicon glyphicon-edit"></i> Edit</a> 
+                                        <td>
+                                            <center>
+                                                <img src = "../images/<?= $value['photo']?>" height = "150" width = "150"/>
+                                            </center>
+                                        </td>
+                                        <td>
+                                            <center>
+                                                <a class = "btn btn-warning" href = "edit_room.php?room_id=<?= $value['id']?>">
+                                                    <i class = "glyphicon glyphicon-edit"></i> Edit
+                                                </a> 
+                                            </center>
                                     </tr>
                                     <?php
                                         }
