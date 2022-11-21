@@ -23,7 +23,6 @@ class Model
             $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
             
         } catch (PDOException $e) {
-            //throw $th;
             echo $e->getMessage();
         }
     }
@@ -59,6 +58,7 @@ class Model
     // Queries
     public function all(){
         $this->qry = "SELECT * FROM $this->table";
+        $this->stmt = $this->pdo->query($this->qry);
         $data =  $this->getAll();
         return $data;
     }
