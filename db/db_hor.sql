@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 20, 2022 at 06:33 AM
+-- Generation Time: Nov 21, 2022 at 10:57 AM
 -- Server version: 8.0.28
 -- PHP Version: 8.1.9
 
@@ -152,8 +152,8 @@ CREATE TABLE `transactions` (
 INSERT INTO `transactions` (`id`, `guest_id`, `room_id`, `room_no`, `extra_bed`, `status`, `days`, `checkin`, `checkin_time`, `checkout`, `checkout_time`, `bill`, `valid_until`, `is_unread`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, 2, 3, 'Check Out', 2, '2022-11-16', '00:29:47', '2022-11-18', '16:29:52', '6400', '2022-11-15 17:22:32', 0, '2022-11-10 10:58:51', NULL),
 (2, 3, 2, NULL, 0, 'Pending', NULL, '2022-11-19', NULL, '2022-11-21', NULL, NULL, '2022-11-15 17:22:42', 0, '2022-11-16 00:00:00', NULL),
-(3, 4, 2, NULL, 0, 'Expired', NULL, '2022-11-24', NULL, '2022-11-26', NULL, NULL, '2022-11-15 15:22:03', 0, '2022-11-09 11:45:59', NULL),
-(4, 4, 2, NULL, 0, 'Expired', NULL, '2022-11-24', NULL, '2022-11-26', NULL, NULL, '2022-11-15 15:22:03', 0, '2022-11-09 11:45:59', NULL),
+(3, 4, 3, NULL, 0, 'Pending', NULL, '2022-11-24', NULL, '2022-11-26', NULL, NULL, '2022-11-21 15:22:03', 0, '2022-11-09 11:45:59', NULL),
+(4, 4, 1, NULL, 0, 'Expired', NULL, '2022-11-24', NULL, '2022-11-26', NULL, NULL, '2022-11-15 15:22:03', 0, '2022-11-09 11:45:59', NULL),
 (5, 1, 1, 2, 3, 'Check Out', 2, '2022-11-16', '00:29:47', '2022-11-18', '16:29:52', '6400', '2022-11-15 17:22:32', 0, '2022-11-10 10:58:51', NULL);
 
 --
