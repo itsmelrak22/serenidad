@@ -223,19 +223,19 @@ $pending = $connection->setQuery("SELECT
                                         </div>
                                         
                                         <div class="col-sm-6 mb-3">
-                                            <input id="datepicker-checkin" type="text" class="datepicker-checkin form-control form-control-user " name="check_in" placeholder="Check in" readonly onchange="differenceDates()"/>
+                                            <input id="datepicker-checkin" type="text" class="datepicker-checkin form-control form-control-user " name="check_in" placeholder="Check in" readonly onchange="modifyCheckoutDate()"/>
                                         </div>
 
                                         <div class="col-sm-6 mb-3" >
                                             <input id="datepicker-checkout" type="text" class="datepicker-checkout form-control form-control-user" name="check_out" placeholder="Check out" readonly onchange="differenceDates()" />
                                         </div>
 
-                                        <div class="col-12 mb-3" >
+                                        <!-- <div class="col-12 mb-3" >
                                             <select style="border-radius: 10rem !important;" class="custom-select form-control"  id="select-tour" name="tour" placeholder="Select Tour" onchange="differenceDates()">
                                                 <option value="day" selected>Day</option>
                                                 <option value="night">Night</option>
                                             </select>
-                                        </div>
+                                        </div> -->
                                         
                                         <div class="col-12 mb-3" >
                                             <!-- Basic Card Example -->
@@ -283,8 +283,10 @@ $pending = $connection->setQuery("SELECT
         })
 
         const roomCheckinDates = [];
+        const tempRoomCheckinDates = [];
         const rooms = [];
         let daysOfCheckin = 0;
+        let selectedRoom = {}
 
         window.addEventListener ('load', function () {
             getRooms();
@@ -321,11 +323,11 @@ $pending = $connection->setQuery("SELECT
                         var opt = document.createElement('option')
                         opt.value = item.id
                         opt.innerHTML = `${item.room_type} - PHP ${item.price}`
+                        if(i == 0) opt.setAttribute('selected', '')
                         select.appendChild(opt)
                     });  
 
                     select.value = 1;
-                    console.log(rooms)
                    
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -339,7 +341,9 @@ $pending = $connection->setQuery("SELECT
             const checkinInput = document.getElementById('datepicker-checkin');
             const checkoutInput = document.getElementById('datepicker-checkout');
 
-            
+            roomCheckinDates.splice(0); //> Clear array
+            tempRoomCheckinDates.splice(0); //> Clear array
+
             if(checkinInput.value) checkinInput.value = '';
             if(checkoutInput.value) checkoutInput.value = '';
 
@@ -356,11 +360,12 @@ $pending = $connection->setQuery("SELECT
                         let data = new Date(item.checkin)
                         data = ((data.getMonth() > 8) ? (data.getMonth() + 1) : ('0' + (data.getMonth() + 1))) + '-' + ((data.getDate() > 9) ? data.getDate() : ('0' + data.getDate())) + '-' + data.getFullYear()
                         roomCheckinDates.push(data)
+                        tempRoomCheckinDates.push(data)
                     });  
 
                     refreshDatePicker();
 
-                    const selectedRoom = rooms.find(res => res.id == room_id)
+                    selectedRoom = rooms.find(res => res.id == room_id)
                     console.log(selectedRoom)
                 
                     $('#priceBreakdownContainer').empty();  
@@ -371,14 +376,14 @@ $pending = $connection->setQuery("SELECT
                         </div>
                         <div class="card-body container-fluid" >
                             <div>
-                                <span > ${selectedRoom.price} x 2 Day(s)/Nights(s) </span> <span class="float-right"> ${ eval(selectedRoom.price * 2) } </span> 
+                                <span > ${selectedRoom.price} x ${daysOfCheckin} Day(s)/Nights(s) </span> <span class="float-right"> ${ eval(selectedRoom.price * daysOfCheckin) } </span> 
                             </div>
                             <!-- <div>
                                 <span > ₱500 x 1 Additional Bed </span> <span class="float-right"> ₱500 </span> 
                             </div> -->
                             <hr>
                             <div>
-                                <span > Total before taxes:  </span> <span class="float-right"> ${ eval(selectedRoom.price * 2) } </span> 
+                                <span > Total before taxes:  </span> <span class="float-right"> ${ eval(selectedRoom.price * daysOfCheckin) } </span> 
                             </div>
                         </div>
                         `;  
@@ -413,25 +418,35 @@ $pending = $connection->setQuery("SELECT
             })
         }
 
-        function differenceDates(){
+        function modifyCheckoutDate(){
+            daysOfCheckin = 0;
 
             const checkinInput = document.getElementById('datepicker-checkin');
             const checkoutInput = document.getElementById('datepicker-checkout');
-            const selectedTour = document.getElementById('select-tour');
-            console.log(checkinInput.value, checkoutInput.value)
-            
+
+            roomCheckinDates.splice(0);
+            tempRoomCheckinDates.map(res => roomCheckinDates.push(res))
+
+            roomCheckinDates.push(checkinInput.value)
+            checkoutInput.value = ''
+            refreshDatePicker()
+
+            $(".datepicker-checkout").datepicker("destroy");
+            $('.datepicker-checkout').datepicker({
+                todayBtn: "linked",
+                clearBtn: true,
+                todayHighlight: true,
+                startDate: checkinInput.value,
+                datesDisabled: roomCheckinDates
+            })
+            setPriceBreakdownContainer()
+        }
+
+        function differenceDates(){
+            const checkinInput = document.getElementById('datepicker-checkin');
+            const checkoutInput = document.getElementById('datepicker-checkout');
 
             if(!checkinInput.value || !checkoutInput.value) return;
-
-            if(selectedTour.value == 'night'){
-                console.log('test')
-                roomCheckinDates.push(checkinInput.value)
-                checkoutInput.value = ''
-                refreshDatePicker()
-                return;
-            }
-
-            
 
             const Date1 = checkinInput.value
             const Date2 = checkoutInput.value
@@ -440,9 +455,30 @@ $pending = $connection->setQuery("SELECT
             const diffTime = Math.abs(date2 - date1);
 
             daysOfCheckin = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-            const daysToAdd = selectedTour.value == 'day' ? 1 : 0 
-            daysOfCheckin = eval(daysOfCheckin + daysToAdd)
             console.log(daysOfCheckin + " days");
+            setPriceBreakdownContainer()
+        }
+
+        function setPriceBreakdownContainer(){
+            $('#priceBreakdownContainer').empty();  
+            const rows = `
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">You won't be charged yet</h6>
+                </div>
+                <div class="card-body container-fluid" >
+                    <div>
+                        <span > ${selectedRoom.price} x ${daysOfCheckin} Day(s)/Nights(s) </span> <span class="float-right"> ${ eval(selectedRoom.price * daysOfCheckin) } </span> 
+                    </div>
+                    <!-- <div>
+                        <span > ₱500 x 1 Additional Bed </span> <span class="float-right"> ₱500 </span> 
+                    </div> -->
+                    <hr>
+                    <div>
+                        <span > Total before taxes:  </span> <span class="float-right"> ${ eval(selectedRoom.price * daysOfCheckin) } </span> 
+                    </div>
+                </div>
+                `;  
+            $('#priceBreakdownContainer').append(rows);  
         }
         
         

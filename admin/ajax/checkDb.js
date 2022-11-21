@@ -3,7 +3,7 @@
     
     window.addEventListener ('load', function () {
         getTransactions();
-        setInterval (getTransactions, 10000);
+        setInterval (getTransactions, 300000); // 5 mins
 
         const notificationElement = document.getElementById('alertsDropdown');
         notificationElement.addEventListener("click", readNotifications);
