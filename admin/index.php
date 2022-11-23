@@ -201,75 +201,73 @@ $pending = $connection->setQuery("SELECT
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body card shadow py-2">
-                <div class="card-body p-0">
-                    <!-- Nested Row within Card Body -->
-                    <div class="row">
-                        <div class="col-lg-5 d-none d-lg-block bg-register-image">
-                        <!-- .bg-register-image {
-                        background: url("https://source.unsplash.com/Mv9hjnEUHR4/600x800");
-                        background-position: center;
-                        background-size: cover;
-                        } -->
-                        </div>
-                        <div class="col-lg-7">
-                            <div class="p-5">
-                                <form action="" class="user" id="CheckDate">
-                                    
+            <form action="queries/add_reservation.php" method="POST" class="user" id="CheckDate">
+                <div class="modal-body card shadow py-2">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-5 d-none d-lg-block bg-register-image">
+                            <!-- .bg-register-image {
+                            background: url("https://source.unsplash.com/Mv9hjnEUHR4/600x800");
+                            background-position: center;
+                            background-size: cover;
+                            } -->
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="p-5">
 
-                                    <div class="form-group row">
-                                        <div class="col-12 mb-3" >
-                                            <select style="border-radius: 10rem !important;" class="custom-select form-control" id="select-rooms" name="room_id" placeholder="Select Room" onchange="checkRoomAvailability()"></select>
+                                        <div class="form-group row">
+                                            <div class="col-12 mb-3" >
+                                                <select name="room_id" style="border-radius: 10rem !important;" class="custom-select form-control" id="select-rooms"  placeholder="Select Room" onchange="checkRoomAvailability()"></select>
+                                            </div>
+                                            
+                                            <div class="col-sm-6 mb-3">
+                                                <input name="check_in" id="datepicker-checkin" type="text" class="datepicker-checkin form-control form-control-user "  placeholder="Check in" readonly onchange="modifyCheckoutDate()"/>
+                                            </div>
+
+                                            <div class="col-sm-6 mb-3" >
+                                                <input name="check_out" id="datepicker-checkout" type="text" class="datepicker-checkout form-control form-control-user"  placeholder="Check out" readonly onchange="differenceDates()" />
+                                            </div>
+
+                                            <!-- <div class="col-12 mb-3" >
+                                                <select style="border-radius: 10rem !important;" class="custom-select form-control"  id="select-tour" name="tour" placeholder="Select Tour" onchange="differenceDates()">
+                                                    <option value="day" selected>Day</option>
+                                                    <option value="night">Night</option>
+                                                </select>
+                                            </div> -->
+                                            
+                                            <div class="col-12 mb-3" >
+                                                <!-- Basic Card Example -->
+                                                    <div class="card shadow mb-4" id="priceBreakdownContainer">
+
+                                                    </div>
+                                            </div>
                                         </div>
                                         
-                                        <div class="col-sm-6 mb-3">
-                                            <input id="datepicker-checkin" type="text" class="datepicker-checkin form-control form-control-user " name="check_in" placeholder="Check in" readonly onchange="modifyCheckoutDate()"/>
-                                        </div>
 
-                                        <div class="col-sm-6 mb-3" >
-                                            <input id="datepicker-checkout" type="text" class="datepicker-checkout form-control form-control-user" name="check_out" placeholder="Check out" readonly onchange="differenceDates()" />
+                                        <div class="form-group">
+                                            <input name="firstname" type="text" class="form-control form-control-user"  placeholder="Fistname" required>
                                         </div>
-
-                                        <!-- <div class="col-12 mb-3" >
-                                            <select style="border-radius: 10rem !important;" class="custom-select form-control"  id="select-tour" name="tour" placeholder="Select Tour" onchange="differenceDates()">
-                                                <option value="day" selected>Day</option>
-                                                <option value="night">Night</option>
-                                            </select>
-                                        </div> -->
-                                        
-                                        <div class="col-12 mb-3" >
-                                            <!-- Basic Card Example -->
-                                                <div class="card shadow mb-4" id="priceBreakdownContainer">
-
-                                                </div>
+                                        <div class="form-group">
+                                            <input name="middlename" type="text" class="form-control form-control-user"  placeholder="Middlename" required>
                                         </div>
-                                    </div>
+                                        <div class="form-group">
+                                            <input name="lastname" type="text" class="form-control form-control-user"  placeholder="Lastname" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input name="contact" type="number" class="form-control form-control-user"  placeholder="Contact#" required>
+                                        </div>
                                     
-
-                                    <div class="form-group">
-                                        <input type="text" class="form-control form-control-user"  placeholder="Fistname" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control form-control-user"  placeholder="Middlename" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control form-control-user"  placeholder="Lastname" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="number" class="form-control form-control-user"  placeholder="Contact#" required>
-                                    </div>
-                                    
-                                   
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" >Save changes</button>
+                </div>
+            </form>
         </div>
   </div>
     </div>
