@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 4.9.7
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 21, 2022 at 10:57 AM
--- Server version: 8.0.28
--- PHP Version: 8.1.9
+-- Generation Time: Nov 24, 2022 at 05:27 AM
+-- Server version: 8.0.17
+-- PHP Version: 7.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -28,7 +29,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `admin` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(30) NOT NULL,
   `username` varchar(24) NOT NULL,
   `password` varchar(191) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
@@ -51,29 +52,16 @@ INSERT INTO `admin` (`id`, `name`, `username`, `password`, `created_at`, `update
 --
 
 CREATE TABLE `guest` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `uuid` varchar(255) DEFAULT NULL,
   `firstname` varchar(50) NOT NULL,
   `middlename` varchar(30) NOT NULL,
   `lastname` varchar(40) NOT NULL,
-  `address` varchar(50) NOT NULL,
-  `contactno` varchar(13) NOT NULL,
+  `address` varchar(191) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `contactno` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `guest`
---
-
-INSERT INTO `guest` (`id`, `firstname`, `middlename`, `lastname`, `address`, `contactno`, `created_at`, `updated_at`) VALUES
-(1, 'sad', 'asdas', 'das', 'asdasd', 'asdas', NULL, NULL),
-(2, 'sad', 'asdas', 'das', 'asdasd', 'asdas', NULL, NULL),
-(3, 'asda', 'dsa', 'asds', 'adas', 'dasd', NULL, NULL),
-(4, 'asd', 'asdasd', 'asd', 'adas', 'asd', NULL, NULL),
-(5, 'asd', 'asdasd', 'asd', 'adas', 'asd', NULL, NULL),
-(6, 'wqeqwe', 'qeqweq', 'weqwe', 'qweqw', 'eqwewqeq', NULL, NULL),
-(7, 'wqeqwe', 'qeqweq', 'weqwe', 'qweqw', 'eqwewqeq', NULL, NULL),
-(8, 'asd', 'adasd', 'asdas', 'asdasd', 'asdasd', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -82,7 +70,7 @@ INSERT INTO `guest` (`id`, `firstname`, `middlename`, `lastname`, `address`, `co
 --
 
 CREATE TABLE `room` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `room_type` varchar(50) NOT NULL,
   `price` varchar(11) NOT NULL,
   `photo` varchar(100) NOT NULL
@@ -106,13 +94,13 @@ INSERT INTO `room` (`id`, `room_type`, `price`, `photo`) VALUES
 --
 
 CREATE TABLE `transaction` (
-  `transaction_id` int NOT NULL,
-  `guest_id` int NOT NULL,
-  `room_id` int NOT NULL,
-  `room_no` int NOT NULL,
-  `extra_bed` int NOT NULL,
+  `transaction_id` int(11) NOT NULL,
+  `guest_id` int(11) NOT NULL,
+  `room_id` int(11) NOT NULL,
+  `room_no` int(11) NOT NULL,
+  `extra_bed` int(11) NOT NULL,
   `status` varchar(20) NOT NULL,
-  `days` int NOT NULL,
+  `days` int(11) NOT NULL,
   `checkin` date NOT NULL,
   `checkin_time` time NOT NULL,
   `checkout` date NOT NULL,
@@ -127,13 +115,13 @@ CREATE TABLE `transaction` (
 --
 
 CREATE TABLE `transactions` (
-  `id` int NOT NULL,
-  `guest_id` int NOT NULL,
-  `room_id` int NOT NULL,
-  `room_no` int DEFAULT NULL,
-  `extra_bed` tinyint NOT NULL DEFAULT '0',
+  `id` int(11) NOT NULL,
+  `guest_id` int(11) NOT NULL,
+  `room_id` int(11) NOT NULL,
+  `room_no` int(11) DEFAULT NULL,
+  `extra_bed` tinyint(4) NOT NULL DEFAULT '0',
   `status` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
-  `days` int DEFAULT NULL,
+  `days` int(11) DEFAULT NULL,
   `checkin` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `checkin_time` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `checkout` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -144,17 +132,6 @@ CREATE TABLE `transactions` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `transactions`
---
-
-INSERT INTO `transactions` (`id`, `guest_id`, `room_id`, `room_no`, `extra_bed`, `status`, `days`, `checkin`, `checkin_time`, `checkout`, `checkout_time`, `bill`, `valid_until`, `is_unread`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 2, 3, 'Check Out', 2, '2022-11-16', '00:29:47', '2022-11-18', '16:29:52', '6400', '2022-11-15 17:22:32', 0, '2022-11-10 10:58:51', NULL),
-(2, 3, 2, NULL, 0, 'Pending', NULL, '2022-11-19', NULL, '2022-11-21', NULL, NULL, '2022-11-15 17:22:42', 0, '2022-11-16 00:00:00', NULL),
-(3, 4, 3, NULL, 0, 'Pending', NULL, '2022-11-24', NULL, '2022-11-26', NULL, NULL, '2022-11-21 15:22:03', 0, '2022-11-09 11:45:59', NULL),
-(4, 4, 1, NULL, 0, 'Expired', NULL, '2022-11-24', NULL, '2022-11-26', NULL, NULL, '2022-11-15 15:22:03', 0, '2022-11-09 11:45:59', NULL),
-(5, 1, 1, 2, 3, 'Check Out', 2, '2022-11-16', '00:29:47', '2022-11-18', '16:29:52', '6400', '2022-11-15 17:22:32', 0, '2022-11-10 10:58:51', NULL);
 
 --
 -- Indexes for dumped tables
@@ -170,7 +147,8 @@ ALTER TABLE `admin`
 -- Indexes for table `guest`
 --
 ALTER TABLE `guest`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`);
 
 --
 -- Indexes for table `room`
@@ -198,31 +176,31 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `guest`
 --
 ALTER TABLE `guest`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `room`
 --
 ALTER TABLE `room`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `transaction_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

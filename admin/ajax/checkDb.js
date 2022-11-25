@@ -4,6 +4,7 @@
     window.addEventListener ('load', function () {
         getTransactions();
         setInterval (getTransactions, 300000); // 5 mins
+        setInterval (checkReservationValidity, 300000); // 5 mins
 
         const notificationElement = document.getElementById('alertsDropdown');
         notificationElement.addEventListener("click", readNotifications);

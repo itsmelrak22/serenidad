@@ -1,11 +1,32 @@
 <?php
+session_start();
 spl_autoload_register(function ($class) {
     include '../models/' . $class . '.php';
 });
 
-$connection = new Transaction();
+include('queries/check_reservation_validity.php');
+
+$msg = '';
+$status = '';
+if(isset($_SESSION['success'])){
+    $status = 'success';
+    $msg = $_SESSION['success'];
+    unset($_SESSION['success']);
+      
+}
+
+if(isset($_SESSION['error'])){
+    $status = 'error';
+    $msg = $_SESSION['error'];
+
+    unset($_SESSION['error']);
+}
+
+
+$connection = new \Transaction();
 $pending = $connection->setQuery("SELECT
                                     A.*,
+                                    B.uuid,
                                     B.firstname,
                                     B.middlename,
                                     B.lastname,
@@ -20,14 +41,35 @@ $pending = $connection->setQuery("SELECT
                                     LEFT JOIN `room` as C
                                     ON A.room_id = C.id
                                     WHERE A.status = 'Pending'
+                                    ORDER BY A.created_at DESC
                                 ")
                                 ->getAll();
 
 // print_r($rooms);
 
+
 ?>
 
 <?php include('includes/header.php') ?>
+<?php
+//generating pdf after header location. PS allow pop on this page for browser settings.
+ print_r(isset($_SESSION['print_pdf']));
+ if(isset($_SESSION['print_pdf'])){
+     if($_SESSION['print_pdf'] == true){
+         echo '
+             <script>
+                 console.log(`test`);
+                 window.open("queries/generate_pdf.php");
+             </script>
+         ';
+     }
+     
+ }
+
+?>
+
+
+
 
 <body id="page-top">
 
@@ -51,6 +93,24 @@ $pending = $connection->setQuery("SELECT
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                
+                    <?php
+                        if($status == 'success'){
+                            echo    '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <strong>Successful!</strong> Transaction has been added.
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>';
+                        }else if($status == 'error'){
+                            echo    '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <strong>Server Error!</strong> .
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>';
+                        }
+                    ?>
 
                     <!-- Content Row -->
                     <div class="row">
@@ -59,8 +119,9 @@ $pending = $connection->setQuery("SELECT
 
                     </div>
 
-                    <!-- DataTales -->
+                                        <!-- DataTales -->
                     <div class="card shadow mb-4">
+                    
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">PENDING RESERVATIONS</h6>
                         </div>
@@ -77,13 +138,15 @@ $pending = $connection->setQuery("SELECT
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th>Guest Code</th>
                                             <th>Name</th>
                                             <th>Contact No</th>
                                             <th>Room Type</th>
                                             <th>Reserved Date</th>
                                             <th>Check Out Date</th>
-                                            <th>Reservation Valid Until</th>
                                             <th>Status</th>
+                                            <th>Reservation Created</th>
+                                            <th>Reservation Valid Until</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -93,7 +156,8 @@ $pending = $connection->setQuery("SELECT
                                             foreach ($pending as $key => $value) {
                                         ?>
                                             <tr>
-                                            <td><?= $value['firstname']." ".$value['lastname']?></td>
+                                                <td><?= $value['uuid']?></td>
+                                                <td><?= $value['firstname']." ".$value['lastname']?></td>
                                                 <td><?= $value['contactno']?></td>
                                                 <td><?= $value['room_type']?></td>
                                                 <td>
@@ -105,6 +169,8 @@ $pending = $connection->setQuery("SELECT
                                                     </strong>
                                                 </td>
                                                 <td><?= "<label style = 'color:#00ff00;'>".date("M d, Y", strtotime($value['checkout']))."</label>";?></td>
+                                                <td><?= $value['status']?></td>
+                                                <td><?= $value['created_at']?></td>
                                                 <td> 
                                                     <div>
                                                         <?= $value['valid_until']  
@@ -114,7 +180,6 @@ $pending = $connection->setQuery("SELECT
                                                     </div>
                                                     
                                                 </td>
-                                                <td><?= $value['status']?></td>
                                                 <td>
                                                     
                                                     
@@ -126,9 +191,15 @@ $pending = $connection->setQuery("SELECT
                                                                 <i class="fas fa-check"></i>
                                                             </button>'
                                                         :
-                                                            '<button class="btn btn-primary btn-circle" data-toggle="tooltip" data-placement="top" title="Accept Reservation">
-                                                                <i class="fas fa-check"></i>
-                                                            </button>'
+                                                        
+                                                            '
+                                                            <a >
+                                                                <button class="btn btn-primary btn-circle" data-toggle="tooltip" data-placement="top" title="Accept Reservation">
+                                                                    <i class="fas fa-check"></i>
+                                                                </button>
+                                                            </a>
+                                                            '
+                                                            
                                                             
                                                     ?>
 
@@ -139,26 +210,6 @@ $pending = $connection->setQuery("SELECT
                                                     <button class="btn btn-danger btn-circle" data-toggle="tooltip" data-placement="top" title="Delete">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
-                                                    <center>
-                                                        <?=
-                                                            new DateTime($value['valid_until']) < new DateTime()
-                                                            ? 
-                                                            '<a class = "btn btn-disabled disabled" href = "confirm_reserve.php?transaction_id='.$value['id'].'">
-                                                                <i class = "glyphicon glyphicon-check"></i>Expired
-                                                            </a>'
-                                                            :
-                                                            '<a class = "btn btn-success" href = "confirm_reserve.php?transaction_id='.$value['id'].'">
-                                                                <i class = "glyphicon glyphicon-check"></i>Accept
-                                                            </a> ';
-                                                            
-                                                        ?>
-                                                        <?=
-                                                        '<a class = "btn btn-danger" onclick="confirmationDelete('. "'delete_pending.php?transaction_id=". $value['id'] ."')".'">
-                                                        <i class = "glyphicon glyphicon-trash"></i>Delete
-                                                        </a>';
-                                                        ?>
-
-                                                    </center>
                                                 </td>
                                             </tr>
                                         <?php
@@ -195,90 +246,89 @@ $pending = $connection->setQuery("SELECT
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Serenidad Suites - Add New Transaction</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="queries/add_reservation.php" method="POST" class="user" id="CheckDate">
-                <div class="modal-body card shadow py-2">
-                    <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            <div class="col-lg-5 d-none d-lg-block bg-register-image">
-                            <!-- .bg-register-image {
-                            background: url("https://source.unsplash.com/Mv9hjnEUHR4/600x800");
-                            background-position: center;
-                            background-size: cover;
-                            } -->
-                            </div>
-                            <div class="col-lg-7">
-                                <div class="p-5">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Serenidad Suites - Add New Transaction</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="queries/add_reservation.php" method="POST" class="user" id="CheckDate">
+                    <div class="modal-body card shadow py-2">
+                        <div class="card-body p-0">
+                            <!-- Nested Row within Card Body -->
+                            <div class="row">
+                                <div class="col-lg-5 d-none d-lg-block bg-register-image">
+                                <!-- .bg-register-image {
+                                background: url("https://source.unsplash.com/Mv9hjnEUHR4/600x800");
+                                background-position: center;
+                                background-size: cover;
+                                } -->
+                                </div>
+                                <div class="col-lg-7">
+                                    <div class="p-5">
 
-                                        <div class="form-group row">
-                                            <div class="col-12 mb-3" >
-                                                <select name="room_id" style="border-radius: 10rem !important;" class="custom-select form-control" id="select-rooms"  placeholder="Select Room" onchange="checkRoomAvailability()"></select>
+                                            <div class="form-group row">
+                                                <div class="col-12 mb-3" >
+                                                    <select name="room_id" style="border-radius: 10rem !important;" class="custom-select form-control" id="select-rooms"  placeholder="Select Room" onchange="checkRoomAvailability()"></select>
+                                                </div>
+                                                
+                                                <div class="col-sm-6 mb-3">
+                                                    <input name="check_in" id="datepicker-checkin" type="text" class="datepicker-checkin form-control form-control-user "  placeholder="Check in" readonly onchange="modifyCheckoutDate()"/>
+                                                </div>
+
+                                                <div class="col-sm-6 mb-3" >
+                                                    <input name="check_out" id="datepicker-checkout" type="text" class="datepicker-checkout form-control form-control-user"  placeholder="Check out" readonly onchange="differenceDates()" />
+                                                </div>
+
+                                                <!-- <div class="col-12 mb-3" >
+                                                    <select style="border-radius: 10rem !important;" class="custom-select form-control"  id="select-tour" name="tour" placeholder="Select Tour" onchange="differenceDates()">
+                                                        <option value="day" selected>Day</option>
+                                                        <option value="night">Night</option>
+                                                    </select>
+                                                </div> -->
+                                                
+                                                <div class="col-12 mb-3" >
+                                                    <!-- Basic Card Example -->
+                                                        <div class="card shadow mb-4" id="priceBreakdownContainer">
+
+                                                        </div>
+                                                </div>
                                             </div>
                                             
-                                            <div class="col-sm-6 mb-3">
-                                                <input name="check_in" id="datepicker-checkin" type="text" class="datepicker-checkin form-control form-control-user "  placeholder="Check in" readonly onchange="modifyCheckoutDate()"/>
-                                            </div>
 
-                                            <div class="col-sm-6 mb-3" >
-                                                <input name="check_out" id="datepicker-checkout" type="text" class="datepicker-checkout form-control form-control-user"  placeholder="Check out" readonly onchange="differenceDates()" />
+                                            <div class="form-group">
+                                                <input name="firstname" type="text" class="form-control form-control-user"  placeholder="Fistname" required>
                                             </div>
-
-                                            <!-- <div class="col-12 mb-3" >
-                                                <select style="border-radius: 10rem !important;" class="custom-select form-control"  id="select-tour" name="tour" placeholder="Select Tour" onchange="differenceDates()">
-                                                    <option value="day" selected>Day</option>
-                                                    <option value="night">Night</option>
-                                                </select>
-                                            </div> -->
-                                            
-                                            <div class="col-12 mb-3" >
-                                                <!-- Basic Card Example -->
-                                                    <div class="card shadow mb-4" id="priceBreakdownContainer">
-
-                                                    </div>
+                                            <div class="form-group">
+                                                <input name="middlename" type="text" class="form-control form-control-user"  placeholder="Middlename" required>
                                             </div>
-                                        </div>
+                                            <div class="form-group">
+                                                <input name="lastname" type="text" class="form-control form-control-user"  placeholder="Lastname" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <input name="contact" type="number" class="form-control form-control-user"  placeholder="Contact#" required>
+                                            </div>
                                         
-
-                                        <div class="form-group">
-                                            <input name="firstname" type="text" class="form-control form-control-user"  placeholder="Fistname" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <input name="middlename" type="text" class="form-control form-control-user"  placeholder="Middlename" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <input name="lastname" type="text" class="form-control form-control-user"  placeholder="Lastname" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <input name="contact" type="number" class="form-control form-control-user"  placeholder="Contact#" required>
-                                        </div>
-                                    
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" >Save changes</button>
-                </div>
-            </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" >Save changes</button>
+                    </div>
+                </form>
+            </div>
         </div>
-  </div>
     </div>
 
     <?php include('includes/logout-modal.php') ?>
     <?php include('includes/scripts.php') ?>
 
     <script>
-        $(function () {  //> tooltip
-            $('[data-toggle="tooltip"]').tooltip()
-        })
+        
+       
 
         const roomCheckinDates = [];
         const tempRoomCheckinDates = [];
@@ -286,25 +336,27 @@ $pending = $connection->setQuery("SELECT
         let daysOfCheckin = 0;
         let selectedRoom = {}
 
+        $('.datepicker-checkin').datepicker({
+            clearBtn: true,
+            todayHighlight: true,
+            startDate: new Date(),
+            datesDisabled: roomCheckinDates
+        })
+
+        $('.datepicker-checkout').datepicker({
+            clearBtn: true,
+            todayHighlight: true,
+            startDate: new Date(),
+            datesDisabled: roomCheckinDates
+        }); //> date picker
+
+        $(function () {  //> tooltip
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
         window.addEventListener ('load', function () {
             getRooms();
             checkRoomAvailability()
-
-            $('.datepicker-checkin').datepicker({
-                clearBtn: true,
-                todayHighlight: true,
-                startDate: new Date(),
-                datesDisabled: roomCheckinDates
-            })
-
-            $('.datepicker-checkout').datepicker({
-                clearBtn: true,
-                todayHighlight: true,
-                startDate: new Date(),
-                datesDisabled: roomCheckinDates
-            }); //> date picker
-           
-           
         }, false);
         
         function getRooms(){
@@ -346,6 +398,7 @@ $pending = $connection->setQuery("SELECT
             if(checkoutInput.value) checkoutInput.value = '';
 
             let room_id = select.value ? select.value : 1
+
             $.ajax({
                 url: "queries/check_room_avail_dates.php",
                 type: "post",
@@ -353,40 +406,51 @@ $pending = $connection->setQuery("SELECT
                     room_id: room_id
                 },
                 success: function (response) {
-                    console.log(response)
-                   $.each(response, function (i, item) {  
-                        let data = new Date(item.checkin)
-                        data = ((data.getMonth() > 8) ? (data.getMonth() + 1) : ('0' + (data.getMonth() + 1))) + '-' + ((data.getDate() > 9) ? data.getDate() : ('0' + data.getDate())) + '-' + data.getFullYear()
-                        roomCheckinDates.push(data)
-                        tempRoomCheckinDates.push(data)
-                    });  
-
+                  try {
                     refreshDatePicker();
+                    $.each(response, function (i, item) {  
+                            let data = new Date(item.checkin)
+                            let data2 = new Date(item.checkout)
+                            data = ((data.getMonth() > 8) ? (data.getMonth() + 1) : ('0' + (data.getMonth() + 1))) + '-' + ((data.getDate() > 9) ? data.getDate() : ('0' + data.getDate())) + '-' + data.getFullYear()
+                            data2 = ((data2.getMonth() > 8) ? (data2.getMonth() + 1) : ('0' + (data2.getMonth() + 1))) + '-' + ((data2.getDate() > 9) ? data2.getDate() : ('0' + data2.getDate())) + '-' + data2.getFullYear()
+                            
+                            roomCheckinDates.push(data)
+                            roomCheckinDates.push(data2)
+                            tempRoomCheckinDates.push(data)
+                            tempRoomCheckinDates.push(data2)
+                        });  
 
-                    selectedRoom = rooms.find(res => res.id == room_id)
-                    console.log(selectedRoom)
-                
-                    $('#priceBreakdownContainer').empty();  
+                        refreshDatePicker();
 
-                    const rows = `
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">You won't be charged yet</h6>
-                        </div>
-                        <div class="card-body container-fluid" >
-                            <div>
-                                <span > ${selectedRoom.price} x ${daysOfCheckin} Day(s)/Nights(s) </span> <span class="float-right"> ${ eval(selectedRoom.price * daysOfCheckin) } </span> 
-                            </div>
-                            <!-- <div>
-                                <span > ₱500 x 1 Additional Bed </span> <span class="float-right"> ₱500 </span> 
-                            </div> -->
-                            <hr>
-                            <div>
-                                <span > Total before taxes:  </span> <span class="float-right"> ${ eval(selectedRoom.price * daysOfCheckin) } </span> 
-                            </div>
-                        </div>
-                        `;  
-                    $('#priceBreakdownContainer').append(rows);  
+                        selectedRoom = rooms.find(res => res.id == room_id)
                     
+                        $('#priceBreakdownContainer').empty();  
+
+                        const rows = `
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">You won't be charged yet</h6>
+                            </div>
+                            <div class="card-body container-fluid" >
+                                <div>
+                                    <input name="days" type="hidden" class="form-control form-control-user" value="${ daysOfCheckin }">
+                                    <span > ${selectedRoom.price} x ${daysOfCheckin} Day(s)/Nights(s) </span> <span class="float-right"> ${ eval(selectedRoom.price * daysOfCheckin) } </span> 
+                                </div>
+                                <!-- <div>
+                                    <span > ₱500 x 1 Additional Bed </span> <span class="float-right"> ₱500 </span> 
+                                </div> -->
+                                <hr>
+                                <div>
+                                    <input name="bill" type="hidden" class="form-control form-control-user" value="${ eval(selectedRoom.price * daysOfCheckin) }">
+                                    <span > Total before taxes:  </span> <span class="float-right"> ${ eval(selectedRoom.price * daysOfCheckin) } </span> 
+                                </div>
+                            </div>
+                            `;  
+                        $('#priceBreakdownContainer').append(rows);  
+                        
+                  } catch (error) {
+                    console.log(error)
+                    location.reload();
+                  }
                  },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(textStatus, errorThrown);
@@ -465,6 +529,7 @@ $pending = $connection->setQuery("SELECT
                 </div>
                 <div class="card-body container-fluid" >
                     <div>
+                        <input name="days" type="hidden" class="form-control form-control-user" value="${ daysOfCheckin }">
                         <span > ${selectedRoom.price} x ${daysOfCheckin} Day(s)/Nights(s) </span> <span class="float-right"> ${ eval(selectedRoom.price * daysOfCheckin) } </span> 
                     </div>
                     <!-- <div>
@@ -472,18 +537,17 @@ $pending = $connection->setQuery("SELECT
                     </div> -->
                     <hr>
                     <div>
+                        <input name="bill" type="hidden" class="form-control form-control-user" value="${ eval(selectedRoom.price * daysOfCheckin) }">
+                        
                         <span > Total before taxes:  </span> <span class="float-right"> ${ eval(selectedRoom.price * daysOfCheckin) } </span> 
                     </div>
                 </div>
                 `;  
             $('#priceBreakdownContainer').append(rows);  
         }
-        
-        
-
-
     </script>
-            
+
 </body>
 
 </html>
+

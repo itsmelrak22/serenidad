@@ -13,7 +13,6 @@ class Model
     protected $qry;
 
     public function __construct(){
-        date_default_timezone_set('Asia/Manila');
         $this->connect();
     }
 
@@ -65,10 +64,15 @@ class Model
     }
 
     public function find($primaryKey){
-        $this->qry = "SELECT * FROM $this->table WHERE id = $primaryKey";
-        $data =  $this->getFirst();
-        return  $data; // convert to object
+        $data = $this->setQuery("SELECT * FROM $this->table WHERE id = $primaryKey")->getFirst();
+        return  $data; 
     }
+
+    public function getLastInsertedId(){
+        $data = $this->setQuery("SELECT LAST_INSERT_ID() as id")->getFirst();
+        return (int) $data->id;
+    }
+
 
     
 }
