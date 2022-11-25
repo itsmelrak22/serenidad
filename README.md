@@ -18,7 +18,7 @@ For the legacy Bootstrap 3 version of this theme, you can view the [last stable 
 	navigation bar in which they will notify that someone 
 	make a reservation. No need to notify customer on sms or email.
 
-* [0%] d. Customer must have a printable or digital receipt upon booking.
+* [100%] d. Customer must have a printable or digital receipt upon booking.
 
 * [0%] e. If you can't do chatbot, do FAQs page instead. Also, put your social 
 	media links and phone number just in case the client wants to ask f
