@@ -10,9 +10,9 @@ For the legacy Bootstrap 3 version of this theme, you can view the [last stable 
 
 * [0%]a. Make it online.
 
-* [80%] b. Reservation must have a 10 minute countdown to settle their 
+* [100%] b. Reservation must have a 10 minute countdown to settle their 
 	reservation fee which is 50% or 100%. Customer must have 
-	an option if full or half payment.
+	an option if full or half payment. // currently 60 mins
 
 * [100%] c. After successful reservation, admin side must have a notification 
 	navigation bar in which they will notify that someone 
@@ -27,7 +27,7 @@ For the legacy Bootstrap 3 version of this theme, you can view the [last stable 
 * [20%] f. Homepage, make it catchy. Do your best designs to make your website 
 	looks cool and amazing to the users.
 
-* [0%] g. Make sure, after the customer successfully made a reservation. Your 
+* [80%] g. Make sure, after the customer successfully made a reservation. Your 
 	database will automatically store the information of the client 
 	and the room will not be available for reservation on that same day 
 	but it can be available for day time or night time if the customer 
@@ -37,7 +37,7 @@ For the legacy Bootstrap 3 version of this theme, you can view the [last stable 
 
 * [0%] h. Make a discount coupon to attract more clients on your business.
 	
-* [60%] i. Lastly, admin should have the control to restrict the reservation 
+* [100%] i. Lastly, admin should have the control to restrict the reservation 
 	if they already have walk-in customer on that same day.
 
 * [100%]j. database will refresh every 5 mins for checking of info.
