@@ -1,7 +1,27 @@
 <?php
+
+session_start();
 spl_autoload_register(function ($class) {
     include '../models/' . $class . '.php';
 });
+$msg = '';
+$status = '';
+if(isset($_SESSION['success'])){
+    $status = 'success';
+    $msg = $_SESSION['success'];
+    unset($_SESSION['success']);
+}
+
+if(isset($_SESSION['error'])){
+    $status = 'error';
+    $msg = $_SESSION['error'];
+    unset($_SESSION['error']);
+}
+
+unset($_SESSION['name'] );
+unset($_SESSION['username'] );
+unset($_SESSION['password'] );
+unset($_SESSION['comfirm_password'] );
 
 $connection = new Admin();
 $users = $connection->all();
@@ -32,12 +52,42 @@ $users = $connection->all();
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
+                    <?php
+                        if($status == 'success'){
+                            echo    '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <strong>Successful!</strong>'. $msg. '.
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>';
+                        }else if($status == 'error'){
+                            echo    '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <strong>Error!</strong>'. $msg. '.
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>';
+                        }
+                    ?>
+
                     <!-- DataTales -->
                     <div class="card shadow mb-4">
+
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">USERS</h6>
                         </div>
+
                         <div class="card-body">
+
+                            <div class="mb-1">
+                                <a href="#" data-toggle="modal" data-target="#addUserModal">
+                                    <button class="btn btn-success " data-toggle="tooltip" data-placement="top" title="Add">
+                                        <i class="fas fa-plus"></i>
+                                        Add User
+                                    </button>
+                                </a>
+                            </div>
+
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
@@ -55,14 +105,16 @@ $users = $connection->all();
                                         <td><?= $value['name']?></td>
                                         <td><?= $value['username']?></td>
                                         <td>
-                                            <center>
-                                                <a class = "btn btn-warning" href = "edit_account.php?admin_id=<?= $value['id']?>">
-                                                    <i class = "glyphicon glyphicon-edit"></i> Edit
-                                                </a> 
-                                                <a class = "btn btn-danger" onclick = "confirmationDelete(this); return false;" href = "delete_account.php?admin_id=<?=$value['id']?>">
-                                                    <i class = "glyphicon glyphicon-remove"></i> Delete
+                                           <form action="queries/users_resource.php" method="post">
+                                                <input type="hidden" value="edit" name="resource_type">
+                                                <input type="hidden" value="<?= $value['id'] ?>" name="user_id">
+                                                <button type="submit"class="btn btn-warning btn-circle" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                    <i class="fas fa-pen"></i>
+                                                </button>
+                                                <a href="#" class="btn btn-danger btn-circle" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                    <i class="fas fa-trash"></i>
                                                 </a>
-                                            </center>
+                                           </form>
                                         </td>
                                     </tr>
                                     <?php
@@ -93,36 +145,9 @@ $users = $connection->all();
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.php">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
     <?php include('includes/modals.php') ?>
     <?php include('includes/scripts.php') ?>
 
-    <script>
-        function confirmationDelete(link){
-            const conf = confirm("Are you sure you want to delete this record?");
-            if(conf){
-                window.location = link;
-            }
-        } 
-    </script>
 </body>
 
 </html>
