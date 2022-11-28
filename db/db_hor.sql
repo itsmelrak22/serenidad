@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 28, 2022 at 07:55 AM
+-- Generation Time: Nov 28, 2022 at 01:29 PM
 -- Server version: 8.0.28
 -- PHP Version: 8.1.9
 
@@ -42,7 +42,10 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`id`, `name`, `username`, `password`, `created_at`, `updated_at`) VALUES
 (1, 'Administrator', 'Admin', 'admin', NULL, NULL),
-(2, 'test', 'test', 'test', NULL, NULL);
+(2, 'test', 'test', 'test', NULL, NULL),
+(3, 'Test user', 'testuser', 'testuser', '2022-11-28 20:46:11', '2022-11-28 20:46:11'),
+(4, 'test2', 'test2', 'test2', '2022-11-28 21:26:36', '2022-11-28 21:26:36'),
+(5, 'test3', 'test3', 'test3', '2022-11-28 21:27:07', '2022-11-28 21:27:07');
 
 -- --------------------------------------------------------
 
@@ -201,7 +204,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `guest`
