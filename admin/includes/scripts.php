@@ -24,7 +24,11 @@
     <script src="ajax/checkDB.js"></script>
     <script>
 
-               function confirmationDelete(link){
+        $(function () {  //> tooltip
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+        function confirmationDelete(link){
             const conf = confirm("Are you sure you want to delete this record?");
             if(conf){
                 window.location = link;

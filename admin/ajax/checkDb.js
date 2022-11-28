@@ -90,8 +90,6 @@
             type: "post",
             data: {},
             success: function (response) {
-                // console.log(response)
-                const data = $.parseJSON(response);
 
                 },
                 error: function(jqXHR, textStatus, errorThrown) {

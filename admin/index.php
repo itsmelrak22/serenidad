@@ -15,6 +15,25 @@ if(isset($_SESSION['success'])){
       
 }
 
+if(isset($_SESSION['reserved-success'])){
+    $status = 'reserved-success';
+    $msg = $_SESSION['reserved-success'];
+    unset($_SESSION['reserved-success']);
+      
+}
+
+if(isset($_SESSION['checkin-success'])){
+    $status = 'checkin-success';
+    $msg = $_SESSION['checkin-success'];
+    unset($_SESSION['checkin-success']);
+}
+
+if(isset($_SESSION['checkout-success'])){
+    $status = 'checkout-success';
+    $msg = $_SESSION['checkout-success'];
+    unset($_SESSION['checkout-success']);
+}
+
 if(isset($_SESSION['error'])){
     $status = 'error';
     $msg = $_SESSION['error'];
@@ -41,6 +60,7 @@ $pending = $connection->setQuery("SELECT
                                     LEFT JOIN `room` as C
                                     ON A.room_id = C.id
                                     WHERE A.status = 'Pending'
+                                    OR A.status = 'Expired'
                                     ORDER BY A.created_at DESC
                                 ")
                                 ->getAll();
@@ -97,7 +117,28 @@ $pending = $connection->setQuery("SELECT
                     <?php
                         if($status == 'success'){
                             echo    '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                                        <strong>Successful!</strong> Transaction has been added.
+                                        <strong>Successful!</strong>'. $msg. '.
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>';
+                        }else if($status == 'reserved-success'){
+                            echo    '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+                                        <strong> Transaction Reserved! </strong> .
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>';
+                        }else if($status == 'checkin-success'){
+                            echo    '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <strong>Successful!</strong>'. $msg. '.
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>';
+                        }else if($status == 'checkout-success'){
+                            echo    '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        <strong>Successful!</strong>'. $msg. '.
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -123,7 +164,7 @@ $pending = $connection->setQuery("SELECT
                     <div class="card shadow mb-4">
                     
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">PENDING RESERVATIONS</h6>
+                            <h6 class="m-0 font-weight-bold text-info">PENDING RESERVATIONS</h6>
                         </div>
                         <div class="card-body">
                             <div class="mb-1">
@@ -182,34 +223,33 @@ $pending = $connection->setQuery("SELECT
                                                 </td>
                                                 <td>
                                                     
-                                                    
+                                                <form method="post" action="queries/reservation_resource.php">
 
-                                                    <?=
-                                                        new DateTime($value['valid_until']) < new DateTime()
-                                                        ?
-                                                            '<button class="btn btn btn-disabled disabled btn-circle" data-toggle="tooltip" data-placement="top" title="Reservation Expired">
-                                                                <i class="fas fa-check"></i>
-                                                            </button>'
-                                                        :
-                                                        
-                                                            '
-                                                            <a >
-                                                                <button class="btn btn-primary btn-circle" data-toggle="tooltip" data-placement="top" title="Accept Reservation">
+                                                        <?=
+                                                            new DateTime($value['valid_until']) < new DateTime()
+                                                            ?
+                                                                '<button class="btn btn btn-disabled disabled btn-circle" data-toggle="tooltip" data-placement="top" title="Reservation Expired">
                                                                     <i class="fas fa-check"></i>
-                                                                </button>
-                                                            </a>
-                                                            '
+                                                                </button>'
+                                                            :
                                                             
-                                                            
-                                                    ?>
+                                                                ' 
+                                                                    <input type="hidden" value="accept" name="resource_type">
+                                                                    <input type="hidden" value="'. $value['id'] .'" name="transaction_id">
+                                                                    <button type="submit" class="btn btn-primary btn-circle" data-toggle="tooltip" data-placement="top" title="Accept Reservation">
+                                                                        <i class="fas fa-check"></i>
+                                                                    </button>
+                                                                '
+                                                        ?>
 
-                                                    <button class="btn btn-warning btn-circle" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                        <i class="fas fa-pen"></i>
-                                                    </button>
-                                                    
-                                                    <button class="btn btn-danger btn-circle" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
+                                                        <button class="btn btn-warning btn-circle" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                            <i class="fas fa-pen"></i>
+                                                        </button>
+                                                        
+                                                        <button class="btn btn-danger btn-circle" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         <?php
@@ -240,96 +280,12 @@ $pending = $connection->setQuery("SELECT
         <i class="fas fa-angle-up"></i>
     </a>
 
-    
-    <!-- Add Reservation Modal-->
-    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Serenidad Suites - Add New Transaction</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="queries/add_reservation.php" method="POST" class="user" id="CheckDate">
-                    <div class="modal-body card shadow py-2">
-                        <div class="card-body p-0">
-                            <!-- Nested Row within Card Body -->
-                            <div class="row">
-                                <div class="col-lg-5 d-none d-lg-block bg-register-image">
-                                <!-- .bg-register-image {
-                                background: url("https://source.unsplash.com/Mv9hjnEUHR4/600x800");
-                                background-position: center;
-                                background-size: cover;
-                                } -->
-                                </div>
-                                <div class="col-lg-7">
-                                    <div class="p-5">
-
-                                            <div class="form-group row">
-                                                <div class="col-12 mb-3" >
-                                                    <select name="room_id" style="border-radius: 10rem !important;" class="custom-select form-control" id="select-rooms"  placeholder="Select Room" onchange="checkRoomAvailability()"></select>
-                                                </div>
-                                                
-                                                <div class="col-sm-6 mb-3">
-                                                    <input name="check_in" id="datepicker-checkin" type="text" class="datepicker-checkin form-control form-control-user "  placeholder="Check in" readonly onchange="modifyCheckoutDate()"/>
-                                                </div>
-
-                                                <div class="col-sm-6 mb-3" >
-                                                    <input name="check_out" id="datepicker-checkout" type="text" class="datepicker-checkout form-control form-control-user"  placeholder="Check out" readonly onchange="differenceDates()" />
-                                                </div>
-
-                                                <!-- <div class="col-12 mb-3" >
-                                                    <select style="border-radius: 10rem !important;" class="custom-select form-control"  id="select-tour" name="tour" placeholder="Select Tour" onchange="differenceDates()">
-                                                        <option value="day" selected>Day</option>
-                                                        <option value="night">Night</option>
-                                                    </select>
-                                                </div> -->
-                                                
-                                                <div class="col-12 mb-3" >
-                                                    <!-- Basic Card Example -->
-                                                        <div class="card shadow mb-4" id="priceBreakdownContainer">
-
-                                                        </div>
-                                                </div>
-                                            </div>
-                                            
-
-                                            <div class="form-group">
-                                                <input name="firstname" type="text" class="form-control form-control-user"  placeholder="Fistname" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <input name="middlename" type="text" class="form-control form-control-user"  placeholder="Middlename" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <input name="lastname" type="text" class="form-control form-control-user"  placeholder="Lastname" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <input name="contact" type="number" class="form-control form-control-user"  placeholder="Contact#" required>
-                                            </div>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" >Save changes</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <?php include('includes/logout-modal.php') ?>
+        
+    <?php include('includes/modals.php') ?>
     <?php include('includes/scripts.php') ?>
 
     <script>
         
-       
-
         const roomCheckinDates = [];
         const tempRoomCheckinDates = [];
         const rooms = [];
@@ -349,10 +305,6 @@ $pending = $connection->setQuery("SELECT
             startDate: new Date(),
             datesDisabled: roomCheckinDates
         }); //> date picker
-
-        $(function () {  //> tooltip
-            $('[data-toggle="tooltip"]').tooltip()
-        })
 
         window.addEventListener ('load', function () {
             getRooms();

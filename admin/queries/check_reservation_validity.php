@@ -12,7 +12,6 @@ $transactions = $connection->getPendingTransactions();
 $expiredTransactions = [];
 foreach ($transactions as $key => $value) {
         if(new DateTime($value['valid_until']) < new DateTime()){
-        echo 'pasok';
         array_push($expiredTransactions, $value['id']);
     }
 }

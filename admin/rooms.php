@@ -114,7 +114,7 @@ $rooms = $connection->all();
             </div>
         </div>
     </div>
-    <?php include('includes/logout-modal.php') ?>
+    <?php include('includes/modals.php') ?>
     <?php include('includes/scripts.php') ?>
 
     <script>

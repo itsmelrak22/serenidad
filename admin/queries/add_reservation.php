@@ -51,7 +51,7 @@ spl_autoload_register(function ($class) {
     try {
             
         $uuid = uuid4();
-        $today = date('Y-m-d H:i:s');;
+        $today = date('Y-m-d H:i:s');
         $room_id = $_POST['room_id'];
     
         $roomData = new Room;

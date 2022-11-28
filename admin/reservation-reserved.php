@@ -4,7 +4,7 @@ spl_autoload_register(function ($class) {
 });
 
 $connection = new Transaction();
-$EXPIRED = $connection->getExpiredTransactions();
+$RESERVED = $connection->getReservedTransactions();
 ?>
 
 <?php include('includes/header.php') ?>
@@ -41,7 +41,7 @@ $EXPIRED = $connection->getExpiredTransactions();
                     <!-- DataTales -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-danger">EXPIRED </h6>
+                            <h6 class="m-0 font-weight-bold text-primary">RESERVED  </h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -51,22 +51,36 @@ $EXPIRED = $connection->getExpiredTransactions();
                                         <th>Name</th>
                                         <th>Room Type</th>
                                         <th>Days</th>
-                                        <th>Validity</th>
-                                        <th>Created</th>
+                                        <th>Bill</th>
+                                        <th>Payment</th>
+                                        <th>Balance</th>
+                                        <th>Check in</th>
+                                        <th>Check out Date</th>
                                         <th>Status</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                        foreach ($EXPIRED as $key => $value) {
+                                        foreach ($RESERVED as $key => $value) {
                                     ?>
                                     <tr>
                                         <td><?= $value['firstname']." ".$value['lastname']?></td>
                                         <td><?= $value['room_type']?></td>
                                         <td><?= $value['days']?></td>
-                                        <td><?= $value['valid_until']?></td>
-                                        <td><?= $value['created_at']?></td>
+                                        <td><?= $value['bill']?></td>
+                                        <td><?= $value['payment']?></td>
+                                        <td><?= $value['balance']?></td>
+                                        <td><?= $value['checkin']?></td>
+                                        <td><?= $value['checkout']?></td>
                                         <td><?= $value['status']?></td>
+                                        <td>
+                                            <span data-toggle="modal" data-target="#confirmCheckinModal">
+                                                <button data-toggle="tooltip" data-placement="top" title="Accept Reservation"  class="btn btn-primary btn-circle" >
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </span>
+                                        </td>
                                     </tr>
                                     <?php
                                         }
@@ -97,7 +111,6 @@ $EXPIRED = $connection->getExpiredTransactions();
         <i class="fas fa-angle-up"></i>
     </a>
 
-    
     <?php include('includes/modals.php') ?>
     <?php include('includes/scripts.php') ?>
 

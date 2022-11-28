@@ -36,6 +36,29 @@ Class Transaction extends Model {
                                 LEFT JOIN `room` as C
                                 ON A.room_id = C.id
                                 WHERE A.status = 'Pending'
+                                OR A.status = 'Expired'
+                                ORDER BY A.created_at DESC
+                                ")
+                                ->getAll();
+    }
+
+    public function getReservedTransactions(){
+        return $this->setQuery("SELECT
+                                A.*,
+                                B.firstname,
+                                B.middlename,
+                                B.lastname,
+                                B.address,
+                                B.contactno,
+                                C.room_type,
+                                C.price,
+                                C.photo
+                                FROM `transactions` as A
+                                LEFT JOIN `guest` as B
+                                ON A.guest_id = B.id
+                                LEFT JOIN `room` as C
+                                ON A.room_id = C.id
+                                WHERE A.status = 'Reserved'
                                 ORDER BY A.created_at DESC
                                 ")
                                 ->getAll();

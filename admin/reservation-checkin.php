@@ -51,7 +51,6 @@ $CHECKIN = $connection->getCheckInTransactions();
                                     <tr>
                                         <th>Name</th>
                                         <th>Room Type</th>
-                                        <th>Room no</th>
                                         <th>Check In</th>
                                         <th>Days</th>
                                         <th>Check Out</th>
@@ -69,21 +68,18 @@ $CHECKIN = $connection->getCheckInTransactions();
                                     <tr>
                                         <td><?= $value['firstname']." ".$value['lastname']?></td>
                                         <td><?= $value['room_type']?></td>
-                                        <td><?= $value['room_no']?></td>
-                                        <td><?= "<label style = 'color:#00ff00;'>".date("M d, Y", strtotime($value['checkin']))."</label>"." @ "."<label>".date("h:i a", strtotime($value['checkin_time']))."</label>"?></td>
+                                        <td><?= $value['checkin']?></td>
                                         <td><?= $value['days']?></td>
-                                        <td><?= "<label style = 'color:#ff0000;'>".date("M d, Y", strtotime($value['checkin']."+".$value['days']."DAYS"))."</label>"?></td>
+                                        <td><?= $value['checkin']?></td>
                                         <td><?= $value['status']?></td>
                                         <td><?php if($value['extra_bed'] == "0"){ echo "None";}else{echo $value['extra_bed'];}?></td>
                                         <td><?= "Php. ".$value['bill'].".00"?></td>
                                         <td>
-                                            <center>
-                                                <?=
-                                                '<a class = "btn btn-warning" onclick="confirmationCheckin('. "'checkout_query.php?transaction_id=". $value['id'] ."')".'">
-                                                    <i class = "glyphicon glyphicon-check"></i> Check Out
-                                                </a>';
-                                                ?>
-                                            </center>
+                                            <span data-toggle="modal" data-target="#confirmCheckoutModal">
+                                                <button data-toggle="tooltip" data-placement="top" title="Accept Reservation"  class="btn btn-primary btn-circle" >
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </span>
                                         </td>
                                     </tr>
                                     <?php
@@ -114,26 +110,7 @@ $CHECKIN = $connection->getCheckInTransactions();
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.php">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <?php include('includes/modals.php') ?>
     <?php include('includes/scripts.php') ?>
 
     <script>
