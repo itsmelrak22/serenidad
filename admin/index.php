@@ -37,9 +37,16 @@ if(isset($_SESSION['checkout-success'])){
 if(isset($_SESSION['error'])){
     $status = 'error';
     $msg = $_SESSION['error'];
-
     unset($_SESSION['error']);
 }
+
+
+if(isset($_SESSION['login-success'])){
+    $status = 'login-success';
+    $msg = $_SESSION['login-success'];
+    unset($_SESSION['login-success']);
+}
+
 
 
 $connection = new \Transaction();
@@ -150,6 +157,15 @@ $pending = $connection->setQuery("SELECT
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>';
+                        }
+
+                        if($status == 'error'){
+                            echo    '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <strong>Login Success! '.$msg.' </strong> .
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>'; 
                         }
                     ?>
 
