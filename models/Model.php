@@ -10,7 +10,7 @@ class Model
 
     //Actual
     protected $table;
-    protected $host = "serenidadsuites.online";
+    protected $host = "localhost";
     protected $database = "u905988427_db_hor";
     protected $username = "u905988427_root";
     protected $password = "SerenidadSuites2022";
