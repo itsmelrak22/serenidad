@@ -1,8 +1,8 @@
 <?php
-    include("Database.php");
-
-    $connection = new Database('db_hor', 'localhost', 'root', 'admin');
-    $connection->connect();
+	spl_autoload_register(function ($class) {
+		include 'models/' . $class . '.php';
+	});    
+	date_default_timezone_set('Asia/Manila');
 	$conn = new Room();
 	$roomDatas = $conn->all();
 ?>
