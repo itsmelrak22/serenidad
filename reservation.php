@@ -3,9 +3,8 @@
 
     $connection = new Database('db_hor', 'localhost', 'root', 'admin');
     $connection->connect();
-
-    $connection->setTable('room'); //> Set table to connect
-    $roomDatas = $connection->all(); //> Get All Rooms
+	$conn = new Room();
+	$roomDatas = $conn->all();
 ?>
 
 <?php include 'header.php';?>	
