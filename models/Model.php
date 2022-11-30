@@ -2,11 +2,18 @@
 
 class Model 
 {
+    // protected $table;
+    // protected $host = "localhost";
+    // protected $database = "db_hor";
+    // protected $username = "root";
+    // protected $password = "admin";
+
+    //Actual
     protected $table;
     protected $host = "localhost";
-    protected $database = "db_hor";
-    protected $username = "root";
-    protected $password = "admin";
+    protected $database = "u905988427_db_hor";
+    protected $username = "u905988427_root";
+    protected $password = "SerenidadSuites2022";
 
     protected $pdo;
     protected $stmt;
