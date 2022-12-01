@@ -52,7 +52,7 @@ switch ($_POST['resource_type']) {
             exit(0);
         }
         
-        $_SESSION["reserved-success"] = "Transaction Successfuly Reseved!";
+        $_SESSION["reserved-success"] = " Transaction Successfuly Reseved!";
         header("Location: ../");
         
         break;
@@ -66,7 +66,7 @@ switch ($_POST['resource_type']) {
                 exit(0);
             }
             
-            $_SESSION["checkin-success"] = "Transaction Successfuly Checkin!";
+            $_SESSION["checkin-success"] = " Transaction Successfuly Checkin!";
             header("Location: ../");
         break;
         
@@ -79,8 +79,74 @@ switch ($_POST['resource_type']) {
                 exit(0);
             }
             
-            $_SESSION["checkout-success"] = "Transaction Successfuly Checkout!";
+            $_SESSION["checkout-success"] = " Transaction Successfuly Checkout!";
             header("Location: ../");
+        break;
+
+    case 'edit' :
+
+        try {
+            $transaction = $conn->setQuery("SELECT
+                        A.*,
+                        B.firstname,
+                        B.middlename,
+                        B.lastname,
+                        B.address,
+                        B.contactno,
+                        C.room_type,
+                        C.price,
+                        C.photo
+                        FROM `transactions` as A
+                        LEFT JOIN `guest` as B
+                        ON A.guest_id = B.id
+                        LEFT JOIN `room` as C
+                        ON A.room_id = C.id
+                        WHERE A.id = $id
+                    ")
+                    ->getFirst();
+
+            $_SESSION['resource_type'] = $_POST['resource_type'];
+            $_SESSION['transaction'] = $transaction;
+
+            header("location:../edit_reservation.php");
+
+        } catch (\PDOException $e) {
+            // $_SESSION['error'] = $e->getMessage();
+            $_SESSION['error'] = 'Server Error!';
+            header("location:../");
+            exit(0);
+        }
+        
+        break;
+
+        break;
+
+    case 'update' :
+        try {
+            $room_id = $_POST['room_id'];
+            $check_in = $_POST['check_in'];
+            $check_out = $_POST['check_out'];
+            $days = $_POST['days'];
+            $bill = $_POST['bill'];
+    
+            $conn->setQuery("UPDATE `transactions` SET `room_id`= '$room_id', `checkin`= '$check_in', `checkout`= '$check_out', `days`= '$days', `bill`= '$bill', `updated_at`= '$today' WHERE `id` = $id");
+            $lastid = $conn->getLastInsertedId();
+            $transaction = $conn->find($lastid);
+            $new_balance = ($transaction->bill - $transaction->balance);
+            $conn->setQuery("UPDATE `transactions` SET `balance`= '$new_balance', `updated_at`= '$today' WHERE `id` = $id");
+    
+            $_SESSION["success"] = " Transaction Updated Successfuly!";
+            header("location:../");
+        } catch (\PDOException $e) {
+            $_SESSION['error'] = 'Server Error!';
+            // $_SESSION['error'] = $e->getMessage();
+            header("location:../");
+            exit(0);
+        }
+
+        break;
+    case 'delete' :
+
         break;
 
     exit(0);

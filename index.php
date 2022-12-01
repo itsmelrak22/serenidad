@@ -195,6 +195,7 @@
 		
 		</section><!--/.works-->
 		<!--works end -->
+
     <?php include 'footer.php';?>	
 <style>
     .center{

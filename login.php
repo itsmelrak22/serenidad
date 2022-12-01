@@ -1,7 +1,7 @@
 <?php
 session_start();
-
-if( isset($_SESSION['name']) && isset($_SESSION['username']) && isset($_SESSION['token'])) {
+print_r($_SESSION);
+if( isset($_SESSION['token'])) {
     header('Location: admin/index.php');
 }
 

@@ -27,6 +27,20 @@
         $(function () {  //> tooltip
             $('[data-toggle="tooltip"]').tooltip()
         })
+        
+        function triggerClick(e) {
+            document.querySelector('#image').click();
+        }
+            
+        function displayImage(e) {
+            if (e.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e){
+                document.querySelector('#profileDisplay').setAttribute('src', e.target.result);
+                }
+                reader.readAsDataURL(e.files[0]);
+            }
+        }
 
         function confirmationDelete(link){
             const conf = confirm("Are you sure you want to delete this record?");

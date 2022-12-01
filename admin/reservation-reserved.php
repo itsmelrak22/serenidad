@@ -5,6 +5,7 @@ spl_autoload_register(function ($class) {
 
 $connection = new Transaction();
 $RESERVED = $connection->getReservedTransactions();
+print_r($RESERVED);
 ?>
 
 <?php include('includes/header.php') ?>

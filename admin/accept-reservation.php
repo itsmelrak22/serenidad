@@ -1,7 +1,6 @@
+<?php include('includes/header.php') ?>
+
 <?php
-session_start();
-
-
 spl_autoload_register(function ($class) {
     include '../models/' . $class . '.php';
 });
@@ -14,7 +13,6 @@ unset($_SESSION['resource_type']);
 unset($_SESSION['transaction']);
 ?>
 
-<?php include('includes/header.php') ?>
 
 <body id="page-top">
 

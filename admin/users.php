@@ -1,9 +1,10 @@
-<?php
+<?php include('includes/header.php') ?>
 
-session_start();
+<?php
 spl_autoload_register(function ($class) {
     include '../models/' . $class . '.php';
 });
+
 $msg = '';
 $status = '';
 if(isset($_SESSION['success'])){
@@ -28,7 +29,6 @@ $users = $connection->all();
 
 ?>
 
-<?php include('includes/header.php') ?>
 
 <body id="page-top">
 
@@ -80,12 +80,16 @@ $users = $connection->all();
                         <div class="card-body">
 
                             <div class="mb-1">
-                                <a href="#" data-toggle="modal" data-target="#addUserModal">
-                                    <button class="btn btn-success " data-toggle="tooltip" data-placement="top" title="Add">
-                                        <i class="fas fa-plus"></i>
-                                        Add User
-                                    </button>
-                                </a>
+                                <?php
+                                    if($_SESSION['login-restriction'] == 'admin'){
+                                        echo '<a href="#" data-toggle="modal" data-target="#addUserModal">
+                                                <button class="btn btn-success " data-toggle="tooltip" data-placement="top" title="Add">
+                                                    <i class="fas fa-plus"></i>
+                                                    Add User
+                                                </button>
+                                            </a>';
+                                    }
+                                ?>
                             </div>
 
                             <div class="table-responsive">
@@ -105,16 +109,45 @@ $users = $connection->all();
                                         <td><?= $value['name']?></td>
                                         <td><?= $value['username']?></td>
                                         <td>
-                                           <form action="queries/users_resource.php" method="post">
-                                                <input type="hidden" value="edit" name="resource_type">
-                                                <input type="hidden" value="<?= $value['id'] ?>" name="user_id">
-                                                <button type="submit"class="btn btn-warning btn-circle" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                    <i class="fas fa-pen"></i>
-                                                </button>
-                                                <a href="#" class="btn btn-danger btn-circle" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                           </form>
+                                           <?php
+                                                if($_SESSION['login-restriction'] == 'admin'){
+
+                                                    if($value['restriction'] == 'admin' && ($value['username'] == 'Admin' || $value['username'] == 'Admin2')){
+                                                        echo '
+                                                                <button disabled type="submit"class="btn btn-warning btn-circle" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                                    <i class="fas fa-pen"></i>
+                                                                </button>
+                                                                
+                                                                <button disabled type="submit"class="btn btn-danger btn-circle" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                      ';
+
+                                                    }else{
+                                                        echo '
+                                                        <div class="form-inline">
+                                                                <form action="queries/users_resource.php" method="post">
+                                                                    <input type="hidden" value="edit" name="resource_type">
+                                                                    <input type="hidden" value="'. $value['id'].'" name="user_id">
+                                                                    <button type="submit"class="btn btn-warning btn-circle" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                                        <i class="fas fa-pen"></i>
+                                                                    </button>
+                                                                </form>
+
+                                                                <form action="queries/users_resource.php" method="post" class="ml-1">
+                                                                        <input type="hidden" value="delete" name="resource_type">
+                                                                        <input type="hidden" value="'. $value['id'].'" name="user_id">
+                                                                        <button type="submit"class="btn btn-danger btn-circle" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                            <i class="fas fa-trash"></i>
+                                                                        </button>
+                                                                </form>
+                                                        </div>
+                                                                ';
+                                                    }
+                                                    
+                                                } 
+
+                                           ?>
                                         </td>
                                     </tr>
                                     <?php

@@ -19,10 +19,10 @@
 							foreach ($roomDatas as $key => $room) {
 								$room = (object) $room; //> convert to object 
 						?>
-							<div class=" col-md-4 col-sm-6">
+							<div class=" col-md-6 col-sm-6">
 								<div class="single-explore-item">
 									<div class="single-explore-img">
-										<img src="images/<?= $room->photo?>" alt="explore image">
+										<img src="admin/<?= $room->photo?>" alt="explore image">
 										<div class="single-explore-img-info">
 											<a href="<?= "add_reserve.php?room_id=$room->room_id" ?>">
 												<button onclick="window.location.href='#'"> Reserve Now </button>

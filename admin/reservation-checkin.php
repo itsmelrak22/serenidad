@@ -1,3 +1,5 @@
+<?php include('includes/header.php') ?>
+
 <?php
 spl_autoload_register(function ($class) {
     include '../models/' . $class . '.php';
@@ -8,7 +10,6 @@ $CHECKIN = $connection->getCheckInTransactions();
 
 ?>
 
-<?php include('includes/header.php') ?>
 
 <body id="page-top">
 

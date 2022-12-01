@@ -81,7 +81,7 @@ spl_autoload_register(function ($class) {
 
        $lastTransactionId = $transaction->getLastInsertedId();
 
-       $_SESSION["success"] = "Transaction Successfuly Added!";
+       $_SESSION["success"] = " Transaction Successfuly Added!";
         
        generate_pdf(
         $fullname, 

@@ -1,5 +1,6 @@
 <?php
-session_start();
+include('includes/header.php');
+
 spl_autoload_register(function ($class) {
     include '../models/' . $class . '.php';
 });
@@ -71,16 +72,9 @@ $pending = $connection->setQuery("SELECT
                                     ORDER BY A.created_at DESC
                                 ")
                                 ->getAll();
-
-// print_r($rooms);
-
-
 ?>
-
-<?php include('includes/header.php') ?>
 <?php
 //generating pdf after header location. PS allow pop on this page for browser settings.
- print_r(isset($_SESSION['print_pdf']));
  if(isset($_SESSION['print_pdf'])){
      if($_SESSION['print_pdf'] == true){
          echo '
@@ -94,9 +88,6 @@ $pending = $connection->setQuery("SELECT
  }
 
 ?>
-
-
-
 
 <body id="page-top">
 
@@ -124,28 +115,28 @@ $pending = $connection->setQuery("SELECT
                     <?php
                         if($status == 'success'){
                             echo    '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                                        <strong>Successful!</strong>'. $msg. '.
+                                        <strong>Done!</strong>'. $msg. '.
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>';
                         }else if($status == 'reserved-success'){
                             echo    '<div class="alert alert-primary alert-dismissible fade show" role="alert">
-                                        <strong> Transaction Reserved! </strong> .
+                                        <strong> Done! Transaction Reserved! </strong> .
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>';
                         }else if($status == 'checkin-success'){
                             echo    '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                                        <strong>Successful!</strong>'. $msg. '.
+                                        <strong>Done!!</strong>'. $msg. '.
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>';
                         }else if($status == 'checkout-success'){
                             echo    '<div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                        <strong>Successful!</strong>'. $msg. '.
+                                        <strong>Done!!</strong>'. $msg. '.
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -238,34 +229,44 @@ $pending = $connection->setQuery("SELECT
                                                     
                                                 </td>
                                                 <td>
-                                                    
-                                                <form method="post" action="queries/reservation_resource.php">
-
-                                                        <?=
-                                                            new DateTime($value['valid_until']) < new DateTime()
-                                                            ?
-                                                                '<button class="btn btn btn-disabled disabled btn-circle" data-toggle="tooltip" data-placement="top" title="Reservation Expired">
-                                                                    <i class="fas fa-check"></i>
-                                                                </button>'
-                                                            :
-                                                            
-                                                                ' 
-                                                                    <input type="hidden" value="accept" name="resource_type">
-                                                                    <input type="hidden" value="'. $value['id'] .'" name="transaction_id">
-                                                                    <button type="submit" class="btn btn-primary btn-circle" data-toggle="tooltip" data-placement="top" title="Accept Reservation">
+                                                    <div class="form-inline">
+                                                        <form method="post" action="queries/reservation_resource.php" class="mx-1">
+                                                            <?=
+                                                                new DateTime($value['valid_until']) < new DateTime()
+                                                                ?
+                                                                    '<button class="btn btn btn-disabled disabled btn-circle" data-toggle="tooltip" data-placement="top" title="Reservation Expired">
                                                                         <i class="fas fa-check"></i>
-                                                                    </button>
-                                                                '
-                                                        ?>
-
-                                                        <button class="btn btn-warning btn-circle" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                            <i class="fas fa-pen"></i>
-                                                        </button>
+                                                                    </button>'
+                                                                :
+                                                                
+                                                                    ' 
+                                                                        <input type="hidden" value="accept" name="resource_type">
+                                                                        <input type="hidden" value="'. $value['id'] .'" name="transaction_id">
+                                                                        <button type="submit" class="btn btn-primary btn-circle" data-toggle="tooltip" data-placement="top" title="Accept Reservation">
+                                                                            <i class="fas fa-check"></i>
+                                                                        </button>
+                                                                    '
+                                                            ?>
+                                                        </form>
                                                         
-                                                        <button class="btn btn-danger btn-circle" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
-                                                    </form>
+
+                                                        <form  method="post" action="queries/reservation_resource.php" >
+                                                            <input type="hidden" value="edit" name="resource_type">
+                                                            <input type="hidden" value="<?= $value['id'] ?>" name="transaction_id">
+                                                            <button class="btn btn-warning btn-circle" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                                <i class="fas fa-pen"></i>
+                                                            </button>
+                                                        </form>
+                                                        
+                                                        <form  method="post" action="queries/reservation_resource.php"  class="mx-1">
+                                                            <input type="hidden" value="delete" name="resource_type">
+                                                            <input type="hidden" value="<?= $value['id'] ?>" name="transaction_id">
+                                                            <button class="btn btn-danger btn-circle" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                    
                                                 </td>
                                             </tr>
                                         <?php
@@ -301,7 +302,6 @@ $pending = $connection->setQuery("SELECT
     <?php include('includes/scripts.php') ?>
 
     <script>
-        
         const roomCheckinDates = [];
         const tempRoomCheckinDates = [];
         const rooms = [];
@@ -392,31 +392,34 @@ $pending = $connection->setQuery("SELECT
 
                         selectedRoom = rooms.find(res => res.id == room_id)
                     
-                        $('#priceBreakdownContainer').empty();  
+                        if(selectedRoom){
+                            $('#priceBreakdownContainer').empty();  
 
-                        const rows = `
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">You won't be charged yet</h6>
-                            </div>
-                            <div class="card-body container-fluid" >
-                                <div>
-                                    <input name="days" type="hidden" class="form-control form-control-user" value="${ daysOfCheckin }">
-                                    <span > ${selectedRoom.price} x ${daysOfCheckin} Day(s)/Nights(s) </span> <span class="float-right"> ${ eval(selectedRoom.price * daysOfCheckin) } </span> 
-                                </div>
-                                <!-- <div>
-                                    <span > ₱500 x 1 Additional Bed </span> <span class="float-right"> ₱500 </span> 
-                                </div> -->
-                                <hr>
-                                <div>
-                                    <input name="bill" type="hidden" class="form-control form-control-user" value="${ eval(selectedRoom.price * daysOfCheckin) }">
-                                    <span > Total before taxes:  </span> <span class="float-right"> ${ eval(selectedRoom.price * daysOfCheckin) } </span> 
-                                </div>
-                            </div>
-                            `;  
-                        $('#priceBreakdownContainer').append(rows);  
+                                const rows = `
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">You won't be charged yet</h6>
+                                    </div>
+                                    <div class="card-body container-fluid" >
+                                        <div>
+                                            <input name="days" type="hidden" class="form-control form-control-user" value="${ daysOfCheckin }">
+                                            <span > ${selectedRoom.price} x ${daysOfCheckin} Day(s)/Nights(s) </span> <span class="float-right"> ${ eval(selectedRoom.price * daysOfCheckin) } </span> 
+                                        </div>
+                                        <!-- <div>
+                                            <span > ₱500 x 1 Additional Bed </span> <span class="float-right"> ₱500 </span> 
+                                        </div> -->
+                                        <hr>
+                                        <div>
+                                            <input name="bill" type="hidden" class="form-control form-control-user" value="${ eval(selectedRoom.price * daysOfCheckin) }">
+                                            <span > Total before taxes:  </span> <span class="float-right"> ${ eval(selectedRoom.price * daysOfCheckin) } </span> 
+                                        </div>
+                                    </div>
+                                    `;  
+                                $('#priceBreakdownContainer').append(rows); 
+                        } 
                         
                   } catch (error) {
                     console.log(error)
+                    alert('Server Error')
                     location.reload();
                   }
                  },

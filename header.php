@@ -22,7 +22,7 @@ $route = $exploded[count($exploded) - 1];
         <title>Directory Landing Page</title>
 
         <!-- For favicon png -->
-		<link rel="shortcut icon" type="image/icon" href="assets/logo/favicon.png"/>
+		<!-- <link rel="shortcut icon" type="image/icon" href="assets/logo/favicon.png"/> -->
        
         <!--font-awesome.min.css-->
         <link rel="stylesheet" href="assets/css/font-awesome.min.css">

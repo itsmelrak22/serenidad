@@ -22,7 +22,6 @@
         </div>
     </div>
 
-
     <!-- confirm checkin Modal-->
        <div class="modal fade" id="confirmCheckinModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -99,15 +98,15 @@
 
                                             <div class="form-group row">
                                                 <div class="col-12 mb-3" >
-                                                    <select name="room_id" style="border-radius: 10rem !important;" class="custom-select form-control" id="select-rooms"  placeholder="Select Room" onchange="checkRoomAvailability()"></select>
+                                                    <select name="room_id" style="border-radius: 10rem !important;" class="custom-select form-control" id="select-rooms"  placeholder="Select Room" onchange="checkRoomAvailability()" required></select>
                                                 </div>
                                                 
                                                 <div class="col-sm-6 mb-3">
-                                                    <input name="check_in" id="datepicker-checkin" type="text" class="datepicker-checkin form-control form-control-user "  placeholder="Check in" readonly onchange="modifyCheckoutDate()"/>
+                                                    <input name="check_in" id="datepicker-checkin" type="text" class="datepicker-checkin form-control form-control-user "  placeholder="Check in" readonly onchange="modifyCheckoutDate()" required/>
                                                 </div>
 
                                                 <div class="col-sm-6 mb-3" >
-                                                    <input name="check_out" id="datepicker-checkout" type="text" class="datepicker-checkout form-control form-control-user"  placeholder="Check out" readonly onchange="differenceDates()" />
+                                                    <input name="check_out" id="datepicker-checkout" type="text" class="datepicker-checkout form-control form-control-user"  placeholder="Check out" readonly onchange="differenceDates()" required/>
                                                 </div>
 
                                                 <!-- <div class="col-12 mb-3" >
@@ -176,12 +175,86 @@
                                 <input id="username" name="username" type="text" class=" form-control" required  value="<?=  isset($_SESSION['username']) ?  $_SESSION['username']  : ''?>" />
                             </div>
                             <div class="col-12">
+                                <label for="restriction">Restriction</label>
+                                <select name="restriction" id="restriction" class=" form-control" required>
+                                    <option value="user" selected>User</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
                                 <label for="password">Password </label>
                                 <input id="password" name="password" type="password" class=" form-control" required value="<?=  isset($_SESSION['password']) ?  $_SESSION['password']  : ''?>" />
                             </div>
                             <div class="col-12">
                                 <label for="comfirm_password">Confirm Password </label>
                                 <input id="comfirm_password" name="comfirm_password" type="password" class=" form-control" required value="<?=  isset($_SESSION['comfirm_password']) ?  $_SESSION['comfirm_password']  : ''?>" />
+                            </div>
+                            <input name="resource_type" value="store" class=" form-control" type="hidden" required />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary" type="submit" >Confirm</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete User Modal-->
+    <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Delete User?.</div>
+                <div class="modal-footer">
+                    <form action="./queries/users_resource.php" method="post">
+
+                        <input type="hidden" value="delete" name="resource_type">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-secondary" type="submit" >Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- Add Room Modal-->
+        <div class="modal fade" id="addRoomModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form action="queries/rooms_resource.php" method="post" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"> Create Room Data</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">x</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <label for="room_type">Room Type</label>
+                                <input id="room_type" name="room_type" type="text" class=" form-control" required value="<?=  isset($_SESSION['room_type']) ?  $_SESSION['room_type']  : ''?>"/>
+                            </div>
+                            <div class="col-12">
+                                <label for="price">Price </label>
+                                <input id="price" name="price" type="text" class=" form-control" required  value="<?=  isset($_SESSION['price']) ?  $_SESSION['price']  : ''?>" />
+                            </div>
+                            <div class="col-12">
+                               <div class="mt-2">
+                                    <label for="exampleFormControlFile1">Room Image Display: </label>
+                                    <input onChange="displayImage(this)" type="file" class="form-control-file" id="image" name="image" required>
+                                    <div class="mt-3">
+                                        <img src="img/no-image.png" onClick="triggerClick()" id="profileDisplay">
+                                    </div>
+                               </div>
                             </div>
                             <input name="resource_type" value="store" class=" form-control" type="hidden" required />
                         </div>

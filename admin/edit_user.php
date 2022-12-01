@@ -1,7 +1,6 @@
+<?php include('includes/header.php') ?>
+
 <?php
-session_start();
-
-
 spl_autoload_register(function ($class) {
     include '../models/' . $class . '.php';
 });
@@ -9,28 +8,29 @@ if(
     !isset($_SESSION['id']) ||
     !isset($_SESSION['name']) ||
     !isset($_SESSION['username']) ||
-    !isset($_SESSION['password'])
+    !isset($_SESSION['password']) ||
+    !isset($_SESSION['restriction'])
 ){
     header("location:index.php");
 }
-
 
 $id = $_SESSION['id'];
 $name = $_SESSION['name'];
 $username = $_SESSION['username'];
 $password = $_SESSION['password'];
+$restriction = $_SESSION['restriction'];
 
 unset($_SESSION['id']);
 unset($_SESSION['name']);
 unset($_SESSION['username']);
 unset($_SESSION['password']);
+unset($_SESSION['restriction']);
 
 $conn = new Admin;
 $user = $conn->find(1);
 
 ?>
 
-<?php include('includes/header.php') ?>
 
 <body id="page-top">
 
@@ -53,7 +53,7 @@ $user = $conn->find(1);
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <form action="queries/user_resource.php" method="POST" class="user" id="">
+                    <form action="queries/users_resource.php" method="POST" class="user" id="" >
                         <div class="card shadow py-2">
                             <div class="card-body p-0">
                             <div class="mx-5 pt-5"> <h5>Edit USer</h5> </div>
@@ -72,13 +72,32 @@ $user = $conn->find(1);
                                                     <input value="<?= $username ?>" name="username" id="username" type="text" class="form-control "  placeholder="Username" >
                                                 </div>
                                                 <div class="col-12 form-group">
+                                                    <label for="restriction">Restriction</label>
+                                                    <select name="restriction" id="restriction" class=" form-control" required value="<?= $restriction ?>">
+                                                        <?php 
+                                                            if($restriction == 'admin'){
+                                                                echo '
+                                                                    <option value="user">User</option>
+                                                                    <option value="admin" selected>Admin</option>
+                                                                ';
+                                                            }else{
+                                                                echo '
+                                                                    <option value="user" selected>User</option>
+                                                                    <option value="admin" >Admin</option>
+                                                                ';
+                                                            }
+                                                        ?>
+                                                        
+                                                    </select>
+                                                </div>
+                                                <!-- <div class="col-12 form-group">
                                                     <label for="password">Password :</label>
-                                                    <input value="<?= $password ?>" name="password" id="password" type="password" class="form-control "  placeholder="Password" >
+                                                    <input value=" //$password " name="password" id="password" type="password" class="form-control "  placeholder="Password" >
                                                 </div>
                                                 <div class="col-12 form-group">
                                                     <label for="confirm_password">Confirm Password</label>
-                                                    <input  name="confirm_password" id="confirm_password" type="password" class="form-control "  placeholder="Confirm Password" >
-                                                </div>
+                                                    <input  value=" //$password " name="confirm_password" id="confirm_password" type="password" class="form-control "  placeholder="Confirm Password" >
+                                                </div> -->
                                             </div>
                                     </div>
                             </div>

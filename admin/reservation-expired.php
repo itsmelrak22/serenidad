@@ -1,3 +1,5 @@
+<?php include('includes/header.php') ?>
+
 <?php
 spl_autoload_register(function ($class) {
     include '../models/' . $class . '.php';
@@ -7,7 +9,6 @@ $connection = new Transaction();
 $EXPIRED = $connection->getExpiredTransactions();
 ?>
 
-<?php include('includes/header.php') ?>
 
 <body id="page-top">
 

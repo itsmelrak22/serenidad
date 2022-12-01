@@ -11,6 +11,7 @@ spl_autoload_register(function ($class) {
 $name = $_POST['name'] ?? '';
 $username = $_POST['username'] ?? '';
 $password = $_POST['password'] ?? '';
+$restriction = $_POST['restriction'] ?? '';
 $comfirm_password = $_POST['comfirm_password'] ?? '';
 
 if(isset($_POST['user_id'])){
@@ -35,7 +36,7 @@ $today = date('Y-m-d H:i:s');
 switch ($_POST['resource_type']) {
     case 'store':
         try {
-            $conn->setQuery(" INSERT INTO `admin`( `name`, `username`, `password`, `created_at`, `updated_at`) VALUES ('$name','$username','$username','$today','$today') ");
+            $conn->setQuery(" INSERT INTO `admin`( `name`, `username`, `password`, `restriction`, `created_at`, `updated_at`) VALUES ('$name','$username','$password','$restriction','$today','$today') ");
             $_SESSION['success'] = ' User Added!';
             header("Location: ../users.php");
 
@@ -55,6 +56,7 @@ switch ($_POST['resource_type']) {
             $_SESSION['name'] = $user->name;
             $_SESSION['username'] = $user->username;
             $_SESSION['password'] = $user->password;
+            $_SESSION['restriction'] = $user->restriction;
             $_SESSION['comfirm_password'] = $user->comfirm_password;
 
             header("Location: ../edit_user.php");
@@ -70,7 +72,8 @@ switch ($_POST['resource_type']) {
         
 
         try {
-            $conn->setQuery(" UPDATE `admin` SET 'name'='$name','username'='$username','password'='$password','updated_at'='$today' WHERE 'id' = $id");
+            $conn->setQuery(" UPDATE `admin` SET `name`='$name',`username`='$username',`restriction`='$restriction',`updated_at`='$today' WHERE `id` = $id");
+            // $conn->setQuery(" UPDATE `admin` SET 'name'='$name','username'='$username','password'='$password','updated_at'='$today' WHERE 'id' = $id");
             $_SESSION['successs'] = ' User Updated!';
             header("Location: ../users.php");
 
@@ -84,8 +87,8 @@ switch ($_POST['resource_type']) {
     case 'delete':
         
         try {
-            $conn->setQuery(" DELETE FROM `admin` WHERE 'id' = $id");
-            $_SESSION['successs'] = ' User Deleted!';
+            $conn->setQuery(" DELETE FROM `admin` WHERE `id` = $id");
+            $_SESSION['success'] = ' User Deleted!';
             header("Location: ../users.php");
 
         } catch (\PDOException $e) {
