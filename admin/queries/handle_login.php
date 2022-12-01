@@ -10,7 +10,6 @@ header('Content-Type: application/json; charset=utf-8');
 $username = $_POST['username'];
 $password = $_POST['password'];
 $token = $_POST['token'];
-// print_r([$username, $password, $token]);
 
 if(base64_decode($token) != 'Serenidad Suites'){
     $_SESSION['error'] = 'Server Error';
@@ -18,11 +17,9 @@ if(base64_decode($token) != 'Serenidad Suites'){
     exit(0);
 }
 
-// print_r(base64_decode($token));
 
 $conn = new Admin;
 $user = $conn->setQuery("SELECT * FROM `admin` WHERE `username` = '$username' AND `password` = '$password'")->getAll();
-print_r();
 
 if(count($user) == 0){
     $_SESSION['error'] = ' Username or Password does not match our records!';
