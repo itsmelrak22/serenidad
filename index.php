@@ -195,8 +195,8 @@
 		
 		</section><!--/.works-->
 		<!--works end -->
+		<?php include 'scripts.php';?>	
 
-    <?php include 'footer.php';?>	
 <style>
     .center{
         position: absolute;
@@ -207,3 +207,4 @@
         text-align: center;
     }
 </style>
+<?php include 'footer.php';?>	

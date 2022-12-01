@@ -11,11 +11,13 @@ $route = $exploded[count($exploded) - 1];
 		<title>Serenidad Suites</title>
 		<meta charset = "utf-8" />
 		<meta name = "viewport" content = "width=device-width, initial-scale=1" />
-		<link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<!-- <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" /> -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
+		<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
 		<!--font-family-->
+        <link href="admin/css/sb-admin-2.min.css" rel="stylesheet">
+
 		<link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
         
         <!-- title of site -->
@@ -41,16 +43,21 @@ $route = $exploded[count($exploded) - 1];
 		<link rel="stylesheet" href="assets/css/slick-theme.css">
 		
         <!--bootstrap.min.css-->
-        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+        <!-- <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet"> -->
+        <!-- <link href="admin/css/sb-admin-2.min.css" rel="stylesheet"> -->
+        <!-- <link rel="stylesheet" href="assets/css/bootstrap.min.css"> -->
+        <link rel="stylesheet" href="assets/css/style.css">
 		
 		<!-- bootsnav -->
 		<link rel="stylesheet" href="assets/css/bootsnav.css" >	
         
         <!--style.css-->
-        <link rel="stylesheet" href="assets/css/style.css">
         
         <!--responsive.css-->
         <link rel="stylesheet" href="assets/css/responsive.css">
+
+        <link rel="stylesheet" href="vendor/datepicker/css/bootstrap-datepicker.min.css">
+        <link rel="stylesheet" href="vendor/datepicker/css/bootstrap-datepicker.standalone.min.css">
 	</head>
 <body>
 
@@ -63,31 +70,31 @@ $route = $exploded[count($exploded) - 1];
                 <div class="container">
                     <!-- Start Header Navigation -->
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                        <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
                             <i class="fa fa-bars"></i>
-                        </button>
+                        </button> -->
                         <a class="navbar-brand" href="index.php">Serenidad Suites Online <span>Reservation System</span></a>
                     </div><!--/.navbar-header-->
                     <!-- End Header Navigation -->
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
+                    <div class="" >
                         <?php
                         switch ($route) {
                             case 'reservation.php':
                                 echo 
-                                    '<ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
-                                        <li class=""><a href="index.php">HOME</a></li>
-                                        <li class="active"><a href="reservation.php">ROOMS</a></li>
-                                        <li class=""><a href="aboutus.php">ABOUT US</a></li>
+                                    '<ul class="nav list-inline " data-in="fadeInDown" data-out="fadeOutUp">
+                                        <li class="list-inline-item"><a href="index.php">HOME</a></li>
+                                        <li class="list-inline-item active"><a href="reservation.php">ROOMS</a></li>
+                                        <li class="list-inline-item"><a href="aboutus.php">ABOUT US</a></li>
                                     </ul><!--/.nav -->';
                                 break;
                             
                             default:
-                                echo '<ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
-                                            <li class="active"><a href="index.php">HOME</a></li>
-                                            <li class=""><a href="reservation.php">ROOMS</a></li>
-                                            <li class=""><a href="aboutus.php">ABOUT US</a></li>
+                                echo '<ul class="nav list-inline " data-in="fadeInDown" data-out="fadeOutUp">
+                                            <li class="list-inline-item active"><a href="index.php">HOME</a></li>
+                                            <li class="list-inline-item"><a href="reservation.php">ROOMS</a></li>
+                                            <li class="list-inline-item"><a href="aboutus.php">ABOUT US</a></li>
                                         </ul><!--/.nav -->';
                                 break;
                         }
