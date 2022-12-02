@@ -38,10 +38,11 @@
 						</div>
 						<div class="col-sm-7">
 							<div class="footer-social">
-								<span><i class="fa fa-phone"> +1  (222) 777 8888</i></span>
-								<a href="#"><i class="fa fa-facebook"></i></a>	
-								<a href="#"><i class="fa fa-twitter"></i></a>
-								<a href="#"><i class="fa fa-instagram"></i></a>
+								<span><i class="fa fa-phone"> 0945 309 6347 </i></span>
+								<a href="https://www.facebook.com/ss.matabungkay.batangas" target="_blank"><i class="fa fa-facebook"></i></a>	
+								<!-- <a href="#"><i class="fa fa-twitter"></i></a> -->
+								<a href="https://www.instagram.com/ss.matabungkay.batangas" target="_blank"><i class="fa fa-instagram"></i></a>
+								<!-- <a href=""><i class="fa fa-envelope-o "></i></a> -->
 							</div>
 						</div>
 					</div>

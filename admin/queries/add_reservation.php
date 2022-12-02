@@ -5,6 +5,10 @@ date_default_timezone_set('Asia/Manila');
 spl_autoload_register(function ($class) {
     include '../../models/' . $class . '.php';
 });
+// header('Content-Type: application/json; charset=utf-8');
+
+// print_r($_POST);
+// exit(0);
 
 
     function uuid4() {
@@ -33,7 +37,7 @@ spl_autoload_register(function ($class) {
         return $interval->days;
     }
 
-    function generate_pdf($fullname, $today, $lastTransactionId, $uuid, $room,  $checkin, $checkout, $price, $days, $bill, $valid_until){
+    function generate_pdf($fullname, $today, $lastTransactionId, $uuid, $room,  $checkin, $checkout, $price, $days, $bill, $valid_until, $additinal_pax, $additional_bed){
         $_SESSION['print_pdf'] = true;
         $_SESSION['fullname'] = $fullname;
         $_SESSION['today'] = $today;
@@ -46,6 +50,9 @@ spl_autoload_register(function ($class) {
         $_SESSION['days'] = $days;
         $_SESSION['bill'] = $bill;
         $_SESSION['valid_until'] = $valid_until;
+        $_SESSION['additinal_pax'] = $additinal_pax;
+        $_SESSION['additional_bed'] = $additional_bed;
+
     }
 
     try {
@@ -62,6 +69,8 @@ spl_autoload_register(function ($class) {
         $middlename = htmlspecialchars($_POST['middlename'], ENT_QUOTES) ?? '';
         $lastname = htmlspecialchars($_POST['lastname'], ENT_QUOTES) ?? '';
         $contact = htmlspecialchars($_POST['contact'], ENT_QUOTES) ?? '';
+        $additional_bed = $_POST['additional_bed'];
+        $additinal_pax = $_POST['additinal_pax'];
         $bill = $_POST['bill'];
         $days = $_POST['days'];
 		$valid_until = date('Y-m-d H:i:s', strtotime('1 Hour'));
@@ -71,13 +80,13 @@ spl_autoload_register(function ($class) {
 
         // > Insert Guest data with additional unique id
         $guest = new Guest();
-        $guest->setQuery("INSERT INTO `guest` (`uuid`, `firstname`, `middlename`, `lastname`, `contactno`, `created_at`, `updated_at`) 
+        $guest->setQuery("INSERT INTO `guest` (`uuid`, `firstname`, `middlename`, `lastname`, `contactno`,  `created_at`, `updated_at`) 
                             VALUES ('$uuid', '$firstname', '$middlename', '$lastname', '$contact', '$today', '$today' )");
         $lastInsertedGuestId = $guest->getLastInsertedId();
 
         $transaction = new Transaction();
-        $transaction->setQuery("INSERT INTO `transactions` (`guest_id`, `room_id`, `status`, `days`, `checkin`, `checkout`, `bill`, `valid_until`, `created_at`, `updated_at`) 
-                            VALUES ('$lastInsertedGuestId', '$room_id', 'PENDING', '$days', '$check_in', '$check_out', '$bill', '$valid_until', '$today', '$today' )");
+        $transaction->setQuery("INSERT INTO `transactions` (`guest_id`, `room_id`,  `extra_bed`,  `extra_pax`, `status`, `days`, `checkin`, `checkout`, `bill`, `valid_until`, `created_at`, `updated_at`) 
+                            VALUES ('$lastInsertedGuestId', '$room_id',  '$additional_bed', '$additinal_pax', 'PENDING', '$days', '$check_in', '$check_out', '$bill', '$valid_until', '$today', '$today' )");
 
        $lastTransactionId = $transaction->getLastInsertedId();
 
@@ -94,7 +103,10 @@ spl_autoload_register(function ($class) {
         $room->price, 
         $days, 
         $bill,
-        $valid_until
+        $valid_until,
+        $additional_pax,
+        $additional_bed
+
     );
 
         if(isset($_POST['client-reserve'])){
@@ -123,6 +135,8 @@ spl_autoload_register(function ($class) {
        unset($_SESSION['days']);
        unset($_SESSION['bill']);
        unset($_SESSION['valid_until']);
+       unset($_SESSION['additional_bed']);
+       unset($_SESSION['additional_pax']);
        echo $e->getMessage();
     }
 

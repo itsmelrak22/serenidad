@@ -18,6 +18,9 @@ $rooms = $connection->setQuery(" SELECT
                                         A.status = 'Check in'
                                         OR 
                                         A.status = 'Pending'
+                                        OR
+                                        A.status = 'Reserved'
+
                                     )
 
                                 ")

@@ -22,7 +22,7 @@
     <div class="row align-items-center">
       <div class="col-lg-4 "><img src="assets/svg/right_direction.svg" alt="" class="img-fluid mb-4 mb-lg-0"></div>
       <div class="col-lg-8"><i class="fa fa-leaf fa-2x mb-3 text-primary"></i>
-        <a href="#" id="faq"><h1 class="display-4">Frequently Asked Questions</h1></a>
+        <a href="#" id="faq"><h1 class="display-4">FAQs</h1></a>
             <div class="faqHeader">General questions</div>
             <div class="container">
                 <div class="row justify-content-center">
@@ -35,7 +35,17 @@
                                 </div>
                                 <div class="collapse" id="collapseOne" aria-labelledby="headingOne" data-parent="#faqAccordion">
                                     <div class="card-body">
-                                        <p>We are located @ Lian, Batangas, Calabarzon, Philippines</p>
+                                    <p class="font-weight-bold"> We are located @ Lian, Batangas, Calabarzon, Philippines</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card border-0 wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                                <div class="card-header" id="headingOne">
+                                    <h6 class="mb-0 collapsed" data-toggle="collapse" data-target="#collapse2" aria-expanded="true" aria-controls="collapse2">Can I cancel my reservation?<span class="lni-chevron-up"></span></h6>
+                                </div>
+                                <div class="collapse" id="collapse2" aria-labelledby="headingOne" data-parent="#faqAccordion">
+                                    <div class="card-body">
+                                    <p class="font-weight-bold"> Cancellation: 3-4 days before check in </p>
                                     </div>
                                 </div>
                             </div>
@@ -103,12 +113,18 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Support Button-->
-                        <div class="support-button text-center d-flex align-items-center justify-content-center mt-4 wow fadeInUp" data-wow-delay="0.5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
-                            <i class="lni-emoji-sad"></i>
-                            <p class="mb-0 px-2">Can't find your answers?</p>
-                            <a href="#"> Contact us</a>
+
+                            <div class="card border-0 wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                              <div class="card-header" id="headingOne">
+                                  <h6 class="mb-0 collapsed" data-toggle="collapse" data-target="#contactUsCollapse" aria-expanded="true" aria-controls="contactUsCollapse">Can't find your answers? Contact Us:<span class="lni-chevron-up"></span></h6>
+                              </div>
+                              <div class="collapse" id="contactUsCollapse" aria-labelledby="headingOne" data-parent="#faqAccordion">
+                                  <div class="card-body">
+                                      <p class="font-weight-bold"> Phone: 0945 309 6347 </p>
+                                      <p class="font-weight-bold"> Email: trs.matabungkay.batangas@gmail.com</p>
+                                  </div>
+                              </div>
+                          </div>
                         </div>
                     </div>
                 </div>
@@ -315,7 +331,7 @@
 
 .support-button a {
     text-transform: capitalize;
-    color: #2ecc71;
+    color: #365dcd;
 }
 @media only screen and (max-width: 575px) {
     .support-button a {

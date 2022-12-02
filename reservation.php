@@ -128,6 +128,12 @@
         let selectedRoom = {}
         let room_id = 1;
 
+        function clearFields(id){
+            const field = document.getElementById(id)
+            field.value = '';
+        }
+        
+
         $('.datepicker-checkin').datepicker({
             clearBtn: true,
             todayHighlight: true,
@@ -349,29 +355,106 @@
         }
 
         function setPriceBreakdownContainer(){
+
+            const additionalBedInput = document.getElementById('additional_bed');
+            const additionalPaxInout = document.getElementById('additinal_pax');
+            let rows ;
+
             $('#priceBreakdownContainer').empty();  
-            const rows = `
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">You won't be charged yet</h6>
-                </div>
-                <div class="card-body container-fluid" >
-                    <div>
-                        <input name="days" type="hidden" class="form-control form-control-user" value="${ daysOfCheckin }">
-                        <span > ${selectedRoom.price} x ${daysOfCheckin} Day(s)/Nights(s) </span> <span class="float-right"> ${ eval(selectedRoom.price * daysOfCheckin) } </span> 
+            if(Number(additionalBedInput.value) > 0 && Number(additionalPaxInout.value) == 0){
+                rows = `
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">You won't be charged yet</h6>
                     </div>
-                    <!-- <div>
-                        <span > ₱500 x 1 Additional Bed </span> <span class="float-right"> ₱500 </span> 
-                    </div> -->
-                    <hr>
-                    <div>
-                        <input name="bill" type="hidden" class="form-control form-control-user" value="${ eval(selectedRoom.price * daysOfCheckin) }">
-                        
-                        <span > Total before taxes:  </span> <span class="float-right"> ${ eval(selectedRoom.price * daysOfCheckin) } </span> 
+                    <div class="card-body container-fluid" >
+                        <div>
+                            <input name="days" type="hidden" class="form-control form-control-user" value="${ daysOfCheckin }">
+                            <span > ${selectedRoom.price} x ${daysOfCheckin} Day(s)/Nights(s) </span> <span class="float-right"> ${ eval(selectedRoom.price * daysOfCheckin) } </span> 
+                        </div>
+                        <div>
+                            <span > 500 x ${additionalBedInput.value} Additional Bed </span> <span class="float-right"> ${ eval(additionalBedInput.value * 500) } </span> 
+                        </div>
+                        <hr>
+                        <div>
+                            <input name="bill" type="hidden" class="form-control form-control-user" value="${ eval(eval(selectedRoom.price * daysOfCheckin) + eval(additionalBedInput.value * 500)) }">
+                            
+                            <span > Total before taxes:  </span> <span class="float-right"> ${ eval(eval(selectedRoom.price * daysOfCheckin) + eval(additionalBedInput.value * 500))  } </span> 
+                        </div>
                     </div>
-                </div>
-                `;  
+                    `;  
+
+            }else if(Number(additionalBedInput.value) > 0 && Number(additionalPaxInout.value) > 0){
+                rows = `
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">You won't be charged yet</h6>
+                    </div>
+                    <div class="card-body container-fluid" >
+                        <div>
+                            <input name="days" type="hidden" class="form-control form-control-user" value="${ daysOfCheckin }">
+                            <span > ${selectedRoom.price} x ${daysOfCheckin} Day(s)/Nights(s) </span> <span class="float-right"> ${ eval(selectedRoom.price * daysOfCheckin) } </span> 
+                        </div>
+                        <div>
+                            <span > 500 x ${additionalBedInput.value} Additional Bed </span> <span class="float-right"> ${ eval(additionalBedInput.value * 500) } </span> 
+                        </div>
+                        <div>
+                            <span > 350 x ${additionalPaxInout.value} Additional Pax </span> <span class="float-right"> ${ eval(additionalPaxInout.value * 350) } </span> 
+                        </div>
+                        <hr>
+                        <div>
+                            <input name="bill" type="hidden" class="form-control form-control-user" value="${ eval(eval(selectedRoom.price * daysOfCheckin) + eval(additionalBedInput.value * 500) +  eval(additionalPaxInout.value * 500)) }">
+                            
+                            <span > Total before taxes:  </span> <span class="float-right"> ${ eval(eval(selectedRoom.price * daysOfCheckin) + eval(additionalBedInput.value * 500) + eval(additionalPaxInout.value * 500)) } </span> 
+                        </div>
+                    </div>
+                    `;  
+            }else if(Number(additionalBedInput.value) == 0 && Number(additionalPaxInout.value) > 0){
+                rows = `
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">You won't be charged yet</h6>
+                    </div>
+                    <div class="card-body container-fluid" >
+                        <div>
+                            <input name="days" type="hidden" class="form-control form-control-user" value="${ daysOfCheckin }">
+                            <span > ${selectedRoom.price} x ${daysOfCheckin} Day(s)/Nights(s) </span> <span class="float-right"> ${ eval(selectedRoom.price * daysOfCheckin) } </span> 
+                        </div>
+                        <div>
+                            <span > 350 x ${additionalPaxInout.value} Additional Pax </span> <span class="float-right"> ${ eval(additionalPaxInout.value * 350) } </span> 
+                        </div>
+                        <hr>
+                        <div>
+                            <input name="bill" type="hidden" class="form-control form-control-user" value="${ eval(eval(selectedRoom.price * daysOfCheckin) + eval(additionalPaxInout.value * 500)) }">
+                            
+                            <span > Total before taxes:  </span> <span class="float-right"> ${ eval(eval(selectedRoom.price * daysOfCheckin) + eval(additionalPaxInout.value * 500))  } </span> 
+                        </div>
+                    </div>
+                    `;  
+            }else{
+                rows = `
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">You won't be charged yet</h6>
+                    </div>
+                    <div class="card-body container-fluid" >
+                        <div>
+                            <input name="days" type="hidden" class="form-control form-control-user" value="${ daysOfCheckin }">
+                            <span > ${selectedRoom.price} x ${daysOfCheckin} Day(s)/Nights(s) </span> <span class="float-right"> ${ eval(selectedRoom.price * daysOfCheckin) } </span> 
+                        </div>
+                        <!-- <div>
+                            <span > ₱500 x 1 Additional Bed </span> <span class="float-right"> ₱500 </span> 
+                        </div> -->
+                        <hr>
+                        <div>
+                            <input name="bill" type="hidden" class="form-control form-control-user" value="${ eval(selectedRoom.price * daysOfCheckin) }">
+                            
+                            <span > Total before taxes:  </span> <span class="float-right"> ${ eval(selectedRoom.price * daysOfCheckin) } </span> 
+                        </div>
+                    </div>
+                    `;  
+            }
+
             $('#priceBreakdownContainer').append(rows);  
         }
+
+
 </script>
 
 <?php include('modals.php') ?>

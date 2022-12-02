@@ -104,22 +104,22 @@
                                                 
                                                 <div class="col-sm-6 mb-3">
                                                     <label for="check_in">Check In Date</label>
-                                                    <input name="check_in" id="datepicker-checkin" type="text" class="datepicker-checkin form-control form-control-user "  placeholder="Check in" readonly onchange="modifyCheckoutDate()" required/>
+                                                    <input name="check_in" id="datepicker-checkin" type="text" class="datepicker-checkin form-control form-control-user "  placeholder="Check in" onkeyup="clearFields('datepicker-checkin')" onchange="modifyCheckoutDate()" required/>
                                                 </div>
 
                                                 <div class="col-sm-6 mb-3" >
                                                     <label for="check_out">Check Out Date</label>
-                                                    <input name="check_out" id="datepicker-checkout" type="text" class="datepicker-checkout form-control form-control-user"  placeholder="Check out" readonly onchange="differenceDates()" required/>
+                                                    <input name="check_out" id="datepicker-checkout" type="text" class="datepicker-checkout form-control form-control-user"  placeholder="Check out" onkeyup="clearFields('datepicker-checkout')" onchange="differenceDates()" required/>
                                                 </div>
 
                                                 <div class="col-sm-6 mb-3">
                                                     <label for="additional_bed">Additional Bed</label>
-                                                    <input type="number" name="additional_bed" id="additional_bed" required value="0" class="form-control form-control-user">
+                                                    <input type="number" name="additional_bed" id="additional_bed" required value="0" class="form-control form-control-user" oninput="differenceDates()">
                                                 </div>
 
                                                 <div class="col-sm-6 mb-3">
                                                     <label for="additinal_pax">Additional Pax</label>
-                                                    <input type="number" name="additinal_pax" id="additinal_pax" required class="form-control form-control-user">
+                                                    <input type="number" name="additinal_pax" id="additinal_pax" required class="form-control form-control-user" oninput="differenceDates()">
                                                 </div>
 
                                                 <!-- <div class="col-12 mb-3" >
@@ -148,7 +148,7 @@
                                                 <input name="lastname" type="text" class="form-control form-control-user"  placeholder="Lastname" required>
                                             </div>
                                             <div class="form-group">
-                                                <input name="contact" type="number" class="form-control form-control-user"  placeholder="Contact#" required>
+                                                <input name="contact" type="number" class="form-control form-control-user" id="contact" placeholder="Contact#" required oninput="checkContactLength()">
                                             </div>
                                         
                                     </div>

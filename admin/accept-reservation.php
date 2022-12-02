@@ -11,6 +11,8 @@ $transaction = $_SESSION['transaction'];
 
 unset($_SESSION['resource_type']);
 unset($_SESSION['transaction']);
+$total = 0;
+$min_payment = 0;
 ?>
 
 
@@ -92,7 +94,23 @@ unset($_SESSION['transaction']);
                                                                         <span > <?= 'Price (PHP) : '  ?> </span> <span class="float-right"> <?= $transaction->price ?> </span> 
                                                                     </div>
                                                                     <div>
-                                                                        <span > <?= 'Day(s)/Nights(s) : '  ?> </span> <span class="float-right"> <?= $transaction->days ?> </span> 
+                                                                        <span > <?= 'Day(s) : '  ?> </span> <span class="float-right"> x <?= $transaction->days ?> </span> 
+                                                                    </div>
+                                                                    <hr>
+                                                                    <div>
+                                                                        <span > <?= 'Room Rate : '  ?> </span> <span class="float-right font-weight-bold"> <?= $transaction->days * $transaction->price ?> </span> 
+                                                                    </div>
+                                                                    <hr>
+
+                                                                    <div>
+                                                                        <span > <?= 'Additional Bed (PHP 500): '  ?> </span> <span class="float-right"> 500 x <?= $transaction->extra_bed ?> </span> 
+                                                                    </div>
+                                                                    <div>
+                                                                        <span > <?= 'Additional Pax (PHP 350): '  ?> </span> <span class="float-right"> 350 x <?= $transaction->extra_pax ?> </span> 
+                                                                    </div>
+                                                                    <hr>
+                                                                    <div>
+                                                                        <span > <?= 'Additionals Rate: '  ?> </span> <span class="float-right font-weight-bold">  <?= ($transaction->extra_pax * 350 ) + ($transaction->extra_bed * 500) ?> </span> 
                                                                     </div>
                                                                 </div>
                                                                 <!-- <div>
@@ -100,8 +118,12 @@ unset($_SESSION['transaction']);
                                                                 </div> -->
                                                                 <hr>
                                                                 <div>
-                                                                    <input name="bill" type="hidden" class="form-control " value="<?=  (int) $transaction->price * (int) $transaction->days ?>">
-                                                                    <span > Total :  </span> <span class="float-right"> <?= 'PHP '. (int)$transaction->price * (int)$transaction->days?>  </span> 
+                                                                    <?php 
+                                                                        $total = ((int) $transaction->price * (int) $transaction->days) + (500 * $transaction->extra_bed) + (350 * $transaction->extra_pax);
+                                                                        $min_payment = ($total * .5);
+                                                                    ?>
+                                                                    <input name="bill" type="hidden" class="form-control " value="<?=$total?>">
+                                                                    <span > Total Bill :  </span> <span class="float-right font-weight-bold"> <?= 'PHP '.  $total?>  </span> 
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -115,11 +137,11 @@ unset($_SESSION['transaction']);
                                                 <div class="col-12 mb-3" >
                                                     <div class="alert alert-info" role="alert">
                                                         <ul>
-                                                            <li>Mininum Downpayment is PHP 1000 </li>
+                                                            <li>Mininum Downpayment is PHP <?= $min_payment ?> (50%) </li>
                                                         </ul>
                                                     </div>
                                                     <label for="payment">Payment (PHP): </label>
-                                                    <input id="payment" name="payment" type="number" class=" form-control" required />
+                                                    <input id="payment" name="payment" type="number" class=" form-control" required onInput="checkPayment(<?= $total ?>)"/>
                                                 </div>
                                                 
                                             </div>
@@ -127,7 +149,7 @@ unset($_SESSION['transaction']);
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" > Save Transaction </button>
+                            <button type="submit" id="submit" class="btn btn-primary" disabled> Save Transaction </button>
                         </div>
                     </form>
                 </div>
@@ -150,23 +172,25 @@ unset($_SESSION['transaction']);
     </a>
 
     <?php include('includes/modals.php') ?>
-    <?php include('includes/scripts.php') ?>
 
     <script>
         const rooms = [];
 
-        window.addEventListener ('load', function () {
-            getRooms();
-        }, false);
+        function checkPayment(total){
+            // const submitBTn = document.getElementById('my-input-id').disabled = false;
+            const paymentinput = document.getElementById('payment');
+            const submitBTn = document.getElementById('submit');
 
-        function confirmationDelete(link){
-            const conf = confirm("Are you sure you want to delete this record?");
-            if(conf){
-                window.location = link;
+            let min_payment = eval(total * .5);
+            if(Number(paymentinput.value) > min_payment){
+                submitBTn.removeAttribute("disabled");
+            }else{
+                submitBTn.setAttribute("disabled", "disabled");
             }
-        } 
-
+        }
     </script>
+    <?php include('includes/scripts.php') ?>
+
 </body>
 
 </html>
