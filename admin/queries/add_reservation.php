@@ -58,10 +58,10 @@ spl_autoload_register(function ($class) {
         $room = $roomData->find($room_id);
         $check_in = $_POST['check_in'];
         $check_out = $_POST['check_out'];
-        $firstname = $_POST['firstname'];
-        $middlename = $_POST['middlename'];
-        $lastname = $_POST['lastname'];
-        $contact = $_POST['contact'];
+        $firstname = htmlspecialchars($_POST['firstname'], ENT_QUOTES) ?? '';
+        $middlename = htmlspecialchars($_POST['middlename'], ENT_QUOTES) ?? '';
+        $lastname = htmlspecialchars($_POST['lastname'], ENT_QUOTES) ?? '';
+        $contact = htmlspecialchars($_POST['contact'], ENT_QUOTES) ?? '';
         $bill = $_POST['bill'];
         $days = $_POST['days'];
 		$valid_until = date('Y-m-d H:i:s', strtotime('1 Hour'));

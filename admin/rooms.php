@@ -85,18 +85,24 @@ $rooms = $connection->all();
                             <h6 class="m-0 font-weight-bold text-primary">ROOMS</h6>
                         </div>
                         <div class="card-body">
-                            <a href="#" data-toggle="modal" data-target="#addRoomModal">
-                                <button class="btn btn-success " data-toggle="tooltip" data-placement="top" title="Add">
-                                    <i class="fas fa-plus"></i>
-                                    Add Room
-                                </button>
-                            </a>
+                            <?php 
+                                if($_SESSION['login-restriction'] == 'admin'){
+                                    echo ' <a href="#" data-toggle="modal" data-target="#addRoomModal">
+                                                <button class="btn btn-success " data-toggle="tooltip" data-placement="top" title="Add">
+                                                    <i class="fas fa-plus"></i>
+                                                    Add Room
+                                                </button>
+                                            </a>';
+                                }
+                            ?>
+                           
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th>Room Type</th>
                                         <th>Price</th>
+                                        <th>Description</th>
                                         <th>Photo</th>
                                         <th>Action</th>
                                     </tr>
@@ -108,30 +114,38 @@ $rooms = $connection->all();
                                     <tr>
                                         <td><?= $value['room_type']?></td>
                                         <td><?= $value['price']?></td>
+                                        <td><?= $value['description']?></td>
                                         <td>
                                             <center>
                                                 <img src = "<?= $value['photo']?>" height = "150" width = "150"/>
                                             </center>
                                         </td>
                                         <td>
-                                            <div class="form-inline">
-                                                    <form action="queries/rooms_resource.php" method="post">
-                                                        <input type="hidden" value="edit" name="resource_type">
-                                                        <input type="hidden" value="<?=$value['id']?>"  name="room_id">
-                                                        <button type="submit"class="btn btn-warning btn-circle" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                            <i class="fas fa-pen"></i>
-                                                        </button>
-                                                    </form>
-
-                                                    <form action="queries/rooms_resource.php" method="post" class="ml-1">
-                                                            <input type="hidden" value="delete" name="resource_type">
-                                                            <input type="hidden" value="<?=$value['id']?>" name="room_id">
-                                                            <input value="<?= $value['photo'] ?>" name="old_photo" type="hidden" class="form-control ">
-                                                            <button type="submit"class="btn btn-danger btn-circle" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
-                                                    </form>
-                                            </div>
+                                        <?php
+                                            if($_SESSION['login-restriction'] == 'admin'){
+                                                echo '
+                                                    <div class="form-inline">
+                                                            <form action="queries/rooms_resource.php" method="post">
+                                                                <input type="hidden" value="edit" name="resource_type">
+                                                                <input type="hidden" value="'.$value['id'].'"  name="room_id">
+                                                                <button type="submit"class="btn btn-warning btn-circle" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                                    <i class="fas fa-pen"></i>
+                                                                </button>
+                                                            </form>
+        
+                                                            <form action="queries/rooms_resource.php" method="post" class="ml-1">
+                                                                    <input type="hidden" value="delete" name="resource_type">
+                                                                    <input type="hidden" value="'.$value['id'].'" name="room_id">
+                                                                    <input value="'.$value['photo'].'" name="old_photo" type="hidden" class="form-control ">
+                                                                    <button type="submit"class="btn btn-danger btn-circle" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                        <i class="fas fa-trash"></i>
+                                                                    </button>
+                                                            </form>
+                                                    </div>
+                                                ';
+                                            } 
+                                           ?>
+                                            
                                         </td>
                                     </tr>
                                     <?php

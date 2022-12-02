@@ -7,8 +7,8 @@ spl_autoload_register(function ($class) {
 });
 
 header('Content-Type: application/json; charset=utf-8');
-$username = $_POST['username'];
-$password = $_POST['password'];
+$username = htmlspecialchars($_POST['username'], ENT_QUOTES) ?? '';
+$password = htmlspecialchars($_POST['password'], ENT_QUOTES) ?? '';
 $token = $_POST['token'];
 
 if(base64_decode($token) != 'Serenidad Suites'){

@@ -17,27 +17,27 @@ $id = $_SESSION['id'];
 $room_type = $_SESSION['room_type'];
 $price = $_SESSION['price'];
 $photo = $_SESSION['photo'];
+$description = $_SESSION['description'];
 
 unset($_SESSION['id']);
 unset($_SESSION['room_type']);
 unset($_SESSION['price']);
 unset($_SESSION['photo']);
+unset($_SESSION['description']);
 
 $conn = new Room;
 $room = $conn->find(1);
-
 ?>
 
 <style>
-       #profileDisplay { display: block; height: 210px; width: 60%; margin: 0px auto; }
+       #profileDisplay { display: block;  width: 80%; margin: 0px auto; }
 
         .img-placeholder {
-        width: 60%;
         color: white;
         height: 100%;
         background: black;
         opacity: .7;
-        height: 210px;
+        height: 80%;
         z-index: 2;
         position: absolute;
         left: 50%;
@@ -94,9 +94,13 @@ $room = $conn->find(1);
                                                 <input value="<?= $price ?>" id="price" name="price" type="text" class=" form-control" required />
                                             </div>
                                             <div class="col-12">
+                                                <label for="description">Description </label>
+                                                <textarea id="description" name="description" type="text" class=" form-control" required  ><?= $description ?></textarea>
+                                            </div>
+                                            <div class="col-12">
                                                 <div class="mt-2">
                                                         <label for="exampleFormControlFile1">Room Image Display: </label>
-                                                        <input onChange="displayImage(this)" type="file" class="form-control-file" id="image" name="image"  required>
+                                                        <input onChange="displayImage(this)" type="file" class="form-control-file" id="image" name="image">
                                                         <div class="mt-3">
                                                             <img src="<?= $photo ?>" onClick="triggerClick()" id="profileDisplay">
                                                         </div>

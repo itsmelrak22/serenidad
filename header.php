@@ -86,15 +86,24 @@ $route = $exploded[count($exploded) - 1];
                                     '<ul class="nav list-inline " data-in="fadeInDown" data-out="fadeOutUp">
                                         <li class="list-inline-item"><a href="index.php">HOME</a></li>
                                         <li class="list-inline-item active"><a href="reservation.php">ROOMS</a></li>
-                                        <li class="list-inline-item"><a href="aboutus.php">ABOUT US</a></li>
+                                        <li class="list-inline-item"><a href="about_us.php">ABOUT US</a></li>
                                     </ul><!--/.nav -->';
                                 break;
+
+                            case 'about_us.php':
+                                    echo 
+                                        '<ul class="nav list-inline " data-in="fadeInDown" data-out="fadeOutUp">
+                                            <li class="list-inline-item"><a href="index.php">HOME</a></li>
+                                            <li class="list-inline-item "><a href="reservation.php">ROOMS</a></li>
+                                            <li class="list-inline-item active"><a href="about_us.php">ABOUT US</a></li>
+                                        </ul><!--/.nav -->';
+                                    break;
                             
                             default:
                                 echo '<ul class="nav list-inline " data-in="fadeInDown" data-out="fadeOutUp">
                                             <li class="list-inline-item active"><a href="index.php">HOME</a></li>
                                             <li class="list-inline-item"><a href="reservation.php">ROOMS</a></li>
-                                            <li class="list-inline-item"><a href="aboutus.php">ABOUT US</a></li>
+                                            <li class="list-inline-item"><a href="about_us.php">ABOUT US</a></li>
                                         </ul><!--/.nav -->';
                                 break;
                         }

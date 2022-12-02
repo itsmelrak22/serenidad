@@ -7,8 +7,10 @@ spl_autoload_register(function ($class) {
     include '../../models/' . $class . '.php';
 });
 $target_dir = "../img/rooms/";
-$room_type = $_POST['room_type'] ?? '';
-$price = $_POST['price'] ?? '';
+
+$room_type = htmlspecialchars($_POST['room_type'], ENT_QUOTES) ?? '';
+$price = htmlspecialchars($_POST['price'], ENT_QUOTES) ?? '';
+$description = htmlspecialchars($_POST['description'], ENT_QUOTES) ?? '';
 $path = $_FILES['image']['tmp_name'] ?? '';
 
 if(isset($_POST['room_id'])){
@@ -69,7 +71,8 @@ switch ($_POST['resource_type']) {
     case 'store':
         $path = 'img/rooms/'.htmlspecialchars( basename( $_FILES["image"]["name"]));
         try {
-            $conn->setQuery(" INSERT INTO `room`( `room_type`, `price`, `photo`, `created_at`, `updated_at`) VALUES ('$room_type','$price','$path','$today','$today') ");
+            
+            $conn->setQuery(" INSERT INTO `room`( `room_type`, `price`, `photo`, `description`, `created_at`, `updated_at`) VALUES ('$room_type','$price','$path','$description','$today','$today') ");
             $_SESSION['success'] = ' Room Added!';
 
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
@@ -93,6 +96,7 @@ switch ($_POST['resource_type']) {
             $_SESSION['room_type'] = $room->room_type;
             $_SESSION['price'] = $room->price;
             $_SESSION['photo'] = $room->photo;
+            $_SESSION['description'] = $room->description;
 
             header("Location: ../edit_room.php");
 
@@ -107,28 +111,25 @@ switch ($_POST['resource_type']) {
 
         try {
 
-            // print_r(is_file($_POST['old_photo']));
-
             if(isset($hasFile)){
                 if(isset($_POST['old_photo'])) {$old_path = $_POST['old_photo'];}
+
                 $photo = 'img/rooms/'.htmlspecialchars( basename( $_FILES["image"]["name"]));
+                if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                    $_SESSION['updload-success'] = " The file ". htmlspecialchars( basename( $_FILES["image"]["name"])). " has been uploaded.";
+                } else {
+                    $_SESSION['error'] =  " Sorry, there was an error uploading your file.";
+                }
+
+                if (is_file('../'.$old_path)){
+                    unlink('../'.$old_path);
+                }
             }else{
-                $photo = $old_path;
+                $photo = $_POST['old_photo'];
             }
 
-            $conn->setQuery(" UPDATE `room` SET `room_type`='$room_type',`price`='$price',`photo`='$photo',`updated_at`='$today' WHERE `id` = $id");
+            $conn->setQuery(" UPDATE `room` SET `room_type`='$room_type',`price`='$price',`photo`='$photo', `description` = '$description', `updated_at`='$today' WHERE `id` = $id");
             $_SESSION['successs'] = ' Room Updated!';
-
-            if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-                $_SESSION['updload-success'] = " The file ". htmlspecialchars( basename( $_FILES["image"]["name"])). " has been uploaded.";
-            } else {
-                $_SESSION['error'] =  "Sorry, there was an error uploading your file.";
-            }
-
-
-            if (is_file('../'.$old_path)){
-                unlink('../'.$old_path);
-            }
 
             header("Location: ../rooms.php");
 

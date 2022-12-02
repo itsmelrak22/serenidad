@@ -52,21 +52,7 @@
 											<?= '<span data-toggle="modal" data-target="#reserveModal" onClick="handleReserve('.$room->id.')">'  ?>
 												<button onclick="window.location.href='#'"> Reserve Now </button>
 											</span>
-											
-											<!-- <div class="single-explore-image-icon-box">
-												<ul>
-													<li>
-														<div class="single-explore-image-icon">
-															<i class="fa fa-arrows-alt"></i>
-														</div>
-													</li>
-													<li>
-														<div class="single-explore-image-icon">
-															<i class="fa fa-bookmark-o"></i>
-														</div>
-													</li>
-												</ul>
-											</div> -->
+										
 										</div>
 									</div>
 									<div class="single-explore-txt bg-theme-1">
@@ -85,6 +71,14 @@
 										</p>
 										
 									</div>
+									<div class="single-explore-txt bg-theme-1">
+											<span class="explore-price-box">
+                                                <?= $room->description?>
+											</span>
+										</p>
+										
+									</div>
+                                    
 								</div>
 							</div>
 						<?php
@@ -127,12 +121,12 @@
 ?>
 
 <script>
-        const roomCheckinDates = [];
-        const tempRoomCheckinDates = [];
-        const rooms = [];
+        let roomCheckinDates = [];
+        let tempRoomCheckinDates = [];
+        let rooms = [];
         let daysOfCheckin = 0;
         let selectedRoom = {}
-		let room_id = 1;
+        let room_id = 1;
 
         $('.datepicker-checkin').datepicker({
             clearBtn: true,
@@ -181,7 +175,6 @@
         }
 
         function checkRoomAvailability(){
-			console.log(room_id)
             const select = document.getElementById('select-rooms');
             const checkinInput = document.getElementById('datepicker-checkin');
             const checkoutInput = document.getElementById('datepicker-checkout');
@@ -193,6 +186,7 @@
             if(checkoutInput.value) checkoutInput.value = '';
 			select.value = room_id
 
+
             $.ajax({
                 url: "admin/queries/check_room_avail_dates.php",
                 type: "post",
@@ -200,7 +194,6 @@
                     room_id: room_id
                 },
                 success: function (response) {
-                  try {
                     refreshDatePicker();
                     $.each(response, function (i, item) {  
                             let data = new Date(item.checkin)
@@ -208,16 +201,34 @@
                             data = ((data.getMonth() > 8) ? (data.getMonth() + 1) : ('0' + (data.getMonth() + 1))) + '-' + ((data.getDate() > 9) ? data.getDate() : ('0' + data.getDate())) + '-' + data.getFullYear()
                             data2 = ((data2.getMonth() > 8) ? (data2.getMonth() + 1) : ('0' + (data2.getMonth() + 1))) + '-' + ((data2.getDate() > 9) ? data2.getDate() : ('0' + data2.getDate())) + '-' + data2.getFullYear()
                             
+                            let Date1 = data
+                            let Date2 = data2
+                            let date1 = new Date(Date1);
+                            let date2 = new Date(Date2);
+                            let diffTime = Math.abs(date2 - date1);
+                            let checkinDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+
+                            if(checkinDays > 1){
+                                const inbetween = []
+                                for (let i = 1; i <= checkinDays - 1; i++) {
+                                    date1.setDate(date1.getDate() + 1);
+                                    let formatDate = ((date1.getMonth() > 8) ? (date1.getMonth() + 1) : ('0' + (date1.getMonth() + 1))) + '-' + ((date1.getDate() > 9) ? date1.getDate() : ('0' + date1.getDate())) + '-' + date1.getFullYear()
+                                    inbetween.push(formatDate)
+                                }
+                                roomCheckinDates = [...roomCheckinDates, ...inbetween]
+                                tempRoomCheckinDates = [...tempRoomCheckinDates, ...inbetween]
+                            }
+                            
                             roomCheckinDates.push(data)
                             roomCheckinDates.push(data2)
                             tempRoomCheckinDates.push(data)
                             tempRoomCheckinDates.push(data2)
                         });  
 
+
                         refreshDatePicker();
 
                         selectedRoom = rooms.find(res => res.id == room_id)
-						console.log(selectedRoom)
                     
                         if(selectedRoom){
                             $('#priceBreakdownContainer').empty();  
@@ -244,14 +255,13 @@
                                 $('#priceBreakdownContainer').append(rows); 
                         } 
                         
-                  } catch (error) {
-                    console.log(error)
-                    alert('Server Error')
-                    location.reload();
-                  }
+             
                  },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(textStatus, errorThrown);
+                    alert('Server Error')
+                    // location.reload();
+
                 }
             });
         }
@@ -278,11 +288,30 @@
             })
         }
 
+        function nextAndPrevDateIsDisabled(date){
+            let date1 = new Date(date);
+            date1.setDate(date1.getDate() + 1);
+            let formatDate1 = ((date1.getMonth() > 8) ? (date1.getMonth() + 1) : ('0' + (date1.getMonth() + 1))) + '-' + ((date1.getDate() > 9) ? date1.getDate() : ('0' + date1.getDate())) + '-' + date1.getFullYear()
+           
+            let date2 = new Date(date);
+            date2.setDate(date2.getDate() - 1);
+            let formatDate2 = ((date2.getMonth() > 8) ? (date2.getMonth() + 1) : ('0' + (date2.getMonth() + 1))) + '-' + ((date2.getDate() > 9) ? date2.getDate() : ('0' + date2.getDate())) + '-' + date2.getFullYear()
+
+            return roomCheckinDates.includes(formatDate1) && roomCheckinDates.includes(formatDate2)
+        }
+
         function modifyCheckoutDate(){
             daysOfCheckin = 0;
 
             const checkinInput = document.getElementById('datepicker-checkin');
             const checkoutInput = document.getElementById('datepicker-checkout');
+
+            if(nextAndPrevDateIsDisabled(checkinInput.value)){
+                refreshDatePicker();
+                checkinInput.value = ''
+                alert('Sorry, cannot select, previous and next date is reserved ')
+                return
+            }
 
             roomCheckinDates.splice(0);
             tempRoomCheckinDates.map(res => roomCheckinDates.push(res))
@@ -343,7 +372,8 @@
                 `;  
             $('#priceBreakdownContainer').append(rows);  
         }
-    </script>
+</script>
+
 <?php include('modals.php') ?>
 
 <?php include 'footer.php';?>

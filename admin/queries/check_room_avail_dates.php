@@ -2,8 +2,10 @@
 spl_autoload_register(function ($class) {
     include '../../models/' . $class . '.php';
 });
+header('Content-Type: application/json; charset=utf-8');
 
 $room_id = $_POST['room_id'];
+// $room_id = 5;
 $connection = new Transaction();
 $rooms = $connection->setQuery(" SELECT
                                     A.*,
@@ -20,5 +22,5 @@ $rooms = $connection->setQuery(" SELECT
 
                                 ")
                                 ->getAll();
-header('Content-Type: application/json; charset=utf-8');
+
 echo json_encode($rooms);

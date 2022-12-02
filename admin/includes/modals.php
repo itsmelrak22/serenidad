@@ -98,15 +98,28 @@
 
                                             <div class="form-group row">
                                                 <div class="col-12 mb-3" >
+                                                    <label for="select-rooms">Room</label>
                                                     <select name="room_id" style="border-radius: 10rem !important;" class="custom-select form-control" id="select-rooms"  placeholder="Select Room" onchange="checkRoomAvailability()" required></select>
                                                 </div>
                                                 
                                                 <div class="col-sm-6 mb-3">
+                                                    <label for="check_in">Check In Date</label>
                                                     <input name="check_in" id="datepicker-checkin" type="text" class="datepicker-checkin form-control form-control-user "  placeholder="Check in" readonly onchange="modifyCheckoutDate()" required/>
                                                 </div>
 
                                                 <div class="col-sm-6 mb-3" >
+                                                    <label for="check_out">Check Out Date</label>
                                                     <input name="check_out" id="datepicker-checkout" type="text" class="datepicker-checkout form-control form-control-user"  placeholder="Check out" readonly onchange="differenceDates()" required/>
+                                                </div>
+
+                                                <div class="col-sm-6 mb-3">
+                                                    <label for="additional_bed">Additional Bed</label>
+                                                    <input type="number" name="additional_bed" id="additional_bed" required value="0" class="form-control form-control-user">
+                                                </div>
+
+                                                <div class="col-sm-6 mb-3">
+                                                    <label for="additinal_pax">Additional Pax</label>
+                                                    <input type="number" name="additinal_pax" id="additinal_pax" required class="form-control form-control-user">
                                                 </div>
 
                                                 <!-- <div class="col-12 mb-3" >
@@ -246,6 +259,10 @@
                             <div class="col-12">
                                 <label for="price">Price </label>
                                 <input id="price" name="price" type="text" class=" form-control" required  value="<?=  isset($_SESSION['price']) ?  $_SESSION['price']  : ''?>" />
+                            </div>
+                            <div class="col-12">
+                                <label for="description">Description </label>
+                                <textarea id="description" name="description" type="text" class=" form-control" required  value="<?=  isset($_SESSION['description']) ?  $_SESSION['description']  : ''?>" ></textarea>
                             </div>
                             <div class="col-12">
                                <div class="mt-2">

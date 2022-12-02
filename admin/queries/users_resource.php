@@ -8,11 +8,12 @@ spl_autoload_register(function ($class) {
 });
 
 
-$name = $_POST['name'] ?? '';
-$username = $_POST['username'] ?? '';
-$password = $_POST['password'] ?? '';
-$restriction = $_POST['restriction'] ?? '';
-$comfirm_password = $_POST['comfirm_password'] ?? '';
+$name = htmlspecialchars($_POST['name'], ENT_QUOTES) ?? '';
+$username = htmlspecialchars($_POST['username'], ENT_QUOTES) ?? '';
+$password = htmlspecialchars($_POST['password'], ENT_QUOTES) ?? '';
+$restriction = htmlspecialchars($_POST['restriction'], ENT_QUOTES) ?? '';
+$comfirm_password = htmlspecialchars($_POST['comfirm_password'], ENT_QUOTES) ?? '';
+
 
 if(isset($_POST['user_id'])){
     $id =  $_POST['user_id'];

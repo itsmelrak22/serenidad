@@ -234,7 +234,7 @@ $pending = $connection->setQuery("SELECT
                                                             <?=
                                                                 new DateTime($value['valid_until']) < new DateTime()
                                                                 ?
-                                                                    '<button class="btn btn btn-disabled disabled btn-circle" data-toggle="tooltip" data-placement="top" title="Reservation Expired">
+                                                                    '<button class="btn btn btn-disabled disabled btn-circle" data-toggle="tooltip" data-placement="top" title="Reservation Expired" disabled>
                                                                         <i class="fas fa-check"></i>
                                                                     </button>'
                                                                 :
@@ -251,20 +251,35 @@ $pending = $connection->setQuery("SELECT
                                                         
 
                                                         <form  method="post" action="queries/reservation_resource.php" >
-                                                            <input type="hidden" value="edit" name="resource_type">
-                                                            <input type="hidden" value="<?= $value['id'] ?>" name="transaction_id">
-                                                            <button class="btn btn-warning btn-circle" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                                <i class="fas fa-pen"></i>
-                                                            </button>
+                                                            <?=
+                                                                new DateTime($value['valid_until']) < new DateTime()
+                                                                ?
+                                                                    '<button class="btn btn btn-disabled disabled btn-circle" data-toggle="tooltip" data-placement="top" title="Reservation Expired" disabled>
+                                                                        <i class="fas fa-pen"></i>
+                                                                    </button>'
+                                                                :
+                                                                
+                                                                    ' 
+                                                                        <input type="hidden" value="edit" name="resource_type">
+                                                                        <input type="hidden" value="'.$value['id'].'" name="transaction_id">
+                                                                        <button class="btn btn-warning btn-circle" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                                            <i class="fas fa-pen"></i>
+                                                                        </button>
+                                                                    '
+                                                            ?>
+                                                           
                                                         </form>
-                                                        
-                                                        <form  method="post" action="queries/reservation_resource.php"  class="mx-1">
-                                                            <input type="hidden" value="delete" name="resource_type">
-                                                            <input type="hidden" value="<?= $value['id'] ?>" name="transaction_id">
-                                                            <button class="btn btn-danger btn-circle" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
-                                                        </form>
+                                                        <?php 
+                                                            if($_SESSION['login-restriction'] == 'admin'){
+                                                                echo '<form  method="post" action="queries/reservation_resource.php"  class="mx-1">
+                                                                        <input type="hidden" value="delete" name="resource_type">
+                                                                        <input type="hidden" value="'. $value['id'].'" name="transaction_id">
+                                                                        <button class="btn btn-danger btn-circle" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                            <i class="fas fa-trash"></i>
+                                                                        </button>
+                                                                    </form>';
+                                                            }
+                                                            ?>
                                                     </div>
                                                     
                                                 </td>
@@ -302,9 +317,9 @@ $pending = $connection->setQuery("SELECT
     <?php include('includes/scripts.php') ?>
 
     <script>
-        const roomCheckinDates = [];
-        const tempRoomCheckinDates = [];
-        const rooms = [];
+        let roomCheckinDates = [];
+        let tempRoomCheckinDates = [];
+        let rooms = [];
         let daysOfCheckin = 0;
         let selectedRoom = {}
 
@@ -374,7 +389,6 @@ $pending = $connection->setQuery("SELECT
                     room_id: room_id
                 },
                 success: function (response) {
-                  try {
                     refreshDatePicker();
                     $.each(response, function (i, item) {  
                             let data = new Date(item.checkin)
@@ -382,11 +396,30 @@ $pending = $connection->setQuery("SELECT
                             data = ((data.getMonth() > 8) ? (data.getMonth() + 1) : ('0' + (data.getMonth() + 1))) + '-' + ((data.getDate() > 9) ? data.getDate() : ('0' + data.getDate())) + '-' + data.getFullYear()
                             data2 = ((data2.getMonth() > 8) ? (data2.getMonth() + 1) : ('0' + (data2.getMonth() + 1))) + '-' + ((data2.getDate() > 9) ? data2.getDate() : ('0' + data2.getDate())) + '-' + data2.getFullYear()
                             
+                            let Date1 = data
+                            let Date2 = data2
+                            let date1 = new Date(Date1);
+                            let date2 = new Date(Date2);
+                            let diffTime = Math.abs(date2 - date1);
+                            let checkinDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+
+                            if(checkinDays > 1){
+                                const inbetween = []
+                                for (let i = 1; i <= checkinDays - 1; i++) {
+                                    date1.setDate(date1.getDate() + 1);
+                                    let formatDate = ((date1.getMonth() > 8) ? (date1.getMonth() + 1) : ('0' + (date1.getMonth() + 1))) + '-' + ((date1.getDate() > 9) ? date1.getDate() : ('0' + date1.getDate())) + '-' + date1.getFullYear()
+                                    inbetween.push(formatDate)
+                                }
+                                roomCheckinDates = [...roomCheckinDates, ...inbetween]
+                                tempRoomCheckinDates = [...tempRoomCheckinDates, ...inbetween]
+                            }
+                            
                             roomCheckinDates.push(data)
                             roomCheckinDates.push(data2)
                             tempRoomCheckinDates.push(data)
                             tempRoomCheckinDates.push(data2)
                         });  
+
 
                         refreshDatePicker();
 
@@ -417,14 +450,13 @@ $pending = $connection->setQuery("SELECT
                                 $('#priceBreakdownContainer').append(rows); 
                         } 
                         
-                  } catch (error) {
-                    console.log(error)
-                    alert('Server Error')
-                    location.reload();
-                  }
+             
                  },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(textStatus, errorThrown);
+                    alert('Server Error')
+                    location.reload();
+
                 }
             });
         }
@@ -451,11 +483,30 @@ $pending = $connection->setQuery("SELECT
             })
         }
 
+        function nextAndPrevDateIsDisabled(date){
+            let date1 = new Date(date);
+            date1.setDate(date1.getDate() + 1);
+            let formatDate1 = ((date1.getMonth() > 8) ? (date1.getMonth() + 1) : ('0' + (date1.getMonth() + 1))) + '-' + ((date1.getDate() > 9) ? date1.getDate() : ('0' + date1.getDate())) + '-' + date1.getFullYear()
+           
+            let date2 = new Date(date);
+            date2.setDate(date2.getDate() - 1);
+            let formatDate2 = ((date2.getMonth() > 8) ? (date2.getMonth() + 1) : ('0' + (date2.getMonth() + 1))) + '-' + ((date2.getDate() > 9) ? date2.getDate() : ('0' + date2.getDate())) + '-' + date2.getFullYear()
+
+            return roomCheckinDates.includes(formatDate1) && roomCheckinDates.includes(formatDate2)
+        }
+
         function modifyCheckoutDate(){
             daysOfCheckin = 0;
 
             const checkinInput = document.getElementById('datepicker-checkin');
             const checkoutInput = document.getElementById('datepicker-checkout');
+
+            if(nextAndPrevDateIsDisabled(checkinInput.value)){
+                refreshDatePicker();
+                checkinInput.value = ''
+                alert('Sorry, cannot select, previous and next date is reserved ')
+                return
+            }
 
             roomCheckinDates.splice(0);
             tempRoomCheckinDates.map(res => roomCheckinDates.push(res))

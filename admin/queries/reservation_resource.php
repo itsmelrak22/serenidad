@@ -146,8 +146,20 @@ switch ($_POST['resource_type']) {
 
         break;
     case 'delete' :
+  
+        try {
+            $conn->setQuery(" DELETE FROM `transactions` WHERE `id` = $id");
+            $_SESSION['success'] = ' Transaction Deleted!';
+            
+            header("location:../");
 
+        } catch (\PDOException $e) {
+            $_SESSION['error'] = $e->getMessage();
+            exit(0);
+        }
         break;
+
+    exit(0);
 
     exit(0);
     

@@ -38,6 +38,9 @@
                 }
                 $.each(data.transactions, function (i, item) {  
                     // console.log(item)
+                    if (i == 4) {
+                        return false;
+                    }
                     const formatDate = new Date(item.created_at);
                     const rows = `
                         <a class="dropdown-item d-flex align-items-center" href="index.php">

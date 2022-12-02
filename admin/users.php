@@ -142,11 +142,10 @@ $users = $connection->all();
                                                                         </button>
                                                                 </form>
                                                         </div>
-                                                                ';
+                                                    ';
                                                     }
                                                     
                                                 } 
-
                                            ?>
                                         </td>
                                     </tr>
