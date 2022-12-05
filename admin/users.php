@@ -5,6 +5,10 @@ spl_autoload_register(function ($class) {
     include '../models/' . $class . '.php';
 });
 
+if($_SESSION['login-restriction'] != 'admin'){
+    header('Location: index.php');
+}
+
 $msg = '';
 $status = '';
 if(isset($_SESSION['success'])){
@@ -69,6 +73,8 @@ $users = $connection->all();
                                     </div>';
                         }
                     ?>
+                    <?php include('includes/restrictions-info.php') ?>
+
 
                     <!-- DataTales -->
                     <div class="card shadow mb-4">

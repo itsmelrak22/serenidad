@@ -59,6 +59,7 @@ Class Transaction extends Model {
                                 LEFT JOIN `room` as C
                                 ON A.room_id = C.id
                                 WHERE A.status = 'Reserved'
+                                OR A.status = 'Cancelled'
                                 ORDER BY A.created_at DESC
                                 ")
                                 ->getAll();

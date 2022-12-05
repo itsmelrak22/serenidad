@@ -11,7 +11,7 @@ if(
     !isset($_SESSION['password']) ||
     !isset($_SESSION['restriction'])
 ){
-    header("location:index.php");
+    header("location:users.php");
 }
 
 $id = $_SESSION['id'];
@@ -25,9 +25,6 @@ unset($_SESSION['name']);
 unset($_SESSION['username']);
 unset($_SESSION['password']);
 unset($_SESSION['restriction']);
-
-$conn = new Admin;
-$user = $conn->find(1);
 
 ?>
 
@@ -52,7 +49,10 @@ $user = $conn->find(1);
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
+
                 <div class="container-fluid">
+                <?php include('includes/restrictions-info.php') ?>
+
                     <form action="queries/users_resource.php" method="POST" class="user" id="" >
                         <div class="card shadow py-2">
                             <div class="card-body p-0">

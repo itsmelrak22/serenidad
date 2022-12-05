@@ -36,7 +36,7 @@ switch ($_POST['resource_type']) {
         $_SESSION['transaction'] = $transaction;
 
 		header("location:../accept-reservation.php");
-        break;
+    break;
 
     case 'save-accept':
         // print_r($_POST);
@@ -52,10 +52,11 @@ switch ($_POST['resource_type']) {
             exit(0);
         }
         
-        $_SESSION["reserved-success"] = " Transaction Successfuly Reseved!";
-        header("Location: ../");
+        $_SESSION["success"] = " Transaction Successfuly Reseved!";
+        header("Location: ../reservation-reserved.php");
+
         
-        break;
+    break;
 
     case 'checkin-confirm':
             try {
@@ -66,22 +67,23 @@ switch ($_POST['resource_type']) {
                 exit(0);
             }
             
-            $_SESSION["checkin-success"] = " Transaction Successfuly Checkin!";
-            header("Location: ../");
-        break;
+            $_SESSION["success"] = " Transaction Successfuly Checkin!";
+            header("Location: ../reservation-checkin.php");
+    break;
         
     case 'checkout-confirm':
-            try {
-                $conn->setQuery("UPDATE `transactions` SET `status`= 'Check Out', `updated_at`= '$today' WHERE `id` = $id");
+        
 
+            try {
+                $conn->setQuery("UPDATE `transactions` SET `status`= 'Check Out', `balance`= 0, `updated_at`= '$today' WHERE `id` = $id");
             } catch (\PDOException $e) {
                 echo $e->getMessage();
                 exit(0);
             }
             
-            $_SESSION["checkout-success"] = " Transaction Successfuly Checkout!";
-            header("Location: ../");
-        break;
+            $_SESSION["success"] = " Transaction Successfuly Checkout!";
+            header("Location: ../reservation-checkout.php");
+    break;
 
     case 'edit' :
 
@@ -117,9 +119,7 @@ switch ($_POST['resource_type']) {
             exit(0);
         }
         
-        break;
-
-        break;
+    break;
 
     case 'update' :
         try {
@@ -144,7 +144,8 @@ switch ($_POST['resource_type']) {
             exit(0);
         }
 
-        break;
+    break;
+
     case 'delete' :
   
         try {
@@ -157,9 +158,8 @@ switch ($_POST['resource_type']) {
             $_SESSION['error'] = $e->getMessage();
             exit(0);
         }
-        break;
+    break;
 
-    exit(0);
 
     exit(0);
     

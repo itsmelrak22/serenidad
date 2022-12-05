@@ -14,7 +14,7 @@
 		           	<div class="row">
 			           	<div class="col-sm-3">
 			           		 <div class="navbar-header">
-				                <a class="navbar-brand" href="index.html">Serenidad Suites <span> Online</span></a>
+				                <a class="navbar-brand" href="">Serenidad Suites <span> Online</span></a>
 				            </div><!--/.navbar-header-->
 			           	</div>
 			           	<div class="col-sm-9">

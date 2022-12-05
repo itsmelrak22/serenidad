@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 02, 2022 at 03:07 PM
+-- Generation Time: Dec 05, 2022 at 07:57 AM
 -- Server version: 8.0.28
 -- PHP Version: 8.1.9
 
@@ -69,23 +69,11 @@ CREATE TABLE `guest` (
 --
 
 INSERT INTO `guest` (`id`, `uuid`, `firstname`, `middlename`, `lastname`, `address`, `contactno`, `created_at`, `updated_at`) VALUES
-(1, 'b9723b0e-c33e-4cbb-bffe-996a5497fbce', 'Karl', 'Angelo', 'Oriel', NULL, '09511658756', '2022-12-01 15:32:23', '2022-12-01 15:32:23'),
-(2, '4d47d7d7-742e-4ca0-8c51-12ea672d849f', 'test', 'test', 'ets', NULL, '232131231', '2022-12-01 16:02:31', '2022-12-01 16:02:31'),
-(3, '2df2b317-5e38-4b5b-94ff-1bcbbfa96337', '231', '312', '312', NULL, '3124143', '2022-12-01 16:05:38', '2022-12-01 16:05:38'),
-(4, '58919414-4576-4b9c-8947-77f8c028050f', 'wqe', 'qeq', 'ewqe', NULL, '2313123213', '2022-12-01 16:07:45', '2022-12-01 16:07:45'),
-(5, '9e8b113d-1a1e-4069-8675-168ce7f6b928', 'qweqeqwe', 'qweqw', 'eqwe', NULL, '12313123123', '2022-12-01 16:08:25', '2022-12-01 16:08:25'),
-(6, '2389ef8f-ddc8-457b-8226-7e59bd1b4a28', 'test', 'test', 'test', NULL, '23131312', '2022-12-02 09:37:49', '2022-12-02 09:37:49'),
-(7, 'b06c636d-a238-4b2f-8407-fd91a174b83a', 'test', 'test', 'test', NULL, '2321313131', '2022-12-02 11:25:47', '2022-12-02 11:25:47'),
-(8, 'ed3f59cb-3726-4dc5-ac64-821bd9f64c30', 'test', 'est', 'ests', NULL, '213131231', '2022-12-02 13:02:05', '2022-12-02 13:02:05'),
-(9, '7751773e-19fd-4729-a29e-fe34c6760b20', 'weqe', 'qwewqe', 'wqq', NULL, '2313213', '2022-12-02 13:03:20', '2022-12-02 13:03:20'),
-(10, 'a812d3da-fa68-4ac6-9e6a-73f1cc764ae9', 'wqeqw', 'eqwe', 'qwe', NULL, '123123', '2022-12-02 13:28:55', '2022-12-02 13:28:55'),
-(11, '804dc985-b4c2-4396-ac9d-3536da3df0ec', 'terst', 'tset', 'estse', NULL, '12312312312', '2022-12-02 13:36:54', '2022-12-02 13:36:54'),
-(12, '92b6ef18-c565-4c84-a51b-1aef7099d602', 'Karl', 'Karl', 'Karl', NULL, '12313123', '2022-12-02 14:31:34', '2022-12-02 14:31:34'),
-(13, 'b6977c66-06f1-4542-9451-c2c329520019', 'Karl Angelo', 'qwe', 'Oriel', NULL, '09511658756', '2022-12-02 21:43:02', '2022-12-02 21:43:02'),
-(14, 'a6401501-a98d-4911-ae57-e08fbde48557', 'asd', 'adasd', 'asdas', NULL, '09511658756', '2022-12-02 22:07:49', '2022-12-02 22:07:49'),
-(15, '4cc8463a-7ec4-415b-a384-b6bd44bbbe63', 'Karl', 'Angelo', 'B', NULL, '64654654', '2022-12-02 22:13:30', '2022-12-02 22:13:30'),
-(16, '874b4a8d-4223-4788-9eed-85d2f6a321df', 'wqeqwe', 'qeqweq', 'weqwe', NULL, '2131231233', '2022-12-02 22:25:02', '2022-12-02 22:25:02'),
-(17, '26ba3b94-b188-4672-8dc0-7448dbf9f782', 'Karl Angelo', 'qwe', 'Oriel', NULL, '09565824654', '2022-12-02 22:32:57', '2022-12-02 22:32:57');
+(1, '55b4ecb0-bd81-479c-9057-7f319fd47b67', 'Karl Angelo', 'qwe', 'Oriel', NULL, '09511658756', '2022-12-05 15:14:41', '2022-12-05 15:14:41'),
+(2, 'b84bcecd-e791-4085-8d22-996c0c78bad3', 'Karl Angelo', 'qwe', 'Oriel', NULL, '09511658756', '2022-12-05 15:41:06', '2022-12-05 15:41:06'),
+(3, '2597ec28-9e39-4934-8d4c-395b1b00b1ca', 'Karl', 'Angelo', 'B', NULL, '09511658756', '2022-12-05 15:44:44', '2022-12-05 15:44:44'),
+(4, 'e07a1699-a844-452a-b369-6dfbb92992b8', 'wqeqwe', 'qeqweq', 'weqwe', NULL, '09511658756', '2022-12-05 15:46:19', '2022-12-05 15:46:19'),
+(5, 'cffd6efa-da81-49f5-aeb1-b604260cb968', 'wqeqwe', 'qeqweq', 'weqwe', NULL, '09511658756', '2022-12-05 15:49:28', '2022-12-05 15:49:28');
 
 -- --------------------------------------------------------
 
@@ -115,27 +103,6 @@ INSERT INTO `room` (`id`, `room_type`, `price`, `photo`, `description`, `created
 -- --------------------------------------------------------
 
 --
--- Table structure for table `transaction`
---
-
-CREATE TABLE `transaction` (
-  `transaction_id` int NOT NULL,
-  `guest_id` int NOT NULL,
-  `room_id` int NOT NULL,
-  `room_no` int NOT NULL,
-  `extra_bed` int NOT NULL,
-  `status` varchar(20) NOT NULL,
-  `days` int NOT NULL,
-  `checkin` date NOT NULL,
-  `checkin_time` time NOT NULL,
-  `checkout` date NOT NULL,
-  `checkout_time` time NOT NULL,
-  `bill` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `transactions`
 --
 
@@ -160,29 +127,20 @@ CREATE TABLE `transactions` (
   `valid_until` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `is_unread` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
+  `updated_at` datetime DEFAULT NULL,
+  `remarks` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `transactions`
 --
 
-INSERT INTO `transactions` (`id`, `guest_id`, `room_id`, `room_no`, `extra_bed`, `extra_pax`, `status`, `days`, `checkin`, `checkin_time`, `checkout`, `checkout_time`, `bill`, `balance`, `payment`, `is_payment_full`, `payment_at`, `valid_until`, `is_unread`, `created_at`, `updated_at`) VALUES
-(1, 1, 6, NULL, 0, NULL, 'Check Out', 3, '12/05/2022', NULL, '12/08/2022', NULL, '7200', 4700, 2500, 0, '2022-12-01 16:00:53', '2022-12-01 16:32:23', 0, '2022-12-01 15:32:23', '2022-12-01 16:01:06'),
-(2, 2, 5, NULL, 0, NULL, 'Reserved', 1, '', NULL, '', NULL, '2000', 1000, 1000, 0, '2022-12-01 16:03:26', '2022-12-01 17:02:31', 0, '2022-12-01 16:02:31', '2022-12-01 16:03:26'),
-(3, 3, 5, NULL, 0, NULL, 'Reserved', 2, '12/01/2022', NULL, '12/03/2022', NULL, '4000', 2000, 2000, 0, '2022-12-01 16:06:12', '2022-12-01 17:05:38', 0, '2022-12-01 16:05:38', '2022-12-01 16:06:12'),
-(5, 5, 6, NULL, 0, NULL, 'Expired', 1, '12/01/2022', NULL, '12/02/2022', NULL, '2400', 0, 0, 0, NULL, '2022-12-01 17:08:25', 0, '2022-12-01 16:08:25', '2022-12-01 16:08:25'),
-(7, 7, 5, NULL, 0, NULL, 'Expired', 1, '12/02/2022', NULL, '12/03/2022', NULL, '2000', 0, 0, 0, NULL, '2022-12-02 12:25:47', 0, '2022-12-02 11:25:47', '2022-12-02 11:25:47'),
-(8, 8, 5, NULL, 0, NULL, 'Expired', 1, '12/02/2022', NULL, '12/03/2022', NULL, '2000', 0, 0, 0, NULL, '2022-12-02 14:02:05', 0, '2022-12-02 13:02:05', '2022-12-02 13:02:05'),
-(9, 9, 5, NULL, 0, NULL, 'Expired', 2, '12/04/2022', NULL, '12/06/2022', NULL, '4000', 0, 0, 0, NULL, '2022-12-02 14:03:20', 0, '2022-12-02 13:03:20', '2022-12-02 13:03:20'),
-(10, 10, 5, NULL, 0, NULL, 'Expired', 3, '12/11/2022', NULL, '12/14/2022', NULL, '6000', 0, 0, 0, NULL, '2022-12-02 14:28:55', 0, '2022-12-02 13:28:55', '2022-12-02 13:28:55'),
-(11, 11, 5, NULL, 0, NULL, 'Expired', 2, '12/08/2022', NULL, '12/10/2022', NULL, '4000', 0, 0, 0, NULL, '2022-12-02 14:36:54', 0, '2022-12-02 13:36:54', '2022-12-02 13:36:54'),
-(12, 12, 5, NULL, 0, NULL, 'Expired', 2, '12/04/2022', NULL, '12/06/2022', NULL, '4000', 0, 0, 0, NULL, '2022-12-02 15:31:34', 0, '2022-12-02 14:31:34', '2022-12-02 14:31:34'),
-(13, 13, 5, NULL, 3, 3, 'Reserved', 1, '12/02/2022', NULL, '12/03/2022', NULL, '5000', 2270, 2280, 0, '2022-12-02 22:05:00', '2022-12-02 22:43:02', 0, '2022-12-02 21:43:02', '2022-12-02 22:05:00'),
-(14, 14, 6, NULL, 3, 3, 'Reserved', 2, '12/05/2022', NULL, '12/07/2022', NULL, '7800', 3350, 4000, 0, '2022-12-02 22:10:55', '2022-12-02 23:07:49', 0, '2022-12-02 22:07:49', '2022-12-02 22:10:55'),
-(15, 15, 5, NULL, 0, 0, 'PENDING', 0, '', NULL, '', NULL, '0', 0, 0, 0, NULL, '2022-12-02 23:13:30', 0, '2022-12-02 22:13:30', '2022-12-02 22:13:30'),
-(16, 16, 5, NULL, 3, 4, 'Reserved', 1, '12/05/2022', NULL, '12/06/2022', NULL, '5500', 2400, 2500, 0, '2022-12-02 22:25:27', '2022-12-02 23:25:02', 0, '2022-12-02 22:25:02', '2022-12-02 22:25:27'),
-(17, 17, 5, NULL, 3, 4, 'Reserved', 2, '12/08/2022', NULL, '12/10/2022', NULL, '7500', 2900, 4000, 0, '2022-12-02 22:33:32', '2022-12-02 23:32:57', 1, '2022-12-02 22:32:57', '2022-12-02 22:33:32');
+INSERT INTO `transactions` (`id`, `guest_id`, `room_id`, `room_no`, `extra_bed`, `extra_pax`, `status`, `days`, `checkin`, `checkin_time`, `checkout`, `checkout_time`, `bill`, `balance`, `payment`, `is_payment_full`, `payment_at`, `valid_until`, `is_unread`, `created_at`, `updated_at`, `remarks`) VALUES
+(1, 1, 5, NULL, 2, 2, 'Check Out', 1, '12/05/2022', NULL, '12/06/2022', NULL, '3700', 0, 1900, 0, '2022-12-05 15:14:49', '2022-12-05 16:14:41', 1, '2022-12-05 15:14:41', '2022-12-05 15:40:40', NULL),
+(2, 2, 5, NULL, 3, 2, 'Check Out', 1, '12/05/2022', NULL, '12/06/2022', NULL, '4200', 0, 2200, 0, '2022-12-05 15:41:23', '2022-12-05 16:41:06', 1, '2022-12-05 15:41:06', '2022-12-05 15:41:38', NULL),
+(3, 3, 6, NULL, 0, 0, 'Check Out', 1, '12/07/2022', NULL, '12/08/2022', NULL, '2400', 0, 1500, 0, '2022-12-05 15:45:43', '2022-12-05 16:44:44', 1, '2022-12-05 15:44:44', '2022-12-05 15:47:31', NULL),
+(4, 4, 5, NULL, 0, 0, 'Check In', 2, '12/19/2022', NULL, '12/21/2022', NULL, '4000', 1500, 2500, 0, '2022-12-05 15:46:26', '2022-12-05 16:46:19', 1, '2022-12-05 15:46:19', '2022-12-05 15:50:50', NULL),
+(5, 5, 5, NULL, 0, 0, 'PENDING', 1, '12/06/2022', NULL, '12/07/2022', NULL, '2000', 0, 0, 0, NULL, '2022-12-05 16:49:28', 1, '2022-12-05 15:49:28', '2022-12-05 15:49:28', NULL);
 
 --
 -- Indexes for dumped tables
@@ -208,12 +166,6 @@ ALTER TABLE `room`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `transaction`
---
-ALTER TABLE `transaction`
-  ADD PRIMARY KEY (`transaction_id`);
-
---
 -- Indexes for table `transactions`
 --
 ALTER TABLE `transactions`
@@ -233,7 +185,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `guest`
 --
 ALTER TABLE `guest`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `room`
@@ -242,16 +194,10 @@ ALTER TABLE `room`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `transaction`
---
-ALTER TABLE `transaction`
-  MODIFY `transaction_id` int NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

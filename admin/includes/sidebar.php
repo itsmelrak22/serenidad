@@ -39,13 +39,16 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">List:</h6>
                         <a class="collapse-item" href="index.php"> Pending </a>
-                        <a class="collapse-item" href="reservation-expired.php"> Expired </a>
+                        <a class="collapse-item" href="reservation-reserved.php"> Reserved </a>
                         <a class="collapse-item" href="reservation-checkin.php"> Check In </a>
                         <a class="collapse-item" href="reservation-checkout.php"> Check Out </a>
                     </div>
                 </div>
             </li>
 
+            <?php
+                if($_SESSION['login-restriction'] == 'admin'){
+            ?>
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
@@ -62,6 +65,9 @@
                     </div>
                 </div>
             </li>
+            <?php
+                }
+            ?>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

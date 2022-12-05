@@ -4,15 +4,14 @@
 spl_autoload_register(function ($class) {
     include '../models/' . $class . '.php';
 });
-if(!ISSET($_SESSION['resource_type'])){
+
+if(!isset($_SESSION['transaction']) ){
     header("location:index.php");
 }
-$transaction = $_SESSION['transaction'];
 
-unset($_SESSION['resource_type']);
+$transaction = $_SESSION['transaction'];
 unset($_SESSION['transaction']);
-$total = 0;
-$min_payment = 0;
+
 ?>
 
 
@@ -37,17 +36,17 @@ $min_payment = 0;
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <form action="queries/reservation_resource.php" method="POST" class="user" id="">
+                    <form action="queries/reserved_resource.php" method="POST" class="user" id="">
                         <div class="card shadow py-2">
                             <div class="card-body p-0">
-                            <div class="mx-5 pt-5"> <h5>Serenidad Suites - Confirm Reservation</h5> </div>
+                            <div class="mx-5 pt-5"> <h5>Serenidad Suites - Edit Reservation</h5> </div>
                                 <!-- Nested Row within Card Body -->
                                 <div class="row">
                                     <div class="p-5">
                                             <div class="form-group row">
 
                                                  <input value="<?= $transaction->id ?>" name="transaction_id" type="hidden" class="form-control ">
-                                                 <input value="save-accept" name="resource_type" type="hidden" class="form-control ">
+                                                 <input value="cancel" name="resource_type" type="hidden" class="form-control ">
                                                 <div class="col-4 form-group">
                                                     <label for="firstname">Firstname :</label>
                                                     <input value="<?= $transaction->firstname ?>" name="firstname" id="firstname" type="text" class="form-control "  placeholder="Fistname" readonly>
@@ -137,11 +136,10 @@ $min_payment = 0;
                                                 <div class="col-12 mb-3" >
                                                     <div class="alert alert-info" role="alert">
                                                         <ul>
-                                                            <li>Mininum Downpayment is PHP <?= $min_payment ?> (50%) </li>
+                                                            <li>Reason for cancellation. </li>
                                                         </ul>
                                                     </div>
-                                                    <label for="payment">Payment (PHP): </label>
-                                                    <input id="payment" name="payment" type="number" class=" form-control" required onInput="checkPayment(<?= $total ?>)"/>
+                                                    <input id="reason" name="reason" type="text" class=" form-control" required/>
                                                 </div>
                                                 
                                             </div>
@@ -149,7 +147,7 @@ $min_payment = 0;
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" id="submit" class="btn btn-primary" disabled> Save Transaction </button>
+                            <button type="submit" id="submit" class="btn btn-primary"> Cancel Transaction </button>
                         </div>
                     </form>
                 </div>
@@ -172,25 +170,11 @@ $min_payment = 0;
     </a>
 
     <?php include('includes/modals.php') ?>
-
-    <script>
-        const rooms = [];
-
-        function checkPayment(total){
-            // const submitBTn = document.getElementById('my-input-id').disabled = false;
-            const paymentinput = document.getElementById('payment');
-            const submitBTn = document.getElementById('submit');
-
-            let min_payment = eval(total * .5);
-            if(Number(paymentinput.value) >= min_payment){
-                submitBTn.removeAttribute("disabled");
-            }else{
-                submitBTn.setAttribute("disabled", "disabled");
-            }
-        }
-    </script>
     <?php include('includes/scripts.php') ?>
 
+    <script>
+
+    </script>
 </body>
 
 </html>

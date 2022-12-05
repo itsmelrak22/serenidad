@@ -3,6 +3,23 @@ spl_autoload_register(function ($class) {
     include '../models/' . $class . '.php';
 });
 
+
+$msg = '';
+$status = '';
+if(isset($_SESSION['success'])){
+    $status = 'success';
+    $msg = $_SESSION['success'];
+    unset($_SESSION['success']);
+      
+}
+
+if(isset($_SESSION['error'])){
+    $status = 'error';
+    $msg = $_SESSION['error'];
+    unset($_SESSION['error']);
+}
+
+
 $connection = new Transaction();
 $CHECKOUT = $connection->getCheckOutTransactions();
 
@@ -32,6 +49,25 @@ $CHECKOUT = $connection->getCheckOutTransactions();
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
+                <?php
+                        if($status == 'success'){
+                            echo    '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <strong>Done!</strong>'. $msg. '.
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>';
+                        }else if($status == 'error'){
+                            echo    '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <strong>Server Error!</strong> .
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>';
+                        }
+
+                    ?>
+
                     <!-- Content Row -->
                     <div class="row">
 
@@ -59,6 +95,7 @@ $CHECKOUT = $connection->getCheckOutTransactions();
                                         <th>Extra Bed</th>
                                         <th>Bill</th>
                                         <th></th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -81,6 +118,34 @@ $CHECKOUT = $connection->getCheckOutTransactions();
                                         </td>
                                         <td><?= "Php. ".$value['bill'].".00"?></td>
                                         <td><label class = "">Paid</label></td>
+                                        <td>
+                                            <?php
+                                                if($_SESSION['login-restriction'] == 'admin'){
+                                            ?>
+                                            <div class="form-inline">
+                                                <form action="queries/checkout_resource.php" method="post">
+                                                    <input type="hidden" value="edit" name="resource_type">
+                                                    <input type="hidden" value="<?= $value['id'] ?>" name="transaction_id">
+                                                    <button class="btn btn-warning btn-circle ml-2" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                        <i class="fas fa-pen"></i>
+                                                    </button>
+                                                </form>
+
+                                                <form class="ml-2" action="queries/checkout_resource.php" method="post">
+                                                    <input type="hidden" value="delete" name="resource_type">
+                                                    <input type="hidden" value="<?= $value['id'] ?>" name="transaction_id">
+                                                    <button class="btn btn-danger btn-circle ml-2" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                                
+                                            <?php
+                                                }
+                                            ?>
+
+                                            
+                                        </td>
                                     </tr>
                                     <?php
                                         }

@@ -5,6 +5,22 @@ spl_autoload_register(function ($class) {
     include '../models/' . $class . '.php';
 });
 
+$msg = '';
+$status = '';
+if(isset($_SESSION['success'])){
+    $status = 'success';
+    $msg = $_SESSION['success'];
+    unset($_SESSION['success']);
+      
+}
+
+if(isset($_SESSION['error'])){
+    $status = 'error';
+    $msg = $_SESSION['error'];
+    unset($_SESSION['error']);
+}
+
+
 $connection = new Transaction();
 $CHECKIN = $connection->getCheckInTransactions();
 
@@ -32,6 +48,25 @@ $CHECKIN = $connection->getCheckInTransactions();
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+
+                    <?php
+                        if($status == 'success'){
+                            echo    '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <strong>Done!</strong>'. $msg. '.
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>';
+                        }else if($status == 'error'){
+                            echo    '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <strong>Server Error!</strong> .
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>';
+                        }
+
+                    ?>
 
                     <!-- Content Row -->
                     <div class="row">
@@ -76,11 +111,13 @@ $CHECKIN = $connection->getCheckInTransactions();
                                         <td><?php if($value['extra_bed'] == "0"){ echo "None";}else{echo $value['extra_bed'];}?></td>
                                         <td><?= "Php. ".$value['bill'].".00"?></td>
                                         <td>
-                                            <span data-toggle="modal" data-target="#confirmCheckoutModal">
-                                                <button data-toggle="tooltip" data-placement="top" title="Accept Reservation"  class="btn btn-primary btn-circle" >
+                                            <form action="queries/checkout_resource.php" method="post">
+                                                <input type="hidden" value="confirm" name="resource_type">
+                                                <input type="hidden" value="<?= $value['id'] ?>" name="transaction_id">
+                                                <button class="btn btn-primary btn-circle ml-2" data-toggle="tooltip" data-placement="top" title="Cancel">
                                                     <i class="fas fa-check"></i>
                                                 </button>
-                                            </span>
+                                            </form>
                                         </td>
                                     </tr>
                                     <?php

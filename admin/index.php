@@ -150,14 +150,14 @@ $pending = $connection->setQuery("SELECT
                                     </div>';
                         }
 
-                        if($status == 'error'){
-                            echo    '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <strong>Login Success! '.$msg.' </strong> .
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>'; 
-                        }
+                        // if($status == 'error'){
+                        //     echo    '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        //                 <strong>Login Success! '.$msg.' </strong> .
+                        //                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        //                     <span aria-hidden="true">&times;</span>
+                        //                 </button>
+                        //             </div>'; 
+                        // }
                     ?>
 
                     <!-- Content Row -->
@@ -595,9 +595,9 @@ $pending = $connection->setQuery("SELECT
                         </div>
                         <hr>
                         <div>
-                            <input name="bill" type="hidden" class="form-control form-control-user" value="${ eval(eval(selectedRoom.price * daysOfCheckin) + eval(additionalBedInput.value * 500) +  eval(additionalPaxInout.value * 500)) }">
+                            <input name="bill" type="hidden" class="form-control form-control-user" value="${ eval(eval(selectedRoom.price * daysOfCheckin) + eval(additionalBedInput.value * 500) +  eval(additionalPaxInout.value * 350)) }">
                             
-                            <span > Total before taxes:  </span> <span class="float-right"> ${ eval(eval(selectedRoom.price * daysOfCheckin) + eval(additionalBedInput.value * 500) + eval(additionalPaxInout.value * 500)) } </span> 
+                            <span > Total before taxes:  </span> <span class="float-right"> ${ eval(eval(selectedRoom.price * daysOfCheckin) + eval(additionalBedInput.value * 500) + eval(additionalPaxInout.value * 350)) } </span> 
                         </div>
                     </div>
                     `;  
@@ -616,9 +616,9 @@ $pending = $connection->setQuery("SELECT
                         </div>
                         <hr>
                         <div>
-                            <input name="bill" type="hidden" class="form-control form-control-user" value="${ eval(eval(selectedRoom.price * daysOfCheckin) + eval(additionalPaxInout.value * 500)) }">
+                            <input name="bill" type="hidden" class="form-control form-control-user" value="${ eval(eval(selectedRoom.price * daysOfCheckin) + eval(additionalPaxInout.value * 350)) }">
                             
-                            <span > Total before taxes:  </span> <span class="float-right"> ${ eval(eval(selectedRoom.price * daysOfCheckin) + eval(additionalPaxInout.value * 500))  } </span> 
+                            <span > Total before taxes:  </span> <span class="float-right"> ${ eval(eval(selectedRoom.price * daysOfCheckin) + eval(additionalPaxInout.value * 350))  } </span> 
                         </div>
                     </div>
                     `;  

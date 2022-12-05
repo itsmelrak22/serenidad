@@ -5,6 +5,10 @@ spl_autoload_register(function ($class) {
     include '../models/' . $class . '.php';
 });
 
+if($_SESSION['login-restriction'] != 'admin'){
+    header('Location: index.php');
+}
+
 $msg = '';
 $status = '';
 if(isset($_SESSION['success'])){

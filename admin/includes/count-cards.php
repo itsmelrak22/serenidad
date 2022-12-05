@@ -5,7 +5,7 @@ spl_autoload_register(function ($class) {
 
 $connection = new Transaction();
 $pendingCount = $connection->setQuery("SELECT Count(id) AS count FROM `transactions`   WHERE `status` LIKE 'Pending' OR `status` LIKE 'Expired'")->getFirst();
-$reservedCount = $connection->setQuery("SELECT Count(id) AS count FROM `transactions`   WHERE `status` LIKE 'Reserved'")->getFirst();
+$reservedCount = $connection->setQuery("SELECT Count(id) AS count FROM `transactions`   WHERE `status` LIKE 'Reserved' OR `status` LIKE 'Cancelled'")->getFirst();
 $checkinCount = $connection->setQuery("SELECT Count(id) AS count FROM `transactions`   WHERE `status` LIKE 'Check In'")->getFirst();
 $checkoutCount = $connection->setQuery("SELECT Count(id) AS count FROM `transactions`   WHERE `status` LIKE 'Check Out'")->getFirst();
 

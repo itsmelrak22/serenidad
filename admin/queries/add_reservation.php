@@ -116,7 +116,7 @@ spl_autoload_register(function ($class) {
             exit(0);
         }
 
-       header("Location: ../");
+            header("Location: ../");
 
 
     } catch (PDOException $e) {
