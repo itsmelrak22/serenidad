@@ -114,7 +114,7 @@ $CHECKIN = $connection->getCheckInTransactions();
                                             <form action="queries/checkout_resource.php" method="post">
                                                 <input type="hidden" value="confirm" name="resource_type">
                                                 <input type="hidden" value="<?= $value['id'] ?>" name="transaction_id">
-                                                <button class="btn btn-primary btn-circle ml-2" data-toggle="tooltip" data-placement="top" title="Cancel">
+                                                <button class="btn btn-primary btn-circle ml-2" data-toggle="tooltip" data-placement="top" title="Confirm">
                                                     <i class="fas fa-check"></i>
                                                 </button>
                                             </form>

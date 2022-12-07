@@ -260,6 +260,7 @@
 		
 		</section><!--/.works-->
 		<!--works end -->
+		<?php include 'modals.php';?>	
 		<?php include 'scripts.php';?>	
 
 <style>

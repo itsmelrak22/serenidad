@@ -1,12 +1,11 @@
-<!-- <!DOCTYPE html>
-<html lang = "en">
-	<div style = "text-align:right; margin-right:10px;" class = "navbar navbar-default navbar-fixed-bottom">
-		<label>Created by JDA, JRPM, MD</label>
-	</div>
-</body>
-<script src = "js/jquery.js"></script>
-<script src = "js/bootstrap.js"></script>	
-</html> -->
+<!-- Floating Action Button -->
+<span  data-toggle="modal" data-target="#chatBotModal" >
+	<a href="#" class="float" data-toggle="tooltip" data-placement="left" title="Chat with us!">
+	<i class="fas fa-robot my-float"></i>
+	</a>
+</span>
+<!-- Floating Action Button -->
+
 			<!--footer start-->
 			<footer id="footer"  class="footer">
 			<div class="container">
@@ -54,4 +53,24 @@
 
 <!-- <script src = "js/jquery.js"></script>
 <script src = "js/bootstrap.js"></script>	 -->
+<style>
+	
+.float{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:#3a60ce;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+	z-index: 99;
+}
+
+.my-float{
+	margin-top:22px;
+}
+</style>
 </html>
