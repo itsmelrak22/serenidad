@@ -302,8 +302,11 @@
             let date2 = new Date(date);
             date2.setDate(date2.getDate() - 1);
             let formatDate2 = ((date2.getMonth() > 8) ? (date2.getMonth() + 1) : ('0' + (date2.getMonth() + 1))) + '-' + ((date2.getDate() > 9) ? date2.getDate() : ('0' + date2.getDate())) + '-' + date2.getFullYear()
-
-            return roomCheckinDates.includes(formatDate1) && roomCheckinDates.includes(formatDate2)
+           
+            let today = new Date();
+            let formatToday = ((today.getMonth() > 8) ? (today.getMonth() + 1) : ('0' + (today.getMonth() + 1))) + '-' + ((today.getDate() > 9) ? today.getDate() : ('0' + today.getDate())) + '-' + today.getFullYear()
+            
+            return ( roomCheckinDates.includes(formatDate1) && roomCheckinDates.includes(formatDate2) ) || ( formatToday > formatDate2 && roomCheckinDates.includes(formatDate1) )
         }
 
         function modifyCheckoutDate(){
@@ -315,7 +318,7 @@
             if(nextAndPrevDateIsDisabled(checkinInput.value)){
                 refreshDatePicker();
                 checkinInput.value = ''
-                alert('Sorry, cannot select, previous and next date is reserved ')
+                alert('Sorry, Previous or next of selected date is unavalable. ')
                 return
             }
 
@@ -355,7 +358,6 @@
         }
 
         function setPriceBreakdownContainer(){
-
             const additionalBedInput = document.getElementById('additional_bed');
             const additionalPaxInout = document.getElementById('additinal_pax');
             let rows ;
@@ -401,9 +403,9 @@
                         </div>
                         <hr>
                         <div>
-                            <input name="bill" type="hidden" class="form-control form-control-user" value="${ eval(eval(selectedRoom.price * daysOfCheckin) + eval(additionalBedInput.value * 500) +  eval(additionalPaxInout.value * 500)) }">
+                            <input name="bill" type="hidden" class="form-control form-control-user" value="${ eval(eval(selectedRoom.price * daysOfCheckin) + eval(additionalBedInput.value * 500) +  eval(additionalPaxInout.value * 350)) }">
                             
-                            <span > Total before taxes:  </span> <span class="float-right"> ${ eval(eval(selectedRoom.price * daysOfCheckin) + eval(additionalBedInput.value * 500) + eval(additionalPaxInout.value * 500)) } </span> 
+                            <span > Total before taxes:  </span> <span class="float-right"> ${ eval(eval(selectedRoom.price * daysOfCheckin) + eval(additionalBedInput.value * 500) + eval(additionalPaxInout.value * 350)) } </span> 
                         </div>
                     </div>
                     `;  
@@ -422,9 +424,9 @@
                         </div>
                         <hr>
                         <div>
-                            <input name="bill" type="hidden" class="form-control form-control-user" value="${ eval(eval(selectedRoom.price * daysOfCheckin) + eval(additionalPaxInout.value * 500)) }">
+                            <input name="bill" type="hidden" class="form-control form-control-user" value="${ eval(eval(selectedRoom.price * daysOfCheckin) + eval(additionalPaxInout.value * 350)) }">
                             
-                            <span > Total before taxes:  </span> <span class="float-right"> ${ eval(eval(selectedRoom.price * daysOfCheckin) + eval(additionalPaxInout.value * 500))  } </span> 
+                            <span > Total before taxes:  </span> <span class="float-right"> ${ eval(eval(selectedRoom.price * daysOfCheckin) + eval(additionalPaxInout.value * 350))  } </span> 
                         </div>
                     </div>
                     `;  

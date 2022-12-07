@@ -500,8 +500,6 @@ $pending = $connection->setQuery("SELECT
             let today = new Date();
             let formatToday = ((today.getMonth() > 8) ? (today.getMonth() + 1) : ('0' + (today.getMonth() + 1))) + '-' + ((today.getDate() > 9) ? today.getDate() : ('0' + today.getDate())) + '-' + today.getFullYear()
             
-            console.log(formatToday,  formatDate2)
-            console.log(formatToday < formatDate2)
             return ( roomCheckinDates.includes(formatDate1) && roomCheckinDates.includes(formatDate2) ) || ( formatToday > formatDate2 && roomCheckinDates.includes(formatDate1) )
         }
 
@@ -514,7 +512,7 @@ $pending = $connection->setQuery("SELECT
             if(nextAndPrevDateIsDisabled(checkinInput.value)){
                 refreshDatePicker();
                 checkinInput.value = ''
-                alert('Sorry, Previous or next of selected date is unavalable. ')
+                alert('Sorry, Previous or next of selected date is unavailable. ')
                 return
             }
 

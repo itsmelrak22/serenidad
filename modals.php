@@ -35,7 +35,7 @@
 
                                     <div class="col-sm-6 mb-3">
                                         <label for="additinal_pax">Additional Pax</label>
-                                        <input type="number" name="additinal_pax" id="additinal_pax" required class="form-control form-control-user" oninput="differenceDates()">
+                                        <input type="number" name="additinal_pax" id="additinal_pax" required value="0" class="form-control form-control-user" oninput="differenceDates()">
                                     </div>
 
                                     <!-- <div class="col-12 mb-3" >
