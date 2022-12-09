@@ -28,8 +28,7 @@
             }else{
 
                 // Otherwise, echo this message
-                echo "Phone: 0945 309 6347
-                Email: trs.matabungkay.batangas@gmail.com";
+                echo "Sorry, Im unable to answer this question, please contact 0945 309 6347 or email us @ trs.matabungkay.batangas@gmail.com";
             }
       }
   }else {
