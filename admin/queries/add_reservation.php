@@ -110,7 +110,7 @@ spl_autoload_register(function ($class) {
     );
 
         if(isset($_POST['client-reserve'])){
-            $_SESSION["success"] = " Transaction Successfuly Reserve, Please check the PDF receipt!";
+            $_SESSION["client-reserve"] = " Transaction Successfuly Reserve, Please check the PDF receipt!";
 
             header("Location: ../../reservation.php");
             exit(0);

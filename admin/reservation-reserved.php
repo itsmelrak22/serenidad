@@ -5,6 +5,21 @@ spl_autoload_register(function ($class) {
 
 date_default_timezone_set('Asia/Manila');
 
+$msg = '';
+$status = '';
+if(isset($_SESSION['success'])){
+    $status = 'success';
+    $msg = $_SESSION['success'];
+    unset($_SESSION['success']);
+      
+}
+
+if(isset($_SESSION['error'])){
+    $status = 'error';
+    $msg = $_SESSION['error'];
+    unset($_SESSION['error']);
+}
+
 
 $connection = new Transaction();
 $RESERVED = $connection->getReservedTransactions();
@@ -36,6 +51,24 @@ $cannot_cancel = true;
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                 <?php
+                        if($status == 'success'){
+                            echo    '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <strong>Done!</strong>'. $msg. '.
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>';
+                        }else if($status == 'error'){
+                            echo    '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <strong>Server Error!</strong> .
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>';
+                        }
+
+                    ?>
 
                     <!-- Content Row -->
                     <div class="row">

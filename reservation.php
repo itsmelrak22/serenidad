@@ -8,10 +8,10 @@
 	include('admin/queries/check_reservation_validity.php');
 	$msg = '';
 	$status = '';
-	if(isset($_SESSION['success'])){
-		$status = 'success';
-		$msg = $_SESSION['success'];
-		unset($_SESSION['success']);
+	if(isset($_SESSION['client-reserve'])){
+		$status = 'client-reserve';
+		$msg = $_SESSION['client-reserve'];
+		unset($_SESSION['client-reserve']);
 		
 	}
 	$conn = new Room();
