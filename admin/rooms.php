@@ -136,6 +136,14 @@ $rooms = $connection->all();
                                                                     <i class="fas fa-pen"></i>
                                                                 </button>
                                                             </form>
+
+                                                            <form action="queries/rooms_resource.php" method="post" class="ml-1">
+                                                                <input type="hidden" value="add-other-images" name="resource_type">
+                                                                <input type="hidden" value="'.$value['id'].'"  name="room_id">
+                                                                <button type="submit"class="btn btn-info btn-circle" data-toggle="tooltip" data-placement="top" title="Add Other Images">
+                                                                    <i class="fa fa-folder-open" aria-hidden="true"></i>
+                                                                </button>
+                                                            </form>
         
                                                             <form action="queries/rooms_resource.php" method="post" class="ml-1">
                                                                     <input type="hidden" value="delete" name="resource_type">

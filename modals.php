@@ -64,7 +64,6 @@
                                     <div class="form-group col-12 mb-3">
                                         <input name="contact" id="contact" type="number" class="form-control form-control-user"  placeholder="Contact#" required oninput="checkContactLength()">
                                     </div>
-                                
                                 </div>
                             </div>
                         </div>
@@ -78,6 +77,53 @@
         </div>
     </div>
 
+    <!-- other Image Modals  -->
+    <div class="modal fade" id="otherImageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
+            <div class="modal-content">
+                <div class="modal-header"> 
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                  <div class="modal-body card shadow py-2">
+                      <div class="card-body p-0">
+                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                          <ol class="carousel-indicators" id="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                          </ol>
+                          <div class="carousel-inner" id="carousel-inner">
+                            <div class="carousel-item active">
+                              <img class="d-block w-100" src="..." alt="First slide">
+                            </div>
+                            <div class="carousel-item">
+                              <img class="d-block w-100" src="..." alt="Second slide">
+                            </div>
+                            <div class="carousel-item">
+                              <img class="d-block w-100" src="..." alt="Third slide">
+                            </div>
+                          </div>
+                          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                          </a>
+                          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                          </a>
+                        </div> 
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                  </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat bot Modal  -->
     <div class="modal fade"  id="chatBotModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered"  role="document" >

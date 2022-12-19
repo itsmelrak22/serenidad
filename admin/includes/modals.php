@@ -265,13 +265,13 @@
                                 <textarea id="description" name="description" type="text" class=" form-control" required  value="<?=  isset($_SESSION['description']) ?  $_SESSION['description']  : ''?>" ></textarea>
                             </div>
                             <div class="col-12">
-                               <div class="mt-2">
-                                    <label for="exampleFormControlFile1">Room Image Display: </label>
-                                    <input onChange="displayImage(this)" type="file" class="form-control-file" id="image" name="image" required>
-                                    <div class="mt-3">
-                                        <img src="img/no-image.png" onClick="triggerClick()" id="profileDisplay">
-                                    </div>
-                               </div>
+                            <div class="mt-2">
+                                <label for="exampleFormControlFile1">Room Image Display: </label>
+                                <input onChange="displayImage(this)" type="file" class="form-control-file" id="image" name="image" required>
+                                <div class="mt-3">
+                                    <img src="img/no-image.png" onClick="triggerClick()" id="profileDisplay">
+                                </div>
+                            </div>
                             </div>
                             <input name="resource_type" value="store" class=" form-control" type="hidden" required />
                         </div>

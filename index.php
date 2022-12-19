@@ -60,68 +60,68 @@
 		<!--list-topics end-->
 
 		<section>
-		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-			<ol class="carousel-indicators">
-				<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-				<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-				<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-				<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-				<li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
-				<li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
-				<li data-target="#carouselExampleIndicators" data-slide-to="6"></li>
-				<li data-target="#carouselExampleIndicators" data-slide-to="7"></li>
-				<li data-target="#carouselExampleIndicators" data-slide-to="8"></li>
-				<li data-target="#carouselExampleIndicators" data-slide-to="9"></li>
-				<li data-target="#carouselExampleIndicators" data-slide-to="10"></li>
-				<li data-target="#carouselExampleIndicators" data-slide-to="11"></li>
-			</ol>
-			<div class="carousel-inner">
-				<div class="carousel-item  active">
-					<img class="image-fluid imageHeight"  src="images/a.jpg" alt="n1 slide">
+			<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+				<ol class="carousel-indicators">
+					<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+					<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+					<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+					<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+					<li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+					<li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
+					<li data-target="#carouselExampleIndicators" data-slide-to="6"></li>
+					<li data-target="#carouselExampleIndicators" data-slide-to="7"></li>
+					<li data-target="#carouselExampleIndicators" data-slide-to="8"></li>
+					<li data-target="#carouselExampleIndicators" data-slide-to="9"></li>
+					<li data-target="#carouselExampleIndicators" data-slide-to="10"></li>
+					<li data-target="#carouselExampleIndicators" data-slide-to="11"></li>
+				</ol>
+				<div class="carousel-inner">
+					<div class="carousel-item  active">
+						<img class="image-fluid imageHeight"  src="images/a.jpg" alt="n1 slide">
+					</div>
+					<div class="carousel-item ">
+						<img class="image-fluid imageHeight" src="images/b.jpg" alt="n2 slide">
+					</div>
+					<div class="carousel-item ">
+						<img class="image-fluid imageHeight " src="images/c.jpg" alt="n3 slide">
+					</div>
+					<div class="carousel-item ">
+						<img class="image-fluid imageHeight " src="images/d.jpg" alt="n4 slide">
+					</div>
+					<div class="carousel-item ">
+						<img class="image-fluid imageHeight " src="images/e.jpg" alt="n5 slide">
+					</div>
+					<div class="carousel-item ">
+						<img class="image-fluid imageHeight " src="images/f.jpg" alt="n6 slide">
+					</div>
+					<div class="carousel-item ">
+						<img class="image-fluid imageHeight " src="images/g.jpg" alt="n7 slide">
+					</div>
+					<div class="carousel-item ">
+						<img class="image-fluid imageHeight " src="images/h.jpg" alt="n8 slide">
+					</div>
+					<div class="carousel-item ">
+						<img class="image-fluid imageHeight " src="images/i.jpg" alt="n9 slide">
+					</div>
+					<div class="carousel-item ">
+						<img class="image-fluid imageHeight " src="images/j.jpg" alt="n10 slide">
+					</div>
+					<div class="carousel-item ">
+						<img class="image-fluid imageHeight " src="images/k.jpg" alt="n11 slide">
+					</div>
+					<div class="carousel-item ">
+						<img class="image-fluid imageHeight " src="images/l.jpg" alt="n12 slide">
+					</div>
 				</div>
-				<div class="carousel-item ">
-					<img class="image-fluid imageHeight" src="images/b.jpg" alt="n2 slide">
-				</div>
-				<div class="carousel-item ">
-					<img class="image-fluid imageHeight " src="images/c.jpg" alt="n3 slide">
-				</div>
-				<div class="carousel-item ">
-					<img class="image-fluid imageHeight " src="images/d.jpg" alt="n4 slide">
-				</div>
-				<div class="carousel-item ">
-					<img class="image-fluid imageHeight " src="images/e.jpg" alt="n5 slide">
-				</div>
-				<div class="carousel-item ">
-					<img class="image-fluid imageHeight " src="images/f.jpg" alt="n6 slide">
-				</div>
-				<div class="carousel-item ">
-					<img class="image-fluid imageHeight " src="images/g.jpg" alt="n7 slide">
-				</div>
-				<div class="carousel-item ">
-					<img class="image-fluid imageHeight " src="images/h.jpg" alt="n8 slide">
-				</div>
-				<div class="carousel-item ">
-					<img class="image-fluid imageHeight " src="images/i.jpg" alt="n9 slide">
-				</div>
-				<div class="carousel-item ">
-					<img class="image-fluid imageHeight " src="images/j.jpg" alt="n10 slide">
-				</div>
-				<div class="carousel-item ">
-					<img class="image-fluid imageHeight " src="images/k.jpg" alt="n11 slide">
-				</div>
-				<div class="carousel-item ">
-					<img class="image-fluid imageHeight " src="images/l.jpg" alt="n12 slide">
-				</div>
+				<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="sr-only">Previous</span>
+				</a>
+				<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="sr-only">Next</span>
+				</a>
 			</div>
-			<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-				<span class="sr-only">Previous</span>
-			</a>
-			<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-				<span class="carousel-control-next-icon" aria-hidden="true"></span>
-				<span class="sr-only">Next</span>
-			</a>
-		</div>
 		</section>
 
     	<!--works start -->

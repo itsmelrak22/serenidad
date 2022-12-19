@@ -15,7 +15,7 @@
 		
 	}
 	$conn = new Room();
-	$roomDatas = $conn->all();
+	$roomDatas = $conn->roomsWithImages();
 ?>
 
 <?php include 'header.php';?>	
@@ -26,6 +26,8 @@
 
 		<div class="section-header">
 			<h2>MAKE A RESERVATION</h2>
+            
+
 			<?php
 				if($status == 'success'){
 					echo    '<div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -49,10 +51,12 @@
 									<div class="single-explore-img">
 										<img src="admin/<?= $room->photo?>" alt="explore image">
 										<div class="single-explore-img-info">
-											<?= '<span data-toggle="modal" data-target="#reserveModal" onClick="handleReserve('.$room->id.')">'  ?>
-												<button onclick="window.location.href='#'"> Reserve Now </button>
-											</span>
-										
+                                            <span data-toggle="modal" data-target="#otherImageModal" >
+                                                <button  onClick="getOtherImage(<?=$room->id?>)">
+                                                    <span>View Images</span>
+                                                </button>
+                                            </span>
+                                           
 										</div>
 									</div>
 									<div class="single-explore-txt bg-theme-1">
@@ -87,30 +91,12 @@
 					</div>
 				</div>
 	</div><!--/.container-->
-<!-- 
-    <script>
-         $(document).ready(function() {
-            $("#display").click(function() {                
-                $.ajax({    //create an ajax request to display.php
-                    type: "GET",
-                    url: "test.php",             
-                    dataType: "html",   //expect html to be returned                
-                    success: function(response){                    
-                        $("#responsecontainer").html(response); 
-                        //alert(response);
-                    }
-
-                });
-            });
-        });
-    </script> -->
 <?php
 //generating pdf after header location. PS allow pop on this page for browser settings.
  if(isset($_SESSION['print_pdf'])){
      if($_SESSION['print_pdf'] == true){
          echo '
              <script>
-                 console.log(`test`);
                  window.open("admin/queries/generate_pdf.php");
              </script>
          ';
@@ -121,6 +107,7 @@
 ?>
 
 <script>
+        const roomsForOtherImages = <?php echo json_encode($roomDatas) ?>;
         let roomCheckinDates = [];
         let tempRoomCheckinDates = [];
         let rooms = [];
@@ -152,6 +139,52 @@
             getRooms();
             checkRoomAvailability()
         }, false);
+
+        function getOtherImage(id){
+            const roomOtherImage = roomsForOtherImages.find(res => res.id == id).other_images;
+            const indicator = document.getElementById('carousel-indicators');
+            const inner = document.getElementById('carousel-inner');
+
+            indicator.innerHTML = '';
+            inner.innerHTML = '';
+
+            roomOtherImage.forEach((el, key) => {
+                console.log(el)
+                let node = document.createElement("li");
+                let att1 = document.createAttribute("data-target");
+                let att2 = document.createAttribute("data-slide-to");
+                if(key == 0){
+                    let active = document.createAttribute("class");
+                    active.value = 'active'
+                    node.setAttributeNode(active)
+
+                }
+                att1.value = '#carouselExampleIndicators'
+                att2.value = key
+                node.setAttributeNode(att1)
+                node.setAttributeNode(att2)
+
+                indicator.appendChild(node);
+
+                let node2 = document.createElement("div");
+                node2.classList.add("carousel-item");
+                if(key == 0){
+                    node2.classList.add("active");
+                }
+
+                let node3 = document.createElement("img");
+                node3.classList.add("d-block")
+                node3.classList.add("w-100")
+                let att3 = document.createAttribute("src");
+                att3.value = `admin/${el.path}`
+                node3.setAttributeNode(att3)
+
+                node2.appendChild(node3)
+                inner.appendChild(node2)
+
+                console.log(inner)
+            });
+        }
         
         function getRooms(){
             $.ajax({

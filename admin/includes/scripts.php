@@ -38,6 +38,10 @@
         function triggerClick(e) {
             document.querySelector('#image').click();
         }
+
+        function triggerClickMultiple(e) {
+            document.querySelector('#other_image').click();
+        }
             
         function displayImage(e) {
             if (e.files[0]) {
@@ -48,6 +52,23 @@
                 reader.readAsDataURL(e.files[0]);
             }
         }
+        function displayOtherImage(e) {
+            if (e.files.length > 0) {
+                document.getElementById('profileDisplay').style.display = "none";
+                // document.getElementById(id).style.visibility = "visible";
+                for (let i = 0; i < e.files.length; i++) {
+                    var reader = new FileReader();
+                    reader.onload = function(e){
+                        const imageElement = document.createElement("img");
+                        imageElement.setAttribute('src', e.target.result);
+                        imageElement.classList.add("imageDisplay");
+                        document.querySelector('#imageDisplay').appendChild(imageElement)
+                    }
+                    reader.readAsDataURL(e.files[i]);
+                }
+            }
+        }
+        
 
         function getTransactions(){
             $.ajax({
