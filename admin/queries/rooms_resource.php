@@ -143,6 +143,10 @@ switch ($_POST['resource_type']) {
         // $path = 'img/rooms/'.htmlspecialchars( basename( $img["name"]));
 
         if($_FILES['other_image'] > 0 && $_POST['resource_type'] == 'save-other-images'){
+            $existing =  $conn->setQuery("SELECT * From `room_other_images` where `room_id` = $id")->getAll();
+            if(count($existing) > 0){
+                $conn->setQuery("DELETE FROM `room_other_images` WHERE `room_id` = $id");
+            }
             
             $total = count($_FILES['other_image']['name']);
             $hasFile = true;
@@ -166,11 +170,11 @@ switch ($_POST['resource_type']) {
                 }
         
                 // Check if file already exists
-                if (file_exists($target_file)) {
-                    break;
-                    $_SESSION['error'] = 'Sorry, file already exists!';
-                    $uploadOk = 0;
-                }
+                // if (file_exists($target_file)) {
+                //     break;
+                //     $_SESSION['error'] = 'Sorry, file already exists!';
+                //     $uploadOk = 0;
+                // }
         
                 // // Check file size
                 // if ($_FILES["image"]["size"] > 500000) {
@@ -192,12 +196,7 @@ switch ($_POST['resource_type']) {
                 // if everything is ok, try to upload file
                 } 
 
-                if(move_uploaded_file($_FILES["other_image"]["tmp_name"][$i], $target_file)){
-                    $existing =  $conn->setQuery("SELECT * From `room_other_images` where `room_id` = $id")->getAll();
-                    if(count($existing) > 0){
-                        $conn->setQuery("DELETE FROM `room_other_images` WHERE `room_id` = $id");
-                    }
-                   
+                if(move_uploaded_file($_FILES["other_image"]["tmp_name"][$i], $target_file) || file_exists($target_file)){
                     $path = 'img/rooms/'.htmlspecialchars( basename( $_FILES["other_image"]["name"][$i]));
                     $conn->setQuery(" INSERT INTO `room_other_images`( `room_id`, `path`) VALUES ('$id','$path') ");
                     $_SESSION['success'] = ' Room Added!';
